@@ -38,13 +38,3 @@ module "catalog" {
   subnet_list               = ["${var.subnet_list}"]
   security_group_list       = "${var.security_group_list}"
 }
-
-module "poa" {
-  source                    = "./poa"
-  greymatter_ecs_cluster    = "${var.greymatter_ecs_cluster}"
-  platform_name             = "${var.platform_name}"
-  main_alb_target_group_arn = "${var.main_alb_target_group_arn}"
-  ecs_execution_role_arn    = "${var.ecs_execution_role_arn}"
-  subnet_list               = ["${var.subnet_list}"]
-  security_group_list       = "${var.security_group_list}"
-}
