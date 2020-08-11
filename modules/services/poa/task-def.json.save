@@ -1,0 +1,98 @@
+[
+    {
+	"family": "poa-service",
+	"volumes": [
+	    {
+		"host": {
+		    "sourcePath": "/opt/poa/settings.toml"
+		},
+		"name": "poa-settings"
+	    }
+	],
+	"memoryReservation": 400,
+	"logConfiguration": {
+	    "logDriver": "awslogs",
+	    "options": {
+		"awslogs-group": "openjobs",
+		"awslogs-region": "us-east-2",
+		"awslogs-stream-prefix": "web"
+	    }
+	},
+	"name": "poa",
+	"essential": true,
+	"mountPoints" : [
+	    {
+		"containerPath" : "/opt/services/poa/etc/settings.toml",
+		"sourceVolume": "poa-settings"
+	    }
+	],
+	"image": "docker-greymatter.di2e.net/services/poa-service:v2.0.5-beta-adx",
+	"repositoryCredentials": {
+	    "credentialsParameter": "arn:aws:secretsmanager:us-east-2:151736245382:secret:ecs-greymatter/zGREYMATTER-ci-6WOFGP"
+	},
+	"portMappings": [
+            {
+		"containerPort": 9091,
+		"protocol": "tcp"
+            }
+	]
+    },
+    {
+    	"family": "poa-service",
+    	"memoryReservation": 400,
+    	"logConfiguration": {
+    	    "logDriver": "awslogs",
+    	    "options": {
+    		"awslogs-group": "openjobs",
+    		"awslogs-region": "us-east-2",
+    		"awslogs-stream-prefix": "web"
+    	    }
+    	},
+    	"name": "proxy-poa",
+    	"essential": true,
+    	"image" : "docker-greymatter.di2e.net/greymatter/gm-proxy:0.8.1",
+    	"repositoryCredentials": {
+    	    "credentialsParameter": "arn:aws:secretsmanager:us-east-2:151736245382:secret:ecs-greymatter/zGREYMATTER-ci-6WOFGP"
+    	},
+    	"portMappings": [
+    	    {
+    		"containerPort": 8080,
+    		"protocol": "tcp"
+    	    },
+    	    {
+    		"containerPort": 8081,
+    		"protocol": "tcp"
+    	    }
+    	],
+    	"environment": [
+    	    {
+    		"name": "ENVOY_ADMIN_LOG_PATH",
+    		"value": "/dev/stdout"
+    	    },
+    	    {
+    		"name": "PROXY_DYNAMIC",
+    		"value": "true"
+    	    },
+    	    {
+    		"name": "SPIRE_PATH",
+    		"value": "/run/spire/sockets/agent.sock"
+    	    },
+    	    {
+    		"name": "XDS_CLUSTER",
+    		"value": "poa"
+    	    },
+    	    {
+    		"name": "XDS_HOST",
+    		"value": "control"
+    	    },
+    	    {
+    		"name": "XDS_NODE_ID",
+    		"value": "default"
+    	    },
+    	    {
+    		"name": "XDS_PORT",
+    		"value": "50000"
+    	    }
+    	]
+    }
+]

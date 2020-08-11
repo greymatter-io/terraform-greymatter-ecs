@@ -1,0 +1,113 @@
+[
+    {
+	"family": "greymatter-catalog",
+	"memoryReservation": 400,
+	"logConfiguration": {
+	    "logDriver": "awslogs",
+	    "options": {
+		"awslogs-group": "openjobs",
+		"awslogs-region": "us-east-2",
+		"awslogs-stream-prefix": "web"
+	    }
+	},
+	"name": "proxy-catalog",
+	"essential": true,
+	"image": "docker-greymatter.di2e.net/greymatter/gm-proxy:0.8.1",
+	"repositoryCredentials": {
+	    "credentialsParameter": "arn:aws:secretsmanager:us-east-2:151736245382:secret:ecs-greymatter/zGREYMATTER-ci-6WOFGP"
+	},
+	"portMappings": [
+	    {
+		"containerPort": 8080,
+		"protocol": "tcp",
+		"hostPort": 8080
+	    },
+	    {
+		"containerPort": 8081,
+		"protocol": "tcp",
+		"hostPort": 8081
+	    }
+	],
+	"environment": [
+	    {
+		"name": "ENVOY_ADMIN_LOG_PATH",
+		"value": "/dev/stdout"
+	    },
+	    {
+		"name": "PROXY_DYNAMIC",
+		"value": "true"
+	    },
+	    {
+		"name": "SPIRE_PATH",
+		"value": "/run/spire/sockets/agent.sock"
+	    },
+	    {
+		"name": "XDS_CLUSTER",
+		"value": "catalog"
+	    },
+	    {
+		"name": "XDS_HOST",
+		"value": "localhost"
+	    },
+	    {
+		"name": "XDS_NODE_ID",
+		"value": "default"
+	    },
+	    {
+		"name": "XDS_PORT",
+		"value": "50000"
+	    }
+	]
+    },
+    {
+	"family": "greymatter-catalog",
+	"memoryReservation": 400,
+	"logConfiguration": {
+	    "logDriver": "awslogs",
+	    "options": {
+		"awslogs-group": "openjobs",
+		"awslogs-region": "us-east-2",
+		"awslogs-stream-prefix": "web"
+	    }
+	},
+	"name": "catalog",
+	"essential": true,
+	"environment": [
+	    {
+		"name": "DATA_SOURCE",
+		"value": "control"
+	    },
+	    {
+		"name": "DEBUG",
+		"value": "true"
+	    },
+	    {
+		"name": "PORT",
+		"value": "9080"
+	    },
+	    {
+		"name": "CONTROL_SERVER_0_ADDRESS",
+		"value": "localhost:50000"
+	    },
+	    {
+		"name": "CONTROL_SERVER_0_ZONE_NAME",
+		"value": "default-zone"
+	    },
+	    {
+		"name": "CONTROL_SERVER_0_REQUEST_CLUSTER_NAME",
+		"value": "edge"
+	    }
+	],
+	"image": "docker-greymatter.di2e.net/greymatter/gm-catalog:1.0.1",
+	"repositoryCredentials": {
+	    "credentialsParameter": "arn:aws:secretsmanager:us-east-2:151736245382:secret:ecs-greymatter/zGREYMATTER-ci-6WOFGP"
+	},
+	"portMappings": [
+	    {
+		"containerPort": 9080,
+		"protocol": "tcp",
+		"hostPort": 9080
+	    }
+	]
+    }
+]

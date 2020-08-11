@@ -1,0 +1,71 @@
+[
+    {
+	"memoryReservation": 400,
+	"logConfiguration": {
+	    "logDriver": "awslogs",
+	    "options": {
+		"awslogs-group": "openjobs",
+		"awslogs-region": "us-east-2",
+		"awslogs-stream-prefix": "web"
+	    }
+	},
+	"name": "control",
+	"environment": [
+            {
+		"name": "GM_CONTROL_API_HOST",
+		"value": "localhost:5555"
+            },
+            {
+		"name": "GM_CONTROL_API_KEY",
+		"value": "xxx"
+            },
+            {
+		"name": "GM_CONTROL_API_SSL",
+		"value": "false"
+            },
+            {
+		"name": "GM_CONTROL_API_ZONE_NAME",
+		"value": "default-zone"
+            },
+            {
+		"name": "GM_CONTROL_CMD",
+		"value": "ecs"
+            },
+            {
+		"name": "GM_CONTROL_CONSOLE_LEVEL",
+		"value": "debug"
+            },
+            {
+		"name": "GM_CONTROL_XDS_ADS_ENABLED",
+		"value": "true"
+            },
+	    {
+		"name": "GM_CONTROL_ECS_AWS_REGION",
+		"value": "us-east-2"
+            },
+	    {
+		"name": "GM_CONTROL_ECS_CLUSTERS",
+		"value": ""
+             },
+	    {
+		"name": "GM_CONTROL_ECS_HELP",
+		"value": "false"
+	    },
+	    {
+		"name": "GM_CONTROL_ECS_VERSION",
+		"value": "false"
+	    }
+	],
+	"image": "docker-greymatter.di2e.net/greymatter/gm-control:0.2.1",
+	"repositoryCredentials": {
+	    "credentialsParameter": "arn:aws:secretsmanager:us-east-2:151736245382:secret:ecs-greymatter/zGREYMATTER-ci-6WOFGP"
+	},
+	"portMappings": [
+            {
+		"hostPort": 50000,
+		"containerPort": 50000,
+		"protocol": "tcp"
+            }
+	]
+    }
+]

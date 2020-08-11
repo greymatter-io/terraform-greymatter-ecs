@@ -1,0 +1,73 @@
+[
+    {
+	"family": "poa-service",
+	"memoryReservation": 400,
+	"logConfiguration": {
+	    "logDriver": "awslogs",
+	    "options": {
+		"awslogs-group": "openjobs",
+		"awslogs-region": "us-east-2",
+		"awslogs-stream-prefix": "web"
+	    }
+	},
+	"name": "poa",
+	"essential": true,
+	"mountPoints" : [
+	    {
+		"containerPath" : "/opt/services/poa/etc/settings.toml",
+		"sourceVolume": "poa-settings"
+	    },
+	    {
+		"containerPath": "/opt/services/poa/certs",
+		"sourceVolume": "certs"
+	    }
+	],
+	"image": "docker-greymatter.di2e.net/services/poa-service:v2.0.5-beta-adx",
+	"repositoryCredentials": {
+	    "credentialsParameter": "arn:aws:secretsmanager:us-east-2:151736245382:secret:ecs-greymatter/zGREYMATTER-ci-6WOFGP"
+	},
+	"portMappings": [
+            {
+		"containerPort": 9091,
+		"protocol": "tcp"
+            }
+	]
+    },
+    {
+	"family": "poa-service",
+	"memoryReservation": 400,
+	"logConfiguration": {
+	    "logDriver": "awslogs",
+	    "options": {
+		"awslogs-group": "openjobs",
+		"awslogs-region": "us-east-2",
+		"awslogs-stream-prefix": "web"
+	    }
+	},
+	"environment": [
+	    {
+	    "name": "MONGO_INITDB_DATABASE",
+	    "value": "teams"
+	    },
+	    {
+	    "name": "MONGO_INITDB_ROOT_USERNAME",
+	    "value": "teams_user"
+	    },
+	    {
+	    "name": "MONGO_INITDB_ROOT_PASSWORD",
+	    "value": "password"
+	    }
+	],
+	"essential": true,
+	"image": "mongo:latest",
+	"memoryReservation": 400,
+	"name": "mongodb",
+	"portMappings": [
+	    {
+		"containerPort": 27017,
+		"hostPort": 27017,
+		"protocol": "tcp"
+	    }
+	]
+    }
+]

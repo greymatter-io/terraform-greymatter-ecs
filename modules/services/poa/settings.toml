@@ -1,0 +1,31 @@
+serverPort = 7070
+clientPort = 8080
+
+enableHTTP = true
+enableHTTPS = true
+gatewayHTTPPort = 9090
+gatewayHTTPSPort = 9091
+metricsHTTPPort = 9092
+hostName = ""
+
+metricsCacheSize = 128
+
+caCertPath = "../certs/issuing_ca.pem"
+serverCertPath = "../certs/cert.pem"
+serverKeyPath = "../certs/private_key.pem"
+#CertServerHost = "edge.deciphernow.com"
+#CertServerPort = "443"
+serverCN = "di2e.test"
+mongoConnString = "mongodb://teams_user:password@localhost:27017/teams"
+
+
+useConsul = false
+consulConnStrings = []
+consulServiceName = "POA"
+consulServiceTags = ["decipher", "diap", "micro-service", "GM-Fabric"]
+
+
+# dias configuration
+#aacSnippet = "/services/aac/1.1"
+#diasProject = "bedrock"
+#diasGroups = ["up2_administrator", "up2_poa_administrator"]
