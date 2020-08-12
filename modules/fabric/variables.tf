@@ -18,3 +18,11 @@ variable "vpc_id" {
 variable "cluster_id" {
     description = "cluster id for greymatter ecs cluster"
 }
+
+variable "aws_access_key" {
+    description = "AWS access key for GM_CONTROL_ECS_AWS_ACCESS_KEY_ID"
+}
+
+variable "aws_secret_access_key" {
+    description = "AWS secret access key for GM_CONTROL_ECS_AWS_SECRET_ACCESS_KEY"
+}

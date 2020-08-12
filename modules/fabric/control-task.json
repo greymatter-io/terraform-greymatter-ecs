@@ -54,7 +54,15 @@
         {
             "name": "GM_CONTROL_XDS_ENABLE_REST",
             "value": "true"
-        }  
+        },
+        {
+            "name": "GM_CONTROL_ECS_AWS_ACCESS_KEY_ID",
+            "valueFrom": "${aws_ssm_parameter.access_key.arn}"
+        },
+        {
+            "name": "GM_CONTROL_ECS_AWS_SECRET_ACCESS_KEY",
+            "valueFrom": "${aws_ssm_parameter.secret_access_key.arn}"
+        }
 	],
 	"image": "docker.greymatter.io/development/gm-control:latest",
 	"repositoryCredentials": {

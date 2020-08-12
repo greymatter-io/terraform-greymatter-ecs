@@ -1,0 +1,16 @@
+# Do not commit .terraform
+.terraform
+
+# .tfvars files contain secrets
+*.tfvars
+
+# allow tfvar variable files
+!*.auto.tfvars
+
+# terraform state file
+terraform.state
+
+# .tfstate files should never be edited manually
+*.tfstate*
+
+*.DS_Store

@@ -53,55 +53,5 @@
             "hostPort": 5555
             }
         ]
-    },
-    {
-        "family": "greymatter-control-api",
-        "memoryReservation": 400,
-        "logConfiguration": {
-            "logDriver": "awslogs",
-            "options": {
-            "awslogs-group": "openjobs",
-            "awslogs-region": "us-east-2",
-            "awslogs-stream-prefix": "web"
-            }
-        },
-        "name": "control-api-sidecar",
-        "environment": [
-            {
-                "name": "PROXY_REST_DYNAMIC",
-                "value": "true"
-            },
-            {
-                "name": "XDS_CLUSTER",
-                "value": "proxy"
-            },
-            {
-                "name": "XDS_HOST",
-                "value": "aws_lb.control.dns"
-            },
-            {
-                "name": "XDS_PORT",
-                "value": "50001"
-            },
-            {
-                "name": "XDS_ZONE",
-                "value": "zone-default-zone"
-            },
-            {
-                "name": "XDS_NODE_ID",
-                "value": "default"
-            }
-        ],
-        "image": "docker.greymatter.io/development/gm-proxy:latest",
-        "repositoryCredentials": {
-            "credentialsParameter": "${var.docker_secret_arn}"
-        },
-        "portMappings": [
-                {
-            "hostPort": 10808,
-            "containerPort": 10808,
-            "protocol": "tcp"
-                }
-        ]
-      }
+    }
 ]
