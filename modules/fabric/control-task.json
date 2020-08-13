@@ -1,15 +1,25 @@
 [
     {
 	"memoryReservation": 400,
-	"logConfiguration": {
-	    "logDriver": "awslogs",
-	    "options": {
-		"awslogs-group": "openjobs",
-		"awslogs-region": "us-east-2",
-		"awslogs-stream-prefix": "web"
-	    }
-	},
-	"name": "control",
+    "name": "control",
+    "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+            "awslogs-group": "openjobs",
+            "awslogs-region": "us-east-2",
+            "awslogs-stream-prefix": "control"
+        }
+    },
+    "secrets": [
+        {
+            "name": "GM_CONTROL_ECS_AWS_ACCESS_KEY_ID",
+            "valueFrom": "arn:aws:ssm:us-east-2:090224759624:parameter/access_key"
+        },
+        {
+            "name": "GM_CONTROL_ECS_AWS_SECRET_ACCESS_KEY",
+            "valueFrom": "arn:aws:ssm:us-east-2:090224759624:parameter/secret_access_key"
+        }
+    ],
 	"environment": [
         {
             "name": "GM_CONTROL_CONSOLE_LEVEL",
@@ -32,10 +42,6 @@
             "value": "false"
         },
         {
-            "name": "GM_CONTROL_API_HOST",
-            "value": "aws_lb.control-api.dns:5555"
-        },
-        {
             "name": "GM_CONTROL_CMD",
             "value": "ecs"
         },
@@ -54,19 +60,11 @@
         {
             "name": "GM_CONTROL_XDS_ENABLE_REST",
             "value": "true"
-        },
-        {
-            "name": "GM_CONTROL_ECS_AWS_ACCESS_KEY_ID",
-            "valueFrom": "${aws_ssm_parameter.access_key.arn}"
-        },
-        {
-            "name": "GM_CONTROL_ECS_AWS_SECRET_ACCESS_KEY",
-            "valueFrom": "${aws_ssm_parameter.secret_access_key.arn}"
         }
 	],
 	"image": "docker.greymatter.io/development/gm-control:latest",
 	"repositoryCredentials": {
-	    "credentialsParameter": "${var.docker_secret_arn}"
+	    "credentialsParameter": "arn:aws:secretsmanager:us-east-2:090224759624:secret:docker-gm-nexus-rwdgiA"
 	},
 	"portMappings": [
             {

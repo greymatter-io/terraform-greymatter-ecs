@@ -8,6 +8,7 @@ resource "aws_ecs_service" "control-api" {
     task_definition = aws_ecs_task_definition.control-api.arn
     iam_role = var.service_role_arn
     desired_count = 1
+    depends_on      = [aws_lb_target_group.control-api]
 
     load_balancer {
         target_group_arn = aws_lb_target_group.control-api.arn
@@ -22,6 +23,7 @@ resource "aws_ecs_service" "control" {
     task_definition = aws_ecs_task_definition.control.arn
     iam_role = var.service_role_arn
     desired_count = 1
+    depends_on      = [aws_lb_target_group.control]
 
     load_balancer {
         target_group_arn = aws_lb_target_group.control.arn
@@ -36,10 +38,11 @@ resource "aws_ecs_service" "control-api-sidecar" {
     task_definition = aws_ecs_task_definition.control-api-sidecar.arn
     iam_role = var.service_role_arn
     desired_count = 1
+    depends_on      = [aws_lb_target_group.control-api]
 
     load_balancer {
         target_group_arn = aws_lb_target_group.control-api-sidecar.arn
-        container_name = "sidecar"
+        container_name = "control-api-sidecar"
         container_port = 10808
     }
 }

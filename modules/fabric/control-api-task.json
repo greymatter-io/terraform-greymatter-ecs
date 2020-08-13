@@ -5,9 +5,9 @@
         "logConfiguration": {
             "logDriver": "awslogs",
             "options": {
-            "awslogs-group": "openjobs",
-            "awslogs-region": "us-east-2",
-            "awslogs-stream-prefix": "web"
+                "awslogs-group": "openjobs",
+                "awslogs-region": "us-east-2",
+                "awslogs-stream-prefix": "api"
             }
         },
         "name": "control-api",
@@ -44,7 +44,7 @@
         ],
         "image": "docker.greymatter.io/development/gm-control-api:latest",
         "repositoryCredentials": {
-            "credentialsParameter": "${var.docker_secret_arn}"
+            "credentialsParameter": "arn:aws:secretsmanager:us-east-2:090224759624:secret:docker-gm-nexus-rwdgiA"
         },
         "portMappings": [
             {

@@ -26,3 +26,13 @@ variable "aws_access_key" {
 variable "aws_secret_access_key" {
     description = "AWS secret access key for GM_CONTROL_ECS_AWS_SECRET_ACCESS_KEY"
 }
+
+variable "subnets" {
+    type = list(string)
+}
+
+variable "api_dns" {
+    default = "hello-test"
+}
+
+variable "gm_sg_id" {}

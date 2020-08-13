@@ -3,17 +3,19 @@
 
 #   control-api
 resource "aws_lb" "control-api" {
-    name = "greymatter-control-api"
+    name = "control-api"
     internal           = false
     load_balancer_type = "application"
     security_groups    = [aws_security_group.control-api-sg.id]
+    subnets = var.subnets
 }
 
 resource "aws_lb_target_group" "control-api" {
-  name     = "tf-example-lb-tg"
+  name     = "control-api"
   port     = 5555
   protocol = "HTTP"
   vpc_id   = var.vpc_id
+  depends_on = [aws_lb.control-api]
 }
 
 resource "aws_lb_listener" "control-api" {
@@ -31,10 +33,11 @@ resource "aws_lb_listener" "control-api" {
 
 #   control-api-sidecar
 resource "aws_lb" "control-api-sidecar" {
-    name = "greymatter-control-api-sidecar"
+    name = "control-api-sidecar"
     internal           = false
     load_balancer_type = "application"
     security_groups    = [aws_security_group.control-api-sidecar-sg.id]
+    subnets = var.subnets
 }
 
 resource "aws_lb_target_group" "control-api-sidecar" {
@@ -42,6 +45,7 @@ resource "aws_lb_target_group" "control-api-sidecar" {
     port     = 10808
     protocol = "HTTP"
     vpc_id   = var.vpc_id
+    depends_on = [aws_lb.control-api-sidecar]
 
     health_check {
         healthy_threshold   = 2
@@ -70,10 +74,11 @@ resource "aws_lb_listener" "control-api-sidecar" {
 #   control
 
 resource "aws_lb" "control" {
-    name = "greymatter-control"
+    name = "control"
     internal           = false
     load_balancer_type = "application"
     security_groups    = [aws_security_group.control-sg.id]
+    subnets = var.subnets
 }
 
 resource "aws_lb_target_group" "control" {
@@ -81,6 +86,7 @@ resource "aws_lb_target_group" "control" {
     port     = 50001
     protocol = "HTTP"
     vpc_id   = var.vpc_id
+    depends_on = [aws_lb.control]
 
     health_check {
         healthy_threshold   = 2
