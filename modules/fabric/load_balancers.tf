@@ -16,6 +16,16 @@ resource "aws_lb_target_group" "control-api" {
   protocol = "HTTP"
   vpc_id   = var.vpc_id
   depends_on = [aws_lb.control-api]
+
+  health_check {
+      healthy_threshold   = 2
+      unhealthy_threshold = 2
+      timeout             = 30
+      path                = "/"
+      protocol            = "HTTP"
+      interval            = 120
+      matcher             = "200-304,404"
+  }
 }
 
 resource "aws_lb_listener" "control-api" {

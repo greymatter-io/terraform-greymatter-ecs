@@ -13,37 +13,38 @@ resource "aws_security_group" "gm-sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-
-  egress {
-      from_port       = 0
-      to_port         = 65535
-      protocol        = "tcp"
-      cidr_blocks     = ["0.0.0.0/0"]
-  }
 }
 
 # autoscaling group
 
 resource "aws_ecs_cluster" "gm-cluster" {
   name = "gm-cluster"
-  capacity_providers = [aws_ecs_capacity_provider.gm-provider.name]
+  depends_on = [aws_autoscaling_group.ecs-autoscaling-group]
 }
 
 # TODO add keypair val
 resource "aws_launch_configuration" "ecs-launch-configuration" {
     name                        = "ecs-launch-configuration"
-    image_id                    = "ami-0001ca554754ce87f"
+    image_id                    = "ami-078d79190068a1b35"
     instance_type               = "t2.small"
-    iam_instance_profile        = aws_iam_instance_profile.ecs_agent.name
+    iam_instance_profile        = "ecsInstanceRole"
 
     lifecycle {
       create_before_destroy = true
     }
 
+    root_block_device {
+      volume_type = "gp2"
+      volume_size = 30
+    }
+
     security_groups             = [aws_security_group.gm-sg.id]
-    associate_public_ip_address = "true"
+    associate_public_ip_address = "false"
     key_name                    = "ohiominikube"
-    user_data                   = data.template_file.ecs-cluster.rendered
+    user_data                   = <<EOF
+#!/bin/bash
+echo ECS_CLUSTER=gm-cluster >> /etc/ecs/ecs.config
+EOF
 }
 
 
@@ -53,7 +54,7 @@ data "aws_iam_policy_document" "ecs_agent" {
 
     principals {
       type        = "Service"
-      identifiers = ["ec2.amazonaws.com"]
+      identifiers = ["ec2.amazonaws.com", "ecs.amazonaws.com"]
     }
   }
 }
@@ -77,27 +78,40 @@ resource "aws_iam_instance_profile" "ecs_agent" {
 resource "aws_autoscaling_group" "ecs-autoscaling-group" {
     name                        = "ecs-autoscaling-group"
     max_size                    = "1"
-    min_size                    = "1"
+    min_size                    = "0"
     desired_capacity            = "1"
     vpc_zone_identifier         = var.subnets
     launch_configuration        = aws_launch_configuration.ecs-launch-configuration.name
     health_check_type           = "EC2"
+    availability_zones = ["us-east-2a",
+                "us-east-2b",
+                "us-east-2c"]
+    tags = [
+    {
+        key                 = "Name"
+        value               = "gm-cluster",
+
+        # Make sure EC2 instances are tagged with this tag as well
+        propagate_at_launch = true
+      }
+    ]
+    service_linked_role_arn = "arn:aws:iam::090224759624:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
   }
 
-resource "aws_ecs_capacity_provider" "gm-provider" {
-  name = "gm-provider"
-
-  auto_scaling_group_provider {
-    auto_scaling_group_arn         = aws_autoscaling_group.ecs-autoscaling-group.arn
-
-    managed_scaling {
-      maximum_scaling_step_size = 1000
-      minimum_scaling_step_size = 1
-      status                    = "ENABLED"
-      target_capacity           = 10
-    }
-  }
-}
+//resource "aws_ecs_capacity_provider" "gm-provider" {
+//  name = "gm-provider"
+//
+//  auto_scaling_group_provider {
+//    auto_scaling_group_arn         = aws_autoscaling_group.ecs-autoscaling-group.arn
+//
+//    managed_scaling {
+//      maximum_scaling_step_size = 1000
+//      minimum_scaling_step_size = 1
+//      status                    = "ENABLED"
+//      target_capacity           = 10
+//    }
+//  }
+//}
 
 
 module "fabric" {

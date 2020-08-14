@@ -31,8 +31,13 @@ variable "subnets" {
     type = list(string)
 }
 
-variable "api_dns" {
-    default = "hello-test"
+variable "gm_sg_id" {}
+
+# todo : add ssm parameter in terraform for this from aws access key vars and remove these:
+variable "access_key_arn" {
+    default = "arn:aws:ssm:us-east-2:090224759624:parameter/access_key"
 }
 
-variable "gm_sg_id" {}
+variable "secret_access_key_arn" {
+    default = "arn:aws:ssm:us-east-2:090224759624:parameter/secret_access_key"
+}
