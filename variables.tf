@@ -34,7 +34,6 @@ variable "vpc_id" {
 
 variable "docker_secret_arn" {
   type = string
-  default = "arn:aws:secretsmanager:us-east-2:090224759624:secret:docker-hub-UVZoTf"
 }
 
 variable "execution_role_arn" {
@@ -56,4 +55,10 @@ variable "aws_secret_access_key" {
 
 variable "subnets" {
     type = list(string)
+}
+
+variable "aws_access_key_arn" {
+}
+
+variable "aws_secret_access_key_arn" {
 }

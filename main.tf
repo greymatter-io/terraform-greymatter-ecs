@@ -41,10 +41,7 @@ resource "aws_launch_configuration" "ecs-launch-configuration" {
     security_groups             = [aws_security_group.gm-sg.id]
     associate_public_ip_address = "false"
     key_name                    = "ohiominikube"
-    user_data                   = <<EOF
-#!/bin/bash
-echo ECS_CLUSTER=gm-cluster >> /etc/ecs/ecs.config
-EOF
+    user_data                   = data.template_file.ecs-cluster.rendered
 }
 
 
@@ -125,4 +122,6 @@ module "fabric" {
   aws_secret_access_key = var.aws_secret_access_key
   subnets = var.subnets
   gm_sg_id = aws_security_group.gm-sg.id
+  access_key_arn = var.aws_access_key_arn
+  secret_access_key_arn = var.aws_secret_access_key_arn
 }
