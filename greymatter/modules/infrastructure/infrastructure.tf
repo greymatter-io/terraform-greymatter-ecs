@@ -1,7 +1,8 @@
 # cluster security group
 
 resource "aws_security_group" "gm-sg" {
-  name = var.security_group_name
+  name   = var.security_group_name
+  vpc_id = var.vpc_id
   ingress {
     from_port   = 22
     to_port     = 22

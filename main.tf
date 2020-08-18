@@ -36,7 +36,6 @@ resource "aws_route_table" "public" {
 resource "aws_route_table_association" "route_table_association" {
   subnet_id      = "${element(aws_subnet.public.*.id, 2)}"
   route_table_id = aws_route_table.public.id
-  gateway_id     = "${aws_internet_gateway.internet_gateway.id}"
 }
 
 module "greymatter" {
@@ -46,5 +45,5 @@ module "greymatter" {
   key_pair_name                = "enter-ecs"
   autoscaling_service_role_arn = "arn:aws:iam::269783025111:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
   vpc_id                       = aws_vpc.vpc.id
-  subnets                      = [aws_subnet.public.0.id, aws_subnet.public.1.id, aws_subnet.public.2.id]
+  subnets                      = ["subnet-099a269f5c9732b3a", "subnet-02c91dc0d4ae1b1ec"]
 }

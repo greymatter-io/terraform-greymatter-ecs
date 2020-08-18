@@ -6,6 +6,7 @@ module "infrastructure" {
   key_pair_name                = var.key_pair_name
   autoscaling_service_role_arn = var.autoscaling_service_role_arn
   subnets                      = var.subnets
+  vpc_id                       = var.vpc_id
 }
 
 

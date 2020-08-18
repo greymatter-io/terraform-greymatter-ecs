@@ -16,3 +16,6 @@ variable "autoscaling_service_role_arn" {
 variable "subnets" {
 }
 
+variable "vpc_id" {
+}
+
