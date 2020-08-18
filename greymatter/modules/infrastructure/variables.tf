@@ -3,16 +3,6 @@ variable "vpc_id" {
   type = string
 }
 
-variable "docker_secret_arn" {
-  type = string
-}
-
-variable "execution_role_arn" {
-}
-
-variable "service_role_arn" {
-}
-
 variable "security_group_name" {
 }
 
