@@ -5,7 +5,6 @@ module "infrastructure" {
   cluster_name                 = var.cluster_name
   key_pair_name                = var.key_pair_name
   autoscaling_service_role_arn = var.autoscaling_service_role_arn
-  vpc_id                       = var.vpc_id
 }
 
 
@@ -15,7 +14,7 @@ module "fabric" {
   docker_secret_arn      = var.docker_secret_arn
   service_role_arn       = var.service_role_arn
   vpc_id                 = var.vpc_id
-  cluster_id             = infrastructure.aws_ecs_cluster.gm-cluster.id
+  cluster_id             = module.infrastructure.aws_ecs_cluster.gm-cluster.id
   subnets                = var.subnets
-  gm_sg_id               = aws_security_group.gm-sg.id
+  gm_sg_id               = module.infrastructure.aws_security_group.gm-sg.id
 }

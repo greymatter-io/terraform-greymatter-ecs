@@ -34,3 +34,6 @@ variable "autoscaling_service_role_arn" {
   type    = string
   default = "arn:aws:iam::269783025111:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
 }
+
+variable "subnets" {
+}
