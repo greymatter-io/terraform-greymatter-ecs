@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "greymatter" {
-  source                        = "git::ssh://git@github.com/greymatter-io/terraform-greymatter-ecs//greymatter?ref=add-modules"
+  source                        = "git::ssh://git@github.com/greymatter-io/terraform-greymatter-ecs//greymatter?ref=add_modules"
   security_group_name           = "gm-sg"
   cluster_name                  = "gm-cluster"
   key_pair_name                 = "enter-ecs"
