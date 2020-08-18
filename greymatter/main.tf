@@ -1,4 +1,14 @@
 
+# User data for ECS cluster
+data "template_file" "ecs-cluster" {
+  template = "${file("${path.module}/ecs-cluster.tpl")}"
+
+  vars = {
+    ecs_cluster = var.cluster_name
+  }
+}
+
+
 module "infrastructure" {
   source                       = "./modules/infrastructure"
   security_group_name          = var.security_group_name

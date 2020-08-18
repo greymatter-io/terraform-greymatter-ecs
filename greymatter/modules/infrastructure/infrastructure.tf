@@ -18,15 +18,6 @@ resource "aws_ecs_cluster" "gm-cluster" {
   depends_on = [aws_autoscaling_group.ecs-autoscaling-group]
 }
 
-# User data for ECS cluster
-data "template_file" "ecs-cluster" {
-  template = "${file("${path.module}/ecs-cluster.tpl")}"
-
-  vars = {
-    ecs_cluster = var.cluster_name
-  }
-}
-
 # TODO add keypair val
 resource "aws_launch_configuration" "ecs-launch-configuration" {
   name                 = "ecs-launch-configuration"
