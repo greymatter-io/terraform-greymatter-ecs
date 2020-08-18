@@ -9,6 +9,7 @@ resource "aws_ecs_service" "control-api" {
     iam_role = var.service_role_arn
     desired_count = 1
     depends_on      = [aws_lb_target_group.control-api]
+    health_check_grace_period_seconds = 180000000
 
     load_balancer {
         target_group_arn = aws_lb_target_group.control-api.arn
@@ -24,6 +25,7 @@ resource "aws_ecs_service" "control" {
     iam_role = var.service_role_arn
     desired_count = 1
     depends_on      = [aws_lb_target_group.control]
+    health_check_grace_period_seconds = 180000000
 
     load_balancer {
         target_group_arn = aws_lb_target_group.control.arn
@@ -39,6 +41,7 @@ resource "aws_ecs_service" "control-api-sidecar" {
     iam_role = var.service_role_arn
     desired_count = 1
     depends_on      = [aws_lb_target_group.control-api]
+    health_check_grace_period_seconds = 180000000
 
     load_balancer {
         target_group_arn = aws_lb_target_group.control-api-sidecar.arn
