@@ -113,6 +113,16 @@ locals {
             "awslogs-stream-prefix": "control"
         }
     },
+    "secrets": [
+        {
+            "name": "GM_CONTROL_ECS_AWS_ACCESS_KEY_ID",
+            "valueFrom": "${var.access_key_arn}"
+        },
+        {
+            "name": "GM_CONTROL_ECS_AWS_SECRET_ACCESS_KEY",
+            "valueFrom": "${var.secret_access_key_arn}"
+        }
+    ],
 	"environment": [
         {
             "name": "GM_CONTROL_CONSOLE_LEVEL",

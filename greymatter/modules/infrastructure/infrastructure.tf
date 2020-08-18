@@ -3,6 +3,7 @@
 resource "aws_security_group" "gm-sg" {
   name   = var.security_group_name
   vpc_id = var.vpc_id
+  
   ingress {
     from_port   = 22
     to_port     = 22
@@ -10,6 +11,12 @@ resource "aws_security_group" "gm-sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
 # autoscaling group
@@ -17,6 +24,14 @@ resource "aws_security_group" "gm-sg" {
 resource "aws_ecs_cluster" "gm-cluster" {
   name       = var.cluster_name
   depends_on = [aws_autoscaling_group.ecs-autoscaling-group]
+}
+
+data "template_file" "ecs-cluster" {
+  template = file("${path.module}/ecs-cluster.tpl")
+
+  vars = {
+    ecs_cluster = "gm-cluster"
+  }
 }
 
 # TODO add keypair val
@@ -38,7 +53,7 @@ resource "aws_launch_configuration" "ecs-launch-configuration" {
   security_groups             = [aws_security_group.gm-sg.id]
   associate_public_ip_address = "false"
   key_name                    = var.key_pair_name
-  user_data                   = "${file("${path.module}/ecs-cluster.tpl")}"
+  user_data                   = data.template_file.ecs-cluster.rendered
 }
 
 
