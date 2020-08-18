@@ -69,14 +69,13 @@ resource "aws_iam_instance_profile" "ecs_agent" {
 }
 
 resource "aws_autoscaling_group" "ecs-autoscaling-group" {
-  name             = "ecs-autoscaling-group"
-  max_size         = "1"
-  min_size         = "0"
-  desired_capacity = "1"
-  #vpc_zone_identifier  = var.subnets
+  name                 = "ecs-autoscaling-group"
+  max_size             = "1"
+  min_size             = "0"
+  desired_capacity     = "1"
+  vpc_zone_identifier  = var.subnets
   launch_configuration = aws_launch_configuration.ecs-launch-configuration.name
   health_check_type    = "EC2"
-  availability_zones   = ["us-east-2a", "us-east-2b", "us-east-2c"]
   tags = [
     {
       key   = "Name"
