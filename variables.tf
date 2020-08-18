@@ -26,6 +26,10 @@
 //    description = "AWS secret access key for GM_CONTROL_ECS_AWS_SECRET_ACCESS_KEY"
 //}
 
+variable "security_group_name" {
+  type    = string
+  default = "gm-sg"
+}
 
 variable "vpc_id" {
   type    = string
