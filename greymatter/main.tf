@@ -1,21 +1,10 @@
 
-# User data for ECS cluster
-data "template_file" "ecs-cluster" {
-  template = "${file("${path.module}/ecs-cluster.tpl")}"
-
-  vars = {
-    ecs_cluster = var.cluster_name
-  }
-}
-
-
 module "infrastructure" {
   source                       = "./modules/infrastructure"
   security_group_name          = var.security_group_name
   cluster_name                 = var.cluster_name
   key_pair_name                = var.key_pair_name
   autoscaling_service_role_arn = var.autoscaling_service_role_arn
-  ecs_cluster_data             = data.template_file.ecs-cluster.rendered
 }
 
 

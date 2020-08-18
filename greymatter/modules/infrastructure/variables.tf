@@ -13,5 +13,3 @@ variable "autoscaling_service_role_arn" {
   type = string
 }
 
-variable "ecs_cluster_data" {
-}
