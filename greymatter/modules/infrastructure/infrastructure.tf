@@ -37,7 +37,7 @@ resource "aws_launch_configuration" "ecs-launch-configuration" {
   security_groups             = [aws_security_group.gm-sg.id]
   associate_public_ip_address = "false"
   key_name                    = var.key_pair_name
-  user_data                   = data.template_file.ecs-cluster.rendered
+  user_data                   = var.ecs_cluster_data
 }
 
 

@@ -15,6 +15,7 @@ module "infrastructure" {
   cluster_name                 = var.cluster_name
   key_pair_name                = var.key_pair_name
   autoscaling_service_role_arn = var.autoscaling_service_role_arn
+  ecs_cluster_data             = data.template_file.ecs-cluster.rendered
 }
 
 
