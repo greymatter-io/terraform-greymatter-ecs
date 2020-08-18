@@ -94,5 +94,5 @@ output "gm_sg_id" {
 }
 
 output "gm_cluster_id" {
-  value = aws_ecs_clusteer.gm-cluster.id
+  value = aws_ecs_cluster.gm-cluster.id
 }
