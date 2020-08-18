@@ -9,4 +9,5 @@ module "greymatter" {
   key_pair_name                = "enter-ecs"
   autoscaling_service_role_arn = "arn:aws:iam::269783025111:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
   vpc_id                       = "vpc-95f405fe"
+  subnets                      = ["subnet-6111ae2d", "subnet-682b3200", "subnet-8a8ddaf0"]
 }

@@ -88,11 +88,3 @@ resource "aws_autoscaling_group" "ecs-autoscaling-group" {
   ]
   service_linked_role_arn = var.autoscaling_service_role_arn
 }
-
-output "gm_sg_id" {
-  value = aws_security_group.gm-sg.id
-}
-
-output "gm_cluster_id" {
-  value = aws_ecs_clusteer.gm-cluster.id
-}
