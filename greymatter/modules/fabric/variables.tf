@@ -20,7 +20,6 @@ variable "cluster_id" {
 }
 
 variable "subnets" {
-  type = list(string)
 }
 
 variable "gm_sg_id" {}

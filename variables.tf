@@ -31,11 +31,6 @@ variable "security_group_name" {
   default = "gm-sg"
 }
 
-variable "vpc_id" {
-  type    = string
-  default = "vpc-95f405fe"
-}
-
 variable "docker_secret_arn" {
   type    = string
   default = "arn:aws:secretsmanager:us-east-2:269783025111:secret:deciphernow-docker-yYVtgb"
@@ -57,11 +52,6 @@ variable "service_role_arn" {
 //variable "aws_secret_access_key" {
 //    description = "AWS secret access key for GM_CONTROL_ECS_AWS_SECRET_ACCESS_KEY"
 //}
-
-variable "subnets" {
-  type    = list(string)
-  default = ["subnet-6111ae2d", "subnet-682b3200", "subnet-8a8ddaf0"]
-}
 
 //variable "aws_access_key_arn" {
 //}
