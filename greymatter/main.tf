@@ -1,7 +1,3 @@
-provider "aws" {
-  region = "us-east-2"
-}
-
 module "infrastructure" {
   source                       = "./modules/infrastructure"
   security_group_name          = var.security_group_name

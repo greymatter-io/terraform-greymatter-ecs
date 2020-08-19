@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-east-2"
+  region = var.aws_region
 }
 
 data "aws_availability_zones" "available" {}
@@ -20,8 +20,8 @@ resource "aws_internet_gateway" "internet_gateway" {
 resource "aws_subnet" "public" {
   vpc_id            = aws_vpc.vpc.id
   count             = "2"
-  availability_zone = "${element(data.aws_availability_zones.available.names, count.index)}"
-  cidr_block        = "${cidrsubnet(aws_vpc.vpc.cidr_block, ceil(log(2, 2)), count.index)}"
+  availability_zone = element(data.aws_availability_zones.available.names, count.index)
+  cidr_block        = cidrsubnet(aws_vpc.vpc.cidr_block, ceil(log(2, 2)), count.index)
 }
 
 resource "aws_route_table" "public" {
@@ -34,16 +34,18 @@ resource "aws_route_table" "public" {
 }
 
 resource "aws_route_table_association" "route_table_association" {
-  subnet_id      = "${element(aws_subnet.public.*.id, 2)}"
+  subnet_id      = element(aws_subnet.public.*.id, 2)
   route_table_id = aws_route_table.public.id
 }
 
 module "greymatter" {
-  source                       = "git::ssh://git@github.com/greymatter-io/terraform-greymatter-ecs//greymatter?ref=add_modules"
-  security_group_name          = "gm-sg"
-  cluster_name                 = "gm-cluster"
-  key_pair_name                = "enter-ecs"
-  autoscaling_service_role_arn = "arn:aws:iam::269783025111:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
+  source                       = "git::ssh://git@github.com/greymatter-io/terraform-greymatter-ecs//greymatter?ref=master"
+  security_group_name          = var.security_group_name
+  cluster_name                 = var.cluster_name
+  key_pair_name                = var.key_pair_name
+  autoscaling_service_role_arn = var.autoscaling_service_role_arn
   vpc_id                       = aws_vpc.vpc.id
   subnets                      = [aws_subnet.public.0.id, aws_subnet.public.1.id]
+  access_key_arn               = var.access_key_arn
+  secret_access_key_arn        = var.secret_access_key_arn
 }
