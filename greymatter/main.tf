@@ -1,3 +1,6 @@
+provider "aws" {
+  region = "us-east-2"
+}
 
 module "infrastructure" {
   source                       = "./modules/infrastructure"
@@ -19,4 +22,6 @@ module "fabric" {
   cluster_id             = module.infrastructure.gm_cluster_id
   subnets                = var.subnets
   gm_sg_id               = module.infrastructure.gm_sg_id
+  access_key_arn         = var.access_key_arn
+  secret_access_key_arn  = var.secret_access_key_arn
 }

@@ -37,3 +37,7 @@ variable "autoscaling_service_role_arn" {
 
 variable "subnets" {
 }
+
+variable "access_key_arn" {}
+
+variable "secret_access_key_arn" {}

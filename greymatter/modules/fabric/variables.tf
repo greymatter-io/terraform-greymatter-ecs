@@ -23,3 +23,7 @@ variable "subnets" {
 }
 
 variable "gm_sg_id" {}
+
+variable "access_key_arn" {}
+
+variable "secret_access_key_arn" {}
