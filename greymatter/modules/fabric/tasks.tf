@@ -194,7 +194,7 @@ locals {
             "options": {
                 "awslogs-group": "openjobs",
                 "awslogs-region": "us-east-2",
-                "awslogs-stream-prefix": "sidecar"
+                "awslogs-stream-prefix": "control-api-sidecar"
             }
         },
         "environment": [
@@ -204,7 +204,7 @@ locals {
             },
             {
                 "name": "XDS_CLUSTER",
-                "value": "proxy"
+                "value": "control-api"
             },
             {
                 "name": "XDS_HOST",
