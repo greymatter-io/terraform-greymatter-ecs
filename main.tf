@@ -1,35 +1,49 @@
-terraform {
-  backend "s3" {
-    bucket   = "greymatter-use2-tfstate"
-    key      = "greymatter-init-terraform/terraform.tfstate"
-    region   = "us-east-1"
-    role_arn = ""
+provider "aws" {
+  region = "us-east-2"
+}
+
+data "aws_availability_zones" "available" {}
+
+resource "aws_vpc" "vpc" {
+  cidr_block           = "10.0.0.0/24"
+  enable_dns_support   = true
+  enable_dns_hostnames = true
+  tags = {
+    Name = "ECS VPC"
   }
 }
 
-module "infrastructure" {
-  source                 = "./modules/infrastructure"
-  platform_name          = "${var.platform_name}"
-  greymatter_ecs_cluster = "${var.ecs_cluster_name}"
-  vpc_id                 = "${module.network.platform_vpc_id}"
-  subnet_list            = ["${module.network.public_subnet_ids}"]
-  security_group_list    = "${module.infrastructure.security_group_main_id}"
+resource "aws_internet_gateway" "internet_gateway" {
+  vpc_id = aws_vpc.vpc.id
 }
 
-module "network" {
-  source             = "./modules/network"
-  platform_name      = "${var.platform_name}"
-  platform_cidr      = "${var.platform_cidr}"
-  peering_vpc_id     = "${var.peering_vpc_id}"
-  peering_account_id = "${var.peering_account_id}"
+resource "aws_subnet" "public" {
+  vpc_id            = aws_vpc.vpc.id
+  count             = "2"
+  availability_zone = "${element(data.aws_availability_zones.available.names, count.index)}"
+  cidr_block        = "${cidrsubnet(aws_vpc.vpc.cidr_block, ceil(log(2, 2)), count.index)}"
 }
 
-module "services" {
-  source                    = "./modules/services"
-  greymatter_ecs_cluster    = "${var.ecs_cluster_name}"
-  ecs_execution_role_arn    = "${module.infrastructure.ecs_execution_role_arn}"
-  platform_name             = "${var.platform_name}"
-  main_alb_target_group_arn = "${module.infrastructure.main_alb_target_group_arn}"
-  subnet_list               = ["${module.network.public_subnet_ids}"]
-  security_group_list       = "${module.infrastructure.security_group_main_id}"
+resource "aws_route_table" "public" {
+  vpc_id = aws_vpc.vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.internet_gateway.id
+  }
+}
+
+resource "aws_route_table_association" "route_table_association" {
+  subnet_id      = "${element(aws_subnet.public.*.id, 2)}"
+  route_table_id = aws_route_table.public.id
+}
+
+module "greymatter" {
+  source                       = "git::ssh://git@github.com/greymatter-io/terraform-greymatter-ecs//greymatter?ref=add_modules"
+  security_group_name          = "gm-sg"
+  cluster_name                 = "gm-cluster"
+  key_pair_name                = "enter-ecs"
+  autoscaling_service_role_arn = "arn:aws:iam::269783025111:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
+  vpc_id                       = aws_vpc.vpc.id
+  subnets                      = [aws_subnet.public.0.id, aws_subnet.public.1.id]
 }
