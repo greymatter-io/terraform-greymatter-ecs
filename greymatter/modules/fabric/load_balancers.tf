@@ -41,46 +41,6 @@ resource "aws_lb_listener" "control-api" {
   }
 }
 
-#   control-api-sidecar
-resource "aws_lb" "control-api-sidecar" {
-    name = "control-api-sidecar"
-    internal           = false
-    load_balancer_type = "application"
-    security_groups    = [aws_security_group.control-api-sidecar-sg.id]
-    subnets = var.subnets
-}
-
-resource "aws_lb_target_group" "control-api-sidecar" {
-    name     = "control-api-sidecar"
-    port     = 10808
-    protocol = "HTTP"
-    vpc_id   = var.vpc_id
-    depends_on = [aws_lb.control-api-sidecar]
-
-    health_check {
-        healthy_threshold   = 2
-        unhealthy_threshold = 2
-        timeout             = 30
-        path                = "/"
-        protocol            = "HTTP"
-        interval            = 120
-        matcher             = "200-304,404"
-    }
-}
-
-resource "aws_lb_listener" "control-api-sidecar" {
-  load_balancer_arn = aws_lb.control-api-sidecar.arn
-  port              = "10808"
-  protocol          = "HTTP"
-  # TODO eventually add ssl
-  #ssl_policy        = "ELBSecurityPolicy-2016-08"
-
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.control-api-sidecar.arn
-  }
-}
-
 #   control
 
 resource "aws_lb" "control" {
