@@ -34,10 +34,30 @@ data "template_file" "ecs-cluster" {
   }
 }
 
-# TODO add keypair val
+data "aws_ami" "ecs" {
+  most_recent = true # get the latest version
+
+  filter {
+    name = "name"
+    values = [
+      "amzn2-ami-ecs-*"] # ECS optimized image
+  }
+
+  filter {
+    name = "virtualization-type"
+    values = [
+      "hvm"]
+  }
+
+  owners = [
+    "amazon" # Only official images
+  ]
+}
+
+# TODO add size, instances variables
 resource "aws_launch_configuration" "ecs-launch-configuration" {
   name                 = "ecs-launch-configuration"
-  image_id             = "ami-078d79190068a1b35"
+  image_id             = data.aws_ami.ecs.id
   instance_type        = "t2.small"
   iam_instance_profile = "ecsInstanceRole"
 
