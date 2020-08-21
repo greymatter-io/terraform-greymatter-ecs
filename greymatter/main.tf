@@ -1,9 +1,16 @@
+data "aws_caller_identity" "current" {}
+
+locals {
+  service_role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/ecsServiceRole"
+  execution_role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/ecsTaskExecutionRole"
+  autoscaling_service_role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
+}
+
 module "infrastructure" {
   source                       = "./modules/infrastructure"
-  security_group_name          = var.security_group_name
   cluster_name                 = var.cluster_name
   key_pair_name                = var.key_pair_name
-  autoscaling_service_role_arn = var.autoscaling_service_role_arn
+  autoscaling_service_role_arn = local.autoscaling_service_role_arn
   subnets                      = var.subnets
   vpc_id                       = var.vpc_id
 }
@@ -11,9 +18,9 @@ module "infrastructure" {
 
 module "fabric" {
   source                 = "./modules/fabric"
-  ecs_execution_role_arn = var.execution_role_arn
+  service_role_arn       = local.service_role_arn
+  execution_role_arn     = local.execution_role_arn
   docker_secret_arn      = var.docker_secret_arn
-  service_role_arn       = var.service_role_arn
   vpc_id                 = var.vpc_id
   cluster_id             = module.infrastructure.gm_cluster_id
   subnets                = var.subnets
@@ -24,9 +31,9 @@ module "fabric" {
 
 module "control-api-sidecar" {
   source                 = "./modules/sidecar"
-  ecs_execution_role_arn = var.execution_role_arn
+  service_role_arn       = local.service_role_arn
+  execution_role_arn     = local.execution_role_arn
   docker_secret_arn      = var.docker_secret_arn
-  service_role_arn       = var.service_role_arn
   vpc_id                 = var.vpc_id
   cluster_id             = module.infrastructure.gm_cluster_id
   subnets                = var.subnets
@@ -40,9 +47,9 @@ module "control-api-sidecar" {
 
 module "edge" {
   source                 = "./modules/sidecar"
-  ecs_execution_role_arn = var.execution_role_arn
+  service_role_arn       = local.service_role_arn
+  execution_role_arn     = local.execution_role_arn
   docker_secret_arn      = var.docker_secret_arn
-  service_role_arn       = var.service_role_arn
   vpc_id                 = var.vpc_id
   cluster_id             = module.infrastructure.gm_cluster_id
   subnets                = var.subnets

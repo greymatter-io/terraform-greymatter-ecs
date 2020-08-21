@@ -8,8 +8,8 @@ resource "aws_ecs_task_definition" "control-api" {
   network_mode             = "bridge"
   cpu                      = "128"
   memory                   = "128"
-  execution_role_arn       = var.ecs_execution_role_arn
-  task_role_arn            = var.ecs_execution_role_arn
+  execution_role_arn       = var.execution_role_arn
+  task_role_arn            = var.execution_role_arn
 }
 
 resource "aws_ecs_task_definition" "control" {
@@ -19,8 +19,8 @@ resource "aws_ecs_task_definition" "control" {
   network_mode             = "bridge"
   cpu                      = "128"
   memory                   = "128"
-  execution_role_arn       = var.ecs_execution_role_arn
-  task_role_arn            = var.ecs_execution_role_arn
+  execution_role_arn       = var.execution_role_arn
+  task_role_arn            = var.execution_role_arn
   depends_on               = [aws_lb.control-api]
 }
 

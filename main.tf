@@ -42,15 +42,11 @@ resource "aws_route_table_association" "route_table_association" {
 
 module "greymatter" {
   source                       = "git::ssh://git@github.com/greymatter-io/terraform-greymatter-ecs//greymatter?ref=master"
-  security_group_name          = var.security_group_name
   cluster_name                 = var.cluster_name
   key_pair_name                = var.key_pair_name
-  autoscaling_service_role_arn = var.autoscaling_service_role_arn
   vpc_id                       = aws_vpc.vpc.id
   subnets                      = [aws_subnet.public.0.id, aws_subnet.public.1.id]
   access_key_arn               = var.access_key_arn
   secret_access_key_arn        = var.secret_access_key_arn
-  service_role_arn             = var.service_role_arn
-  execution_role_arn           = var.execution_role_arn
   docker_secret_arn            = var.docker_secret_arn
 }

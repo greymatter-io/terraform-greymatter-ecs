@@ -1,0 +1,6 @@
+{
+    "zone_key": "zone-default-zone",
+    "cluster_key": "edge-to-control-api-cluster",
+    "name": "control-api",
+    "require_tls": false
+  }

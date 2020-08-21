@@ -1,0 +1,12 @@
+{
+    "zone_key": "zone-default-zone",
+    "proxy_key": "proxy-control-api",
+    "domain_keys": [
+      "domain-control-api"
+    ],
+    "listener_keys": [
+      "listener-control-api"
+    ],
+    "name": "control-api",
+    "listeners": null
+  }

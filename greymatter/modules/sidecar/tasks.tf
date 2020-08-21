@@ -8,8 +8,8 @@ resource "aws_ecs_task_definition" "sidecar-task" {
   network_mode             = "bridge"
   cpu                      = "128"
   memory                   = "128"
-  execution_role_arn       = var.ecs_execution_role_arn
-  task_role_arn            = var.ecs_execution_role_arn
+  execution_role_arn       = var.execution_role_arn
+  task_role_arn            = var.execution_role_arn
 }
 
 # task defs with variables defined here:
