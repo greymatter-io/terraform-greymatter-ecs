@@ -40,7 +40,7 @@ data "aws_ami" "ecs" {
   filter {
     name = "name"
     values = [
-      "amzn2-ami-ecs-*"] # ECS optimized image
+      "amzn2-ami-ecs-hvm-2*"] # ECS optimized image
   }
 
   filter {
