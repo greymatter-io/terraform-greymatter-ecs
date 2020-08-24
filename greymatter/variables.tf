@@ -9,7 +9,6 @@ variable "cluster_name" {
 
 variable "key_pair_name" {
   type    = string
-  default = "enter-ecs"
 }
 
 variable "subnets" {}
