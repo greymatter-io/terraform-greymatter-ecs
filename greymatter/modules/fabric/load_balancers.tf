@@ -13,7 +13,7 @@ resource "aws_lb" "control-api" {
 resource "aws_lb_target_group" "control-api" {
   name     = "control-api"
   port     = 5555
-  protocol = "HTTP"
+  protocol = "HTTPS"
   vpc_id   = var.vpc_id
   depends_on = [aws_lb.control-api]
 
@@ -22,7 +22,7 @@ resource "aws_lb_target_group" "control-api" {
       unhealthy_threshold = 2
       timeout             = 30
       path                = "/"
-      protocol            = "HTTP"
+      protocol            = "HTTPS"
       interval            = 120
       matcher             = "200-304,404"
   }
@@ -31,9 +31,8 @@ resource "aws_lb_target_group" "control-api" {
 resource "aws_lb_listener" "control-api" {
   load_balancer_arn = aws_lb.control-api.arn
   port              = "5555"
-  protocol          = "HTTP"
-  # TODO eventually add ssl
-  #ssl_policy        = "ELBSecurityPolicy-2016-08"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
 
   default_action {
     type             = "forward"
@@ -54,7 +53,7 @@ resource "aws_lb" "control" {
 resource "aws_lb_target_group" "control" {
     name     = "control"
     port     = 50001
-    protocol = "HTTP"
+    protocol = "HTTPS"
     vpc_id   = var.vpc_id
     depends_on = [aws_lb.control]
 
@@ -63,7 +62,7 @@ resource "aws_lb_target_group" "control" {
         unhealthy_threshold = 2
         timeout             = 30
         path                = "/"
-        protocol            = "HTTP"
+        protocol            = "HTTPS"
         interval            = 120
         matcher             = "200-304,404"
     }
@@ -72,9 +71,8 @@ resource "aws_lb_target_group" "control" {
 resource "aws_lb_listener" "control" {
   load_balancer_arn = aws_lb.control.arn
   port              = 50001
-  protocol          = "HTTP"
-  # TODO eventually add ssl
-  #ssl_policy        = "ELBSecurityPolicy-2016-08"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
 
   default_action {
     type             = "forward"

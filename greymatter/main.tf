@@ -28,6 +28,9 @@ module "fabric" {
   access_key_arn         = var.access_key_arn
   secret_access_key_arn  = var.secret_access_key_arn
   aws_region             = var.aws_region
+  ca_base64              = var.ca_base64
+  cert_base64            = var.cert_base64
+  key_base64             = var.key_base64
 }
 
 module "control-api-sidecar" {

@@ -43,6 +43,11 @@ locals {
         },
         "name": "control-api",
         "essential": true,
+        "entryPoint": [
+        "sh",
+        "-c",
+        "set -ueo pipefail; mkdir /control-plane/certificates; echo $CA_B64 | base64 -d > /control-plane/certificates/ca.crt; echo $CERT_B64 | base64 -d > /control-plane/certificates/server.crt; echo $KEY_B64 | base64 -d > /control-plane/certificates/server.key; ./gm-control-api"
+        ],
         "environment": [
             {
                 "name": "GM_CONTROL_API_USE_TLS",
@@ -69,8 +74,32 @@ locals {
                 "value": "zone-default-zone"
             },
             {
+                "name": "GM_CONTROL_API_SERVER_CERT_PATH",
+                "value": "/control-plane/certificates/server.crt"
+            },
+            {
+                "name": "GM_CONTROL_API_SERVER_KEY_PATH",
+                "value": "/control-plane/certificates/server.key"
+            },
+            {
+                "name": "GM_CONTROL_API_CA_CERT_PATH",
+                "value": "/control-plane/certificates/ca.crt"
+            },
+            {
                 "name": "GM_CONTROL_API_PERSISTER_TYPE",
                 "value": "file"
+            },
+            {
+                "name": "CERT_B64",
+                "value": "${var.cert_base64}"
+            },
+            {
+                "name": "KEY_B64",
+                "value": "${var.key_base64}"
+            },
+            {
+                "name": "CA_B64",
+                "value": "${var.ca_base64}"
             }
         ],
         "image": "docker.greymatter.io/development/gm-control-api:latest",
@@ -79,9 +108,9 @@ locals {
         },
         "portMappings": [
             {
+            "hostPort": 5555,
             "containerPort": 5555,
-            "protocol": "tcp",
-            "hostPort": 5555
+            "protocol": "tcp"
             }
         ]
     }
@@ -101,6 +130,11 @@ locals {
             "awslogs-stream-prefix": "control"
         }
     },
+    "entryPoint": [
+    "sh",
+    "-c",
+    "set -ueo pipefail; mkdir /gm-control/certificates; echo $CERT_B64 | base64 -d > /gm-control/certificates/server.crt; echo $KEY_B64 | base64 -d > /gm-control/certificates/server.key; /usr/local/bin/gm-control.sh"
+    ],
     "secrets": [
         {
             "name": "GM_CONTROL_ECS_AWS_ACCESS_KEY_ID",
@@ -133,6 +167,14 @@ locals {
             "value": "false"
         },
         {
+            "name": "GM_CONTROL_API_SSLCERT",
+            "value": "/gm-control/certificates/server.crt"
+        },
+        {
+            "name": "GM_CONTROL_API_SSLKEY",
+            "value": "/gm-control/certificates/server.key"
+        },
+        {
             "name": "GM_CONTROL_CMD",
             "value": "ecs"
         },
@@ -155,6 +197,14 @@ locals {
         {
             "name": "GM_CONTROL_XDS_ENABLE_REST",
             "value": "true"
+        }, 
+        {
+            "name": "CERT_B64",
+            "value": "${var.cert_base64}"
+        },
+        {
+            "name": "KEY_B64",
+            "value": "${var.key_base64}"
         }
 	],
 	"image": "docker.greymatter.io/development/gm-control:latest",
@@ -163,7 +213,7 @@ locals {
 	},
 	"portMappings": [
             {
-		"hostPort": 50001,
+        "hostPort": 50001,
 		"containerPort": 50001,
 		"protocol": "tcp"
             }
