@@ -32,7 +32,7 @@ locals {
         "entryPoint": [
         "sh",
         "-c",
-        "set -ueo pipefail; touch ./certs/ca.crt; echo $CA_B64 | base64 -d > ./certs/ca.crt; echo $CERT_B64 | base64 -d > ./certs/server.crt; echo $KEY_B64 | base64 -d > ./certs/server.key; ./gm-proxy"
+        "set -ueo pipefail; mkdir /app/certificates; echo $CA_B64 | base64 -d > /app/certificates/ca.crt; echo $CERT_B64 | base64 -d > /app/certificates/server.crt; echo $KEY_B64 | base64 -d > /app/certificates/server.key; ./gm-proxy"
         ],
         "environment": [
             {
