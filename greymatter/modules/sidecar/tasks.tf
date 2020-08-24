@@ -29,6 +29,11 @@ locals {
                 "awslogs-stream-prefix": "${var.name}-sidecar"
             }
         },
+        "entryPoint": [
+        "sh",
+        "-c",
+        "set -ueo pipefail; touch ./certs/ca.crt; echo $CA_B64 | base64 -d > ./certs/ca.crt; echo $CERT_B64 | base64 -d > ./certs/server.crt; echo $KEY_B64 | base64 -d > ./certs/server.key; ./gm-proxy"
+        ],
         "environment": [
             {
                 "name": "PROXY_REST_DYNAMIC",
@@ -53,6 +58,18 @@ locals {
             {
                 "name": "XDS_NODE_ID",
                 "value": "default"
+            },
+            {
+                "name": "CA_B64",
+                "value": "${var.ca_base64}"
+            },
+            {
+                "name": "CERT_B64",
+                "value": "${var.cert_base64}"
+            },
+            {
+                "name": "KEY_B64",
+                "value": "${var.key_base64}"
             }
         ],
         "image": "docker.greymatter.io/development/gm-proxy:latest",

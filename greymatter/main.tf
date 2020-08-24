@@ -43,6 +43,9 @@ module "control-api-sidecar" {
   name                   = "control-api"
   control_dns            = module.fabric.control_dns
   control_port           = 50001
+  ca_base64              = var.ca_base64
+  cert_base64            = var.cert_base64
+  key_base64             = var.key_base64
 }
 
 module "edge" {
@@ -59,4 +62,7 @@ module "edge" {
   name                   = "edge"
   control_dns            = module.fabric.control_dns
   control_port           = 50001
+  ca_base64              = var.ca_base64
+  cert_base64            = var.cert_base64
+  key_base64             = var.key_base64
 }
