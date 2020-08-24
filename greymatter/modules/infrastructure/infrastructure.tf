@@ -124,6 +124,11 @@ resource "aws_autoscaling_group" "ecs-autoscaling-group" {
   service_linked_role_arn = var.autoscaling_service_role_arn
 }
 
+resource "aws_cloudwatch_log_group" "greymatter-logs" {
+  name = "greymatter"
+}
+
+# outputs
 output "gm_sg_id" {
   value = aws_security_group.gm-sg.id
 }

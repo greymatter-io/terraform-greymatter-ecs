@@ -27,6 +27,7 @@ module "fabric" {
   gm_sg_id               = module.infrastructure.gm_sg_id
   access_key_arn         = var.access_key_arn
   secret_access_key_arn  = var.secret_access_key_arn
+  aws_region             = var.aws_region
 }
 
 module "control-api-sidecar" {
@@ -43,6 +44,7 @@ module "control-api-sidecar" {
   name                   = "control-api"
   control_dns            = module.fabric.control_dns
   control_port           = 50001
+  aws_region             = var.aws_region
 }
 
 module "edge" {
@@ -59,4 +61,5 @@ module "edge" {
   name                   = "edge"
   control_dns            = module.fabric.control_dns
   control_port           = 50001
+  aws_region             = var.aws_region
 }

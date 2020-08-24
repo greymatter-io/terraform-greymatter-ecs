@@ -49,4 +49,5 @@ module "greymatter" {
   access_key_arn               = var.access_key_arn
   secret_access_key_arn        = var.secret_access_key_arn
   docker_secret_arn            = var.docker_secret_arn
+  aws_region                   = var.aws_region
 }

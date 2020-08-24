@@ -18,3 +18,5 @@ variable "access_key_arn" {}
 variable "secret_access_key_arn" {}
 
 variable "docker_secret_arn" {}
+
+variable "aws_region" {}

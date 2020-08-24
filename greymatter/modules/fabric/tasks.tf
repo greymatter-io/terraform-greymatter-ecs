@@ -36,9 +36,9 @@ locals {
         "logConfiguration": {
             "logDriver": "awslogs",
             "options": {
-                "awslogs-group": "openjobs",
-                "awslogs-region": "us-east-2",
-                "awslogs-stream-prefix": "api"
+                "awslogs-group": "greymatter",
+                "awslogs-region": "${var.aws_region}",
+                "awslogs-stream-prefix": "control-api"
             }
         },
         "name": "control-api",
@@ -96,8 +96,8 @@ locals {
     "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-            "awslogs-group": "openjobs",
-            "awslogs-region": "us-east-2",
+            "awslogs-group": "greymatter",
+            "awslogs-region": "${var.aws_region}",
             "awslogs-stream-prefix": "control"
         }
     },

@@ -2,6 +2,8 @@ variable "name" {
   default = "sidecar"
 }
 
+variable "aws_region" {}
+
 variable "sidecar_port" {
   default = 10808
 }
