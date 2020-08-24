@@ -24,3 +24,5 @@ variable "ca_base64" {}
 variable "cert_base64" {}
 
 variable "key_base64" {}
+
+variable "aws_region" {}

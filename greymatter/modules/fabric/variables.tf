@@ -1,3 +1,5 @@
+variable "aws_region" {}
+
 variable "execution_role_arn" {
   type        = string
   description = "ecsTaskExecutionRole ARN"

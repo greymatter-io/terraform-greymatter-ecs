@@ -53,4 +53,5 @@ module "greymatter" {
   ca_base64                    = var.ca_base64
   key_base64                   = var.key_base64 
   cert_base64                  = var.cert_base64
+  aws_region                   = var.aws_region
 }
