@@ -1,0 +1,12 @@
+{
+  "zone_key": "zone-default-zone",
+  "cluster_key": "cluster-control-api",
+  "name": "control-api-service",
+  "instances": [
+    {
+      "host": "0.0.0.0",
+      "port": 5555
+    }
+  ],
+  "require_tls": false
+}

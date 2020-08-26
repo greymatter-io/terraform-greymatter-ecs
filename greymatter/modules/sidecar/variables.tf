@@ -1,4 +1,16 @@
+variable "name" {
+  default = "sidecar"
+}
+
 variable "aws_region" {}
+
+variable "sidecar_port" {
+  default = 10808
+}
+
+variable "control_dns" {}
+
+variable "control_port" {}
 
 variable "execution_role_arn" {
   type        = string

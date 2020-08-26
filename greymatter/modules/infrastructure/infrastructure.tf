@@ -1,7 +1,7 @@
 # cluster security group
 
 resource "aws_security_group" "gm-sg" {
-  name   = var.security_group_name
+  name   = "gm-sg"
   vpc_id = var.vpc_id
   
   ingress {
@@ -34,12 +34,32 @@ data "template_file" "ecs-cluster" {
   }
 }
 
-# TODO add keypair val
+data "aws_ami" "ecs" {
+  most_recent = true # get the latest version
+
+  filter {
+    name = "name"
+    values = [
+      "amzn2-ami-ecs-hvm-2*"] # ECS optimized image
+  }
+
+  filter {
+    name = "virtualization-type"
+    values = [
+      "hvm"]
+  }
+
+  owners = [
+    "amazon" # Only official images
+  ]
+}
+
+# TODO add size, instances variables
 resource "aws_launch_configuration" "ecs-launch-configuration" {
   name                 = "ecs-launch-configuration"
-  image_id             = "ami-078d79190068a1b35"
+  image_id             = data.aws_ami.ecs.id
   instance_type        = "t2.small"
-  iam_instance_profile = "ecsInstanceRole"
+  iam_instance_profile = aws_iam_instance_profile.ecs_agent.name
 
   lifecycle {
     create_before_destroy = true
@@ -104,6 +124,11 @@ resource "aws_autoscaling_group" "ecs-autoscaling-group" {
   service_linked_role_arn = var.autoscaling_service_role_arn
 }
 
+resource "aws_cloudwatch_log_group" "greymatter-logs" {
+  name = "greymatter"
+}
+
+# outputs
 output "gm_sg_id" {
   value = aws_security_group.gm-sg.id
 }

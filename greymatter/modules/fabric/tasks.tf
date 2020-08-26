@@ -8,8 +8,8 @@ resource "aws_ecs_task_definition" "control-api" {
   network_mode             = "bridge"
   cpu                      = "128"
   memory                   = "128"
-  execution_role_arn       = var.ecs_execution_role_arn
-  task_role_arn            = var.ecs_execution_role_arn
+  execution_role_arn       = var.execution_role_arn
+  task_role_arn            = var.execution_role_arn
 }
 
 resource "aws_ecs_task_definition" "control" {
@@ -19,21 +19,9 @@ resource "aws_ecs_task_definition" "control" {
   network_mode             = "bridge"
   cpu                      = "128"
   memory                   = "128"
-  execution_role_arn       = var.ecs_execution_role_arn
-  task_role_arn            = var.ecs_execution_role_arn
+  execution_role_arn       = var.execution_role_arn
+  task_role_arn            = var.execution_role_arn
   depends_on               = [aws_lb.control-api]
-}
-
-resource "aws_ecs_task_definition" "control-api-sidecar" {
-  family                   = "control-api-sidecar"
-  container_definitions    = local.sidecar_container
-  requires_compatibilities = ["EC2"]
-  network_mode             = "bridge"
-  cpu                      = "128"
-  memory                   = "128"
-  execution_role_arn       = var.ecs_execution_role_arn
-  task_role_arn            = var.ecs_execution_role_arn
-  depends_on               = [aws_lb.control]
 }
 
 # task defs with variables defined here:
@@ -48,9 +36,9 @@ locals {
         "logConfiguration": {
             "logDriver": "awslogs",
             "options": {
-                "awslogs-group": "openjobs",
-                "awslogs-region": "us-east-2",
-                "awslogs-stream-prefix": "api"
+                "awslogs-group": "greymatter",
+                "awslogs-region": "${var.aws_region}",
+                "awslogs-stream-prefix": "control-api"
             }
         },
         "name": "control-api",
@@ -108,8 +96,8 @@ locals {
     "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-            "awslogs-group": "openjobs",
-            "awslogs-region": "us-east-2",
+            "awslogs-group": "greymatter",
+            "awslogs-region": "${var.aws_region}",
             "awslogs-stream-prefix": "control"
         }
     },
@@ -183,60 +171,4 @@ locals {
     }
 ]
     DEFINITION
-
-  sidecar_container = <<DEFINITION
-[
-        {
-        "memoryReservation": 128,
-        "name": "control-api-sidecar",
-        "logConfiguration": {
-            "logDriver": "awslogs",
-            "options": {
-                "awslogs-group": "openjobs",
-                "awslogs-region": "us-east-2",
-                "awslogs-stream-prefix": "sidecar"
-            }
-        },
-        "environment": [
-            {
-                "name": "PROXY_REST_DYNAMIC",
-                "value": "true"
-            },
-            {
-                "name": "XDS_CLUSTER",
-                "value": "proxy"
-            },
-            {
-                "name": "XDS_HOST",
-                "value": "${aws_lb.control.dns_name}"
-            },
-            {
-                "name": "XDS_PORT",
-                "value": "50001"
-            },
-            {
-                "name": "XDS_ZONE",
-                "value": "zone-default-zone"
-            },
-            {
-                "name": "XDS_NODE_ID",
-                "value": "default"
-            }
-        ],
-        "image": "docker.greymatter.io/development/gm-proxy:latest",
-        "repositoryCredentials": {
-            "credentialsParameter": "${var.docker_secret_arn}"
-        },
-        "portMappings": [
-                {
-            "hostPort": 10808,
-            "containerPort": 10808,
-            "protocol": "tcp"
-                }
-        ],
-        "dockerLabels": { "gm-cluster": "control-api:10808" }
-      }
-]
-    DEFINITION
-
 }

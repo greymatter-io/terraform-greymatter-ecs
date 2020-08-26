@@ -1,7 +1,3 @@
-
-variable "security_group_name" {
-}
-
 variable "cluster_name" {
 }
 
@@ -18,4 +14,3 @@ variable "subnets" {
 
 variable "vpc_id" {
 }
-
