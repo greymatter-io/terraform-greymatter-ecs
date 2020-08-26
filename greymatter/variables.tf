@@ -20,3 +20,7 @@ variable "secret_access_key_arn" {}
 variable "docker_secret_arn" {}
 
 variable "aws_region" {}
+
+variable "ca_base64" {}
+variable "cert_base64" {}
+variable "key_base64" {}
