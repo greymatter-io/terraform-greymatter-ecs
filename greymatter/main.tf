@@ -33,36 +33,36 @@ module "fabric" {
   key_base64             = var.key_base64
 }
 
-module "control-api-sidecar" {
-  source                 = "./modules/sidecar"
-  service_role_arn       = local.service_role_arn
-  execution_role_arn     = local.execution_role_arn
-  docker_secret_arn      = var.docker_secret_arn
-  vpc_id                 = var.vpc_id
-  cluster_id             = module.infrastructure.gm_cluster_id
-  subnets                = var.subnets
-  gm_sg_id               = module.infrastructure.gm_sg_id
-  access_key_arn         = var.access_key_arn
-  secret_access_key_arn  = var.secret_access_key_arn
-  name                   = "control-api"
-  control_dns            = module.fabric.control_dns
-  control_port           = 50001
-  aws_region             = var.aws_region
-}
-
-module "edge" {
-  source                 = "./modules/sidecar"
-  service_role_arn       = local.service_role_arn
-  execution_role_arn     = local.execution_role_arn
-  docker_secret_arn      = var.docker_secret_arn
-  vpc_id                 = var.vpc_id
-  cluster_id             = module.infrastructure.gm_cluster_id
-  subnets                = var.subnets
-  gm_sg_id               = module.infrastructure.gm_sg_id
-  access_key_arn         = var.access_key_arn
-  secret_access_key_arn  = var.secret_access_key_arn
-  name                   = "edge"
-  control_dns            = module.fabric.control_dns
-  control_port           = 50001
-  aws_region             = var.aws_region
-}
+#module "control-api-sidecar" {
+#  source                 = "./modules/sidecar"
+#  service_role_arn       = local.service_role_arn
+#  execution_role_arn     = local.execution_role_arn
+#  docker_secret_arn      = var.docker_secret_arn
+#  vpc_id                 = var.vpc_id
+#  cluster_id             = module.infrastructure.gm_cluster_id
+#  subnets                = var.subnets
+#  gm_sg_id               = module.infrastructure.gm_sg_id
+#  access_key_arn         = var.access_key_arn
+#  secret_access_key_arn  = var.secret_access_key_arn
+#  name                   = "control-api"
+#  control_dns            = module.fabric.control_dns
+#  control_port           = 50001
+#  aws_region             = var.aws_region
+#}
+#
+#module "edge" {
+#  source                 = "./modules/sidecar"
+#  service_role_arn       = local.service_role_arn
+#  execution_role_arn     = local.execution_role_arn
+#  docker_secret_arn      = var.docker_secret_arn
+#  vpc_id                 = var.vpc_id
+#  cluster_id             = module.infrastructure.gm_cluster_id
+#  subnets                = var.subnets
+#  gm_sg_id               = module.infrastructure.gm_sg_id
+#  access_key_arn         = var.access_key_arn
+#  secret_access_key_arn  = var.secret_access_key_arn
+#  name                   = "edge"
+#  control_dns            = module.fabric.control_dns
+#  control_port           = 50001
+#  aws_region             = var.aws_region
+#}

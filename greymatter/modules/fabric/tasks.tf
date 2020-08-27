@@ -5,7 +5,7 @@ resource "aws_ecs_task_definition" "control-api" {
   family                   = "control-api"
   container_definitions    = local.control_api_container
   requires_compatibilities = ["EC2"]
-  network_mode             = "bridge"
+  network_mode             = "awsvpc"
   cpu                      = "128"
   memory                   = "128"
   execution_role_arn       = var.execution_role_arn
@@ -16,12 +16,11 @@ resource "aws_ecs_task_definition" "control" {
   family                   = "control"
   container_definitions    = local.control_container
   requires_compatibilities = ["EC2"]
-  network_mode             = "bridge"
+  network_mode             = "awsvpc"
   cpu                      = "128"
   memory                   = "128"
   execution_role_arn       = var.execution_role_arn
   task_role_arn            = var.execution_role_arn
-  depends_on               = [aws_lb.control-api]
 }
 
 # task defs with variables defined here:
@@ -51,7 +50,7 @@ locals {
         "environment": [
             {
                 "name": "GM_CONTROL_API_USE_TLS",
-                "value": "false"
+                "value": "true"
             },
             {
                 "name": "GM_CONTROL_API_LOG_LEVEL",
@@ -164,7 +163,7 @@ locals {
         },
         {
             "name": "GM_CONTROL_API_SSL",
-            "value": "false"
+            "value": "true"
         },
         {
             "name": "GM_CONTROL_API_SSLCERT",
@@ -180,7 +179,7 @@ locals {
         },
         {
             "name": "GM_CONTROL_API_HOST",
-            "value": "${aws_lb.control-api.dns_name}:5555"
+            "value": "control-api.greymatter.dev:5555"
         },
         {
             "name": "GM_CONTROL_ECS_AWS_REGION",
@@ -192,7 +191,7 @@ locals {
         },
         {
             "name": "GM_CONTROL_XDS_RESOLVE_DNS",
-            "value": "true"
+            "value": "false"
         },
         {
             "name": "GM_CONTROL_XDS_ENABLE_REST",
