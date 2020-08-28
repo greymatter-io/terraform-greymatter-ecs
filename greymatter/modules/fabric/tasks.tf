@@ -51,7 +51,7 @@ locals {
         "environment": [
             {
                 "name": "GM_CONTROL_API_USE_TLS",
-                "value": "false"
+                "value": "true"
             },
             {
                 "name": "GM_CONTROL_API_LOG_LEVEL",
@@ -164,7 +164,7 @@ locals {
         },
         {
             "name": "GM_CONTROL_API_SSL",
-            "value": "false"
+            "value": "true"
         },
         {
             "name": "GM_CONTROL_API_SSLCERT",

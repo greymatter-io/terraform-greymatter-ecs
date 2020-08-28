@@ -1,6 +1,20 @@
 
 # load balancers
 
+# certificate
+
+resource "aws_iam_server_certificate" "greymatter_cert" {
+  name_prefix      = "quickstart-cert"
+  certificate_chain = file("./certs/quickstart.ca.pem")
+  certificate_body = file("./certs/quickstart.crt.pem")
+  private_key      = file("./certs/quickstart.key.pem")
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+
 #   control-api
 resource "aws_lb" "control-api" {
     name = "control-api"
@@ -33,6 +47,7 @@ resource "aws_lb_listener" "control-api" {
   port              = "5555"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn = aws_iam_server_certificate.greymatter_cert.arn
 
   default_action {
     type             = "forward"
@@ -73,6 +88,7 @@ resource "aws_lb_listener" "control" {
   port              = 50001
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn = aws_iam_server_certificate.greymatter_cert.arn
 
   default_action {
     type             = "forward"
