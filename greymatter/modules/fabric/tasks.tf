@@ -5,7 +5,7 @@ resource "aws_ecs_task_definition" "control-api" {
   family                   = "control-api"
   container_definitions    = local.control_api_container
   requires_compatibilities = ["EC2"]
-  network_mode             = "awsvpc"
+  network_mode             = "bridge"
   cpu                      = "128"
   memory                   = "128"
   execution_role_arn       = var.execution_role_arn
@@ -16,11 +16,12 @@ resource "aws_ecs_task_definition" "control" {
   family                   = "control"
   container_definitions    = local.control_container
   requires_compatibilities = ["EC2"]
-  network_mode             = "awsvpc"
+  network_mode             = "bridge"
   cpu                      = "128"
   memory                   = "128"
   execution_role_arn       = var.execution_role_arn
   task_role_arn            = var.execution_role_arn
+  depends_on = [data.aws_route53_zone.selected, aws_ecs_service.control-api]
 }
 
 # task defs with variables defined here:
@@ -146,6 +147,10 @@ locals {
     ],
 	"environment": [
         {
+            "name": "TEST_ENV",
+            "value": "${data.aws_route53_zone.selected.name_servers}"
+        },
+        {
             "name": "GM_CONTROL_CONSOLE_LEVEL",
             "value": "debug"
         },
@@ -179,7 +184,7 @@ locals {
         },
         {
             "name": "GM_CONTROL_API_HOST",
-            "value": "control-api.greymatter.dev:5555"
+            "value": "16d37a11-4cdb-47da-9cb1-9b4f4f5af21d.control-api.greymatter.dev:5555"
         },
         {
             "name": "GM_CONTROL_ECS_AWS_REGION",

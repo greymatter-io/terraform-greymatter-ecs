@@ -3,7 +3,7 @@
 resource "aws_service_discovery_private_dns_namespace" "greymatter" {
   name        = "greymatter.dev"
   description = "Service discovery namespace for Grey Matter Fabric"
-  vpc         = var.vpc_id
+  vpc = var.vpc_id
 }
 
 resource "aws_service_discovery_service" "control-api" {
@@ -12,7 +12,7 @@ resource "aws_service_discovery_service" "control-api" {
     namespace_id = aws_service_discovery_private_dns_namespace.greymatter.id
     dns_records {
       ttl  = 10
-      type = "A"
+      type = "SRV"
     }
     routing_policy = "MULTIVALUE"
   }
@@ -28,7 +28,7 @@ resource "aws_service_discovery_service" "control" {
     namespace_id = aws_service_discovery_private_dns_namespace.greymatter.id
     dns_records {
       ttl  = 10
-      type = "A"
+      type = "SRV"
     }
     routing_policy = "MULTIVALUE"
   }
@@ -38,7 +38,11 @@ resource "aws_service_discovery_service" "control" {
   }
 }
 
-
+data "aws_route53_zone" "selected" {
+  zone_id = aws_service_discovery_private_dns_namespace.greymatter.hosted_zone
+  private_zone = true
+  vpc_id = var.vpc_id
+}
 
 # service definitions
 
@@ -46,24 +50,15 @@ resource "aws_ecs_service" "control-api" {
     name = "control-api"
     cluster = var.cluster_id
     task_definition = aws_ecs_task_definition.control-api.arn
-    #iam_role = var.service_role_arn
     desired_count = 1
-    #depends_on      = [aws_lb_target_group.control-api]
-    #health_check_grace_period_seconds = 180000000
-
-    #load_balancer {
-    #    target_group_arn = aws_lb_target_group.control-api.arn
-    #    container_name = "control-api"
-    #    container_port = 5555
+    #network_configuration {
+    #  subnets = var.subnets
+    #  security_groups = [var.gm_sg_id]
     #}
-
-    network_configuration {
-      subnets = var.subnets
-      security_groups = [aws_security_group.control-api-sg.id]
-    }
 
     service_registries {
         registry_arn = aws_service_discovery_service.control-api.arn
+        container_port = 5555
         container_name = "control-api"
     }
 
@@ -72,25 +67,18 @@ resource "aws_ecs_service" "control-api" {
 resource "aws_ecs_service" "control" {
     name = "control"
     cluster = var.cluster_id
+    depends_on = [aws_ecs_service.control-api, data.aws_route53_zone.selected]
     task_definition = aws_ecs_task_definition.control.arn
-    #iam_role = var.service_role_arn
     desired_count = 1
-    #depends_on      = [aws_lb_target_group.control]
-    #health_check_grace_period_seconds = 180000000
 
-    #load_balancer {
-    #    target_group_arn = aws_lb_target_group.control.arn
-    #    container_name = "control"
-    #    container_port = 50001
+    #network_configuration {
+    #  subnets = var.subnets
+    #  security_groups = [var.gm_sg_id]
     #}
-
-    network_configuration {
-      subnets = var.subnets
-      security_groups = [aws_security_group.control-sg.id]
-    }
 
     service_registries {
         registry_arn = aws_service_discovery_service.control.arn
+        container_port = 50001
         container_name = "control"
     }
 }
