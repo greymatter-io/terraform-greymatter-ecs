@@ -21,7 +21,6 @@ resource "aws_ecs_task_definition" "control" {
   memory                   = "128"
   execution_role_arn       = var.execution_role_arn
   task_role_arn            = var.execution_role_arn
-  depends_on = [data.aws_route53_zone.selected, aws_ecs_service.control-api]
 }
 
 # task defs with variables defined here:
@@ -146,10 +145,6 @@ locals {
         }
     ],
 	"environment": [
-        {
-            "name": "TEST_ENV",
-            "value": "${data.aws_route53_zone.selected.name_servers}"
-        },
         {
             "name": "GM_CONTROL_CONSOLE_LEVEL",
             "value": "debug"
