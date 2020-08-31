@@ -124,6 +124,22 @@ resource "aws_autoscaling_group" "ecs-autoscaling-group" {
   service_linked_role_arn = var.autoscaling_service_role_arn
 }
 
+
+resource "aws_instance" "bastion-instance" {
+  ami           = "ami-00b7bbb0f21c54d1c"
+  instance_type = "t2.micro"
+
+  subnet_id = var.public_subnet1
+
+  vpc_security_group_ids = [aws_security_group.gm-sg.id]
+
+  key_name = var.key_pair_name
+
+  tags = {
+    Name = "bastion-instance"
+  }
+}
+
 resource "aws_cloudwatch_log_group" "greymatter-logs" {
   name = "greymatter"
 }

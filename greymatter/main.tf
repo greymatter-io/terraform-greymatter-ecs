@@ -11,7 +11,8 @@ module "infrastructure" {
   cluster_name                 = var.cluster_name
   key_pair_name                = var.key_pair_name
   autoscaling_service_role_arn = local.autoscaling_service_role_arn
-  subnets                      = var.subnets
+  subnets                      = var.public_subnets
+  public_subnet1               = var.public_subnets[0]
   vpc_id                       = var.vpc_id
 }
 
@@ -23,7 +24,7 @@ module "fabric" {
   docker_secret_arn      = var.docker_secret_arn
   vpc_id                 = var.vpc_id
   cluster_id             = module.infrastructure.gm_cluster_id
-  subnets                = var.subnets
+  subnets                = var.private_subnets
   gm_sg_id               = module.infrastructure.gm_sg_id
   access_key_arn         = var.access_key_arn
   secret_access_key_arn  = var.secret_access_key_arn

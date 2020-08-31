@@ -11,7 +11,8 @@ variable "key_pair_name" {
   type    = string
 }
 
-variable "subnets" {}
+variable "public_subnets" {}
+variable "private_subnets" {}
 
 variable "access_key_arn" {}
 

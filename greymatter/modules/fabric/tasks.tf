@@ -5,7 +5,7 @@ resource "aws_ecs_task_definition" "control-api" {
   family                   = "control-api"
   container_definitions    = local.control_api_container
   requires_compatibilities = ["EC2"]
-  network_mode             = "bridge"
+  network_mode             = "awsvpc"
   cpu                      = "128"
   memory                   = "128"
   execution_role_arn       = var.execution_role_arn
@@ -16,7 +16,7 @@ resource "aws_ecs_task_definition" "control" {
   family                   = "control"
   container_definitions    = local.control_container
   requires_compatibilities = ["EC2"]
-  network_mode             = "bridge"
+  network_mode             = "awsvpc"
   cpu                      = "128"
   memory                   = "128"
   execution_role_arn       = var.execution_role_arn
@@ -179,7 +179,7 @@ locals {
         },
         {
             "name": "GM_CONTROL_API_HOST",
-            "value": "16d37a11-4cdb-47da-9cb1-9b4f4f5af21d.control-api.greymatter.dev:5555"
+            "value": "control-api.greymatter.dev:5555"
         },
         {
             "name": "GM_CONTROL_ECS_AWS_REGION",
