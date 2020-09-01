@@ -45,7 +45,7 @@ locals {
         "entryPoint": [
         "sh",
         "-c",
-        "set -ueo pipefail; mkdir /control-plane/certificates; echo $CA_B64 | base64 -d > /control-plane/certificates/ca.crt; echo $CERT_B64 | base64 -d > /control-plane/certificates/server.crt; echo $KEY_B64 | base64 -d > /control-plane/certificates/server.key; ./gm-control-api"
+        "set -ueo pipefail; mkdir /control-plane/certificates; echo ${base64encode(file("./certs/control-api/ca.crt"))} | base64 -d > /control-plane/certificates/ca.crt; echo ${base64encode(file("./certs/control-api/cert.crt"))} | base64 -d > /control-plane/certificates/server.crt; echo ${base64encode(file("./certs/control-api/key.crt"))} | base64 -d > /control-plane/certificates/server.key; ./gm-control-api"
         ],
         "environment": [
             {
@@ -87,18 +87,6 @@ locals {
             {
                 "name": "GM_CONTROL_API_PERSISTER_TYPE",
                 "value": "file"
-            },
-            {
-                "name": "CERT_B64",
-                "value": "${var.cert_base64}"
-            },
-            {
-                "name": "KEY_B64",
-                "value": "${var.key_base64}"
-            },
-            {
-                "name": "CA_B64",
-                "value": "${var.ca_base64}"
             }
         ],
         "image": "docker.greymatter.io/development/gm-control-api:latest",
@@ -132,7 +120,7 @@ locals {
     "entryPoint": [
     "sh",
     "-c",
-    "set -ueo pipefail; mkdir /gm-control/certificates; echo $CERT_B64 | base64 -d > /gm-control/certificates/server.crt; echo $KEY_B64 | base64 -d > /gm-control/certificates/server.key; /usr/local/bin/gm-control.sh"
+    "set -ueo pipefail; mkdir /gm-control/certificates; echo ${base64encode(file("./certs/control/cert.crt"))} | base64 -d > /gm-control/certificates/server.crt; echo ${base64encode(file("./certs/control/key.crt"))} | base64 -d > /gm-control/certificates/server.key; /usr/local/bin/gm-control.sh"
     ],
     "secrets": [
         {
@@ -196,14 +184,6 @@ locals {
         {
             "name": "GM_CONTROL_XDS_ENABLE_REST",
             "value": "true"
-        }, 
-        {
-            "name": "CERT_B64",
-            "value": "${var.cert_base64}"
-        },
-        {
-            "name": "KEY_B64",
-            "value": "${var.key_base64}"
         }
 	],
 	"image": "docker.greymatter.io/development/gm-control:latest",

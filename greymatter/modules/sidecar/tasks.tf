@@ -29,6 +29,11 @@ locals {
                 "awslogs-stream-prefix": "${var.name}-sidecar"
             }
         },
+        "entryPoint": [
+        "sh",
+        "-c",
+        "set -ueo pipefail; mkdir /app/certificates; echo ${base64encode(file("./certs/sidecar/ca.crt"))} | base64 -d > /app/certificates/ca.crt; echo ${base64encode(file("./certs/sidecar/cert.crt"))} | base64 -d > /app/certificates/server.crt; echo ${base64encode(file("./certs/sidecar/key.crt"))} | base64 -d > /app/certificates/server.key; ./gm-proxy -c config.yaml"
+        ],
         "environment": [
             {
                 "name": "PROXY_REST_DYNAMIC",

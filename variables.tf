@@ -18,10 +18,6 @@ variable "access_key_arn" {}
 
 variable "secret_access_key_arn" {}
 
-variable "ca_base64" {}
-variable "cert_base64" {}
-variable "key_base64" {}
-
 variable "dns_ns_name" {
   default = "greymatter.ecs"
 }
