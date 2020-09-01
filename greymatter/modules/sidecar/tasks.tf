@@ -5,7 +5,7 @@ resource "aws_ecs_task_definition" "sidecar-task" {
   family                   = "${var.name}-sidecar"
   container_definitions    = local.sidecar_container
   requires_compatibilities = ["EC2"]
-  network_mode             = "bridge"
+  network_mode             = "awsvpc"
   cpu                      = "128"
   memory                   = "128"
   execution_role_arn       = var.execution_role_arn
@@ -40,7 +40,7 @@ locals {
             },
             {
                 "name": "XDS_HOST",
-                "value": "${var.control_dns}"
+                "value": "control.${var.dns_ns_name}"
             },
             {
                 "name": "XDS_PORT",

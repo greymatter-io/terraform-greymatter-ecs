@@ -8,7 +8,7 @@ variable "sidecar_port" {
   default = 10808
 }
 
-variable "control_dns" {}
+variable "dns_ns_name" {}
 
 variable "control_port" {}
 

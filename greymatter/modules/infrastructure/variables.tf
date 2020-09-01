@@ -15,4 +15,14 @@ variable "subnets" {
 variable "vpc_id" {
 }
 
-variable "public_subnet1" {}
+variable "instance_type" {
+  default = "t3.xlarge"
+}
+
+variable "max_instances" {
+  default = 3
+}
+
+variable "min_instances" {
+  default = 0
+}

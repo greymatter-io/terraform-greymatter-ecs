@@ -58,7 +58,7 @@ data "aws_ami" "ecs" {
 resource "aws_launch_configuration" "ecs-launch-configuration" {
   name                 = "ecs-launch-configuration"
   image_id             = "ami-00b7bbb0f21c54d1c"
-  instance_type        = "t2.small"
+  instance_type        = var.instance_type
   iam_instance_profile = aws_iam_instance_profile.ecs_agent.name
 
   lifecycle {
@@ -106,9 +106,9 @@ resource "aws_iam_instance_profile" "ecs_agent" {
 
 resource "aws_autoscaling_group" "ecs-autoscaling-group" {
   name                 = "ecs-autoscaling-group"
-  max_size             = "1"
-  min_size             = "0"
-  desired_capacity     = "1"
+  max_size             = var.max_instances
+  min_size             = var.min_instances
+  desired_capacity     = var.max_instances
   vpc_zone_identifier  = var.subnets
   launch_configuration = aws_launch_configuration.ecs-launch-configuration.name
   health_check_type    = "EC2"
@@ -122,22 +122,6 @@ resource "aws_autoscaling_group" "ecs-autoscaling-group" {
     }
   ]
   service_linked_role_arn = var.autoscaling_service_role_arn
-}
-
-
-resource "aws_instance" "bastion-instance" {
-  ami           = "ami-00b7bbb0f21c54d1c"
-  instance_type = "t2.micro"
-
-  subnet_id = var.public_subnet1
-
-  vpc_security_group_ids = [aws_security_group.gm-sg.id]
-
-  key_name = var.key_pair_name
-
-  tags = {
-    Name = "bastion-instance"
-  }
 }
 
 resource "aws_cloudwatch_log_group" "greymatter-logs" {

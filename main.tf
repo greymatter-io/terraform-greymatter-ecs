@@ -97,4 +97,5 @@ module "greymatter" {
   key_base64                   = var.key_base64 
   cert_base64                  = var.cert_base64
   aws_region                   = var.aws_region
+  dns_ns_name                  = var.dns_ns_name
 }

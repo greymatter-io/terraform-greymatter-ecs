@@ -25,3 +25,5 @@ variable "aws_region" {}
 variable "ca_base64" {}
 variable "cert_base64" {}
 variable "key_base64" {}
+
+variable "dns_ns_name" {}
