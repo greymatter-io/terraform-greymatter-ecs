@@ -48,7 +48,7 @@ resource "aws_ecs_service" "control-api" {
     desired_count = 1
     network_configuration {
       subnets = var.subnets
-      security_groups = [var.gm_sg_id]
+      security_groups = [aws_security_group.control-api-sg.id]
     }
 
     service_registries {
@@ -66,7 +66,7 @@ resource "aws_ecs_service" "control" {
 
     network_configuration {
       subnets = var.subnets
-      security_groups = [var.gm_sg_id]
+      security_groups = [aws_security_group.control-sg.id]
     }
 
     service_registries {

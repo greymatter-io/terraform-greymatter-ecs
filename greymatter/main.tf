@@ -11,7 +11,7 @@ module "infrastructure" {
   cluster_name                 = var.cluster_name
   key_pair_name                = var.key_pair_name
   autoscaling_service_role_arn = local.autoscaling_service_role_arn
-  subnets                      = var.public_subnets
+  subnets                      = concat(var.public_subnets, var.private_subnets)
   public_subnet1               = var.public_subnets[0]
   vpc_id                       = var.vpc_id
 }
