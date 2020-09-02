@@ -57,7 +57,7 @@ data "aws_ami" "ecs" {
 # TODO add size, instances variables
 resource "aws_launch_configuration" "ecs-launch-configuration" {
   name                 = "ecs-launch-configuration"
-  image_id             = "ami-0e2efdaddecea9838"
+  image_id             = var.optimized_ami
   instance_type        = var.instance_type
   iam_instance_profile = aws_iam_instance_profile.ecs_agent.name
 

@@ -96,4 +96,5 @@ module "greymatter" {
   dns_ns_name                  = var.dns_ns_name
   kms_ssm_arn                  = var.kms_ssm_arn
   kms_secretsmanager_arn       = var.kms_secretsmanager_arn
+  optimized_ami                = var.optimized_ami
 }

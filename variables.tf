@@ -36,3 +36,7 @@ variable "kms_ssm_arn" {
 variable "kms_secretsmanager_arn" {
   description = "ARN of Key Management Service AWS managed key with alias aws/secretsmanager. Find it here: `aws kms describe-key --key-id alias/aws/secretsmanager`."
 }
+
+variable "optimized_ami" {
+  description = "ECS Optimized AMI for region - found here: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html"
+}
