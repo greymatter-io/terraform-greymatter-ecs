@@ -31,3 +31,7 @@ variable "access_key_arn" {}
 variable "secret_access_key_arn" {}
 
 variable "dns_ns_name" {}
+
+variable "cluster_name" {
+  default = "gm-cluster"
+}

@@ -30,7 +30,7 @@ data "template_file" "ecs-cluster" {
   template = file("${path.module}/ecs-cluster.tpl")
 
   vars = {
-    ecs_cluster = "gm-cluster"
+    ecs_cluster = "${var.cluster_name}"
   }
 }
 
@@ -121,7 +121,8 @@ resource "aws_autoscaling_group" "ecs-autoscaling-group" {
       propagate_at_launch = true
     }
   ]
-  service_linked_role_arn = var.autoscaling_service_role_arn
+  depends_on = [aws_iam_service_linked_role.service-role-for-autoscaling]
+  service_linked_role_arn = aws_iam_service_linked_role.service-role-for-autoscaling.arn
 }
 
 resource "aws_cloudwatch_log_group" "greymatter-logs" {
