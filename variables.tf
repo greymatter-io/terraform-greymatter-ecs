@@ -26,6 +26,7 @@ variable "aws_region" {
 
 variable "dns_ns_name" {
   description = "Desired domain name for new Route 53 Hosted Zone"
+  default = "greymatter.dev"
 }
 
 variable "kms_ssm_arn" {

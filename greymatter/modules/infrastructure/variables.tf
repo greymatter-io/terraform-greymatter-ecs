@@ -1,18 +1,25 @@
+variable "vpc_id" {
+  type = string
+  description = "ID for the VPC to launch Grey Matter ECS Cluster"
+}
+
 variable "cluster_name" {
+  default = "gm-cluster"
+  description = "Name of the Grey Matter ECS Cluster"
 }
 
 variable "key_pair_name" {
-  type = string
+  type    = string
+  description = "Existing AWS Key Pair for EC2 Instances"
 }
 
 variable "subnets" {
-}
-
-variable "vpc_id" {
+  description = "List of all subnets, private and public, in the VPC"
 }
 
 variable "instance_type" {
   default = "t3.xlarge"
+  description = "Instance type for EC2 instances."
 }
 
 variable "max_instances" {
@@ -23,9 +30,22 @@ variable "min_instances" {
   default = 0
 }
 
-variable "kms_ssm_arn" {}
-variable "kms_secretsmanager_arn" {}
+variable "access_key_arn" {
+  description = "ARN of existing Systems Manager Parameter for AWS Access Key (see README)"
+}
 
-variable "docker_secret_arn" {}
-variable "access_key_arn" {}
-variable "secret_access_key_arn" {}
+variable "secret_access_key_arn" {
+  description = "ARN of existing Systems Manager parameter for AWS Secret Access Key (see README)"
+}
+
+variable "docker_secret_arn" {
+  description = "ARN of existing Secrets Manager secret containing docker credentials (see README)"
+}
+
+variable "kms_ssm_arn" {
+  description = "ARN of Key Management Service AWS managed key with alias aws/ssm. Find it here: `aws kms describe-key --key-id alias/aws/ssm`."
+}
+
+variable "kms_secretsmanager_arn" {
+  description = "ARN of Key Management Service AWS managed key with alias aws/secretsmanager. Find it here: `aws kms describe-key --key-id alias/aws/secretsmanager`."
+}
