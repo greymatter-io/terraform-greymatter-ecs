@@ -1,10 +1,9 @@
 variable "cluster_name" {
-  default = "gm-cluster"
+  default     = "gm-cluster"
   description = "Name of the Grey Matter ECS Cluster"
 }
 
 variable "key_pair_name" {
-  type    = string
   description = "Existing AWS Key Pair for EC2 Instances"
 }
 
@@ -26,7 +25,7 @@ variable "aws_region" {
 
 variable "dns_ns_name" {
   description = "Desired domain name for new Route 53 Hosted Zone"
-  default = "greymatter.dev"
+  default     = "greymatter.dev"
 }
 
 variable "kms_ssm_arn" {
