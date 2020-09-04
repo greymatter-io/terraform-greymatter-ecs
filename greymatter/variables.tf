@@ -1,24 +1,24 @@
 
 variable "vpc_id" {
-  type = string
   description = "ID for the VPC to launch Grey Matter ECS Cluster"
 }
 
 variable "cluster_name" {
-  default = "gm-cluster"
+  default     = "gm-cluster"
   description = "Name of the Grey Matter ECS Cluster"
 }
 
 variable "key_pair_name" {
-  type    = string
   description = "Existing AWS Key Pair for EC2 Instances"
 }
 
 variable "public_subnets" {
+  type        = list(string)
   description = "List of public subnet ids in VPC"
 }
 
 variable "private_subnets" {
+  type        = list(string)
   description = "List of private subnet ids in VPC"
 }
 

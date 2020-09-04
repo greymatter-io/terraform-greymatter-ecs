@@ -1,10 +1,9 @@
 variable "cluster_name" {
-  default = "gm-cluster"
+  default     = "gm-cluster"
   description = "Name of the Grey Matter ECS Cluster"
 }
 
 variable "vpc_id" {
-  type = string
   description = "ID for the VPC of the Grey Matter ECS Cluster"
 }
 
@@ -13,16 +12,16 @@ variable "aws_region" {
 }
 
 variable "execution_role_arn" {
-  type        = string
-  description = "ecsTaskExecutionRole ARN"
-}
-
-variable "docker_secret_arn" {
-  description = "ARN of existing Secrets Manager secret containing docker credentials (see README)"
+  description = "ECS Task Execution Role ARN generated in the infrastructure module."
 }
 
 variable "service_role_arn" {
-  description = "ecsServiceRole ARN"
+  description = "ECS Service Role ARN generated in the infrastructure module."
+}
+
+
+variable "docker_secret_arn" {
+  description = "ARN of existing Secrets Manager secret containing docker credentials (see README)"
 }
 
 variable "cluster_id" {
@@ -30,6 +29,7 @@ variable "cluster_id" {
 }
 
 variable "subnets" {
+  type        = list(string)
   description = "List of private subnet ids in VPC. Fabric tasks must be launched in private subnets (awsvpc network type)."
 }
 

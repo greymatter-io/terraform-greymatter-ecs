@@ -1,5 +1,4 @@
 variable "vpc_id" {
-  type = string
   description = "ID for the VPC of the Grey Matter ECS Cluster"
 }
 
@@ -8,6 +7,7 @@ variable "cluster_id" {
 }
 
 variable "subnets" {
+  type        = list(string)
   description = "List of private subnet ids in VPC. Sidecar tasks must be launched in private subnets (awsvpc network type)."
 }
 
@@ -16,7 +16,7 @@ variable "name" {
 }
 
 variable "sidecar_port" {
-  default = 10808
+  default     = 10808
   description = "The port to use for ingress traffic to the sidecar."
 }
 
@@ -30,11 +30,10 @@ variable "dns_ns_name" {
 
 variable "control_port" {
   description = "The port on which Grey Matter Control is running."
-  default = 50001
+  default     = 50001
 }
 
 variable "execution_role_arn" {
-  type        = string
   description = "ECS Task Execution Role ARN generated in the infrastructure module."
 }
 

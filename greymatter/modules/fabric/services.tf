@@ -3,7 +3,7 @@
 resource "aws_service_discovery_private_dns_namespace" "greymatter" {
   name        = var.dns_ns_name
   description = "Service discovery namespace for Grey Matter Fabric"
-  vpc = var.vpc_id
+  vpc         = var.vpc_id
 }
 
 resource "aws_service_discovery_service" "control-api" {
@@ -42,34 +42,35 @@ resource "aws_service_discovery_service" "control" {
 # service definitions
 
 resource "aws_ecs_service" "control-api" {
-    name = "control-api"
-    cluster = var.cluster_id
-    task_definition = aws_ecs_task_definition.control-api.arn
-    desired_count = 1
-    network_configuration {
-      subnets = var.subnets
-      security_groups = [aws_security_group.control-api-sg.id]
-    }
+  name            = "control-api"
+  cluster         = var.cluster_id
+  task_definition = aws_ecs_task_definition.control-api.arn
+  desired_count   = 1
+  network_configuration {
+    subnets         = var.subnets
+    security_groups = [aws_security_group.control-api-sg.id]
+  }
 
-    service_registries {
-        registry_arn = aws_service_discovery_service.control-api.arn
-    }
+  service_registries {
+    registry_arn = aws_service_discovery_service.control-api.arn
+  }
 
 }
 
 resource "aws_ecs_service" "control" {
-    name = "control"
-    cluster = var.cluster_id
-    depends_on = [aws_ecs_service.control-api]
-    task_definition = aws_ecs_task_definition.control.arn
-    desired_count = 1
+  name            = "control"
+  cluster         = var.cluster_id
+  task_definition = aws_ecs_task_definition.control.arn
+  desired_count   = 1
 
-    network_configuration {
-      subnets = var.subnets
-      security_groups = [aws_security_group.control-sg.id]
-    }
+  network_configuration {
+    subnets         = var.subnets
+    security_groups = [aws_security_group.control-sg.id]
+  }
 
-    service_registries {
-        registry_arn = aws_service_discovery_service.control.arn
-    }
+  service_registries {
+    registry_arn = aws_service_discovery_service.control.arn
+  }
+
+  depends_on = [aws_ecs_service.control-api]
 }

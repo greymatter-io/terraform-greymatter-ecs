@@ -3,7 +3,7 @@
 resource "aws_security_group" "gm-sg" {
   name   = "gm-sg"
   vpc_id = var.vpc_id
-  
+
   ingress {
     from_port   = 22
     to_port     = 22
@@ -40,13 +40,13 @@ data "aws_ami" "ecs" {
   filter {
     name = "name"
     values = [
-      "amzn2-ami-ecs-hvm-2*"] # ECS optimized image
+    "amzn2-ami-ecs-hvm-2*"] # ECS optimized image
   }
 
   filter {
     name = "virtualization-type"
     values = [
-      "hvm"]
+    "hvm"]
   }
 
   owners = [
@@ -121,8 +121,8 @@ resource "aws_autoscaling_group" "ecs-autoscaling-group" {
       propagate_at_launch = true
     }
   ]
-  depends_on = [aws_iam_service_linked_role.service-role-for-autoscaling]
   service_linked_role_arn = aws_iam_service_linked_role.service-role-for-autoscaling.arn
+  depends_on              = [aws_iam_service_linked_role.service-role-for-autoscaling]
 }
 
 resource "aws_cloudwatch_log_group" "greymatter-logs" {
