@@ -3,7 +3,7 @@
 resource "aws_security_group" "gm-sg" {
   name   = "gm-sg"
   vpc_id = var.vpc_id
-  
+
   ingress {
     from_port   = 22
     to_port     = 22
@@ -30,7 +30,7 @@ data "template_file" "ecs-cluster" {
   template = file("${path.module}/ecs-cluster.tpl")
 
   vars = {
-    ecs_cluster = "gm-cluster"
+    ecs_cluster = "${var.cluster_name}"
   }
 }
 
@@ -40,13 +40,13 @@ data "aws_ami" "ecs" {
   filter {
     name = "name"
     values = [
-      "amzn2-ami-ecs-hvm-2*"] # ECS optimized image
+    "amzn2-ami-ecs-hvm-2*"] # ECS optimized image
   }
 
   filter {
     name = "virtualization-type"
     values = [
-      "hvm"]
+    "hvm"]
   }
 
   owners = [
@@ -57,8 +57,8 @@ data "aws_ami" "ecs" {
 # TODO add size, instances variables
 resource "aws_launch_configuration" "ecs-launch-configuration" {
   name                 = "ecs-launch-configuration"
-  image_id             = data.aws_ami.ecs.id
-  instance_type        = "t2.small"
+  image_id             = var.optimized_ami
+  instance_type        = var.instance_type
   iam_instance_profile = aws_iam_instance_profile.ecs_agent.name
 
   lifecycle {
@@ -106,9 +106,9 @@ resource "aws_iam_instance_profile" "ecs_agent" {
 
 resource "aws_autoscaling_group" "ecs-autoscaling-group" {
   name                 = "ecs-autoscaling-group"
-  max_size             = "1"
-  min_size             = "0"
-  desired_capacity     = "1"
+  max_size             = var.max_instances
+  min_size             = var.min_instances
+  desired_capacity     = var.max_instances
   vpc_zone_identifier  = var.subnets
   launch_configuration = aws_launch_configuration.ecs-launch-configuration.name
   health_check_type    = "EC2"
@@ -121,7 +121,8 @@ resource "aws_autoscaling_group" "ecs-autoscaling-group" {
       propagate_at_launch = true
     }
   ]
-  service_linked_role_arn = var.autoscaling_service_role_arn
+  service_linked_role_arn = aws_iam_service_linked_role.service-role-for-autoscaling.arn
+  depends_on              = [aws_iam_service_linked_role.service-role-for-autoscaling]
 }
 
 resource "aws_cloudwatch_log_group" "greymatter-logs" {

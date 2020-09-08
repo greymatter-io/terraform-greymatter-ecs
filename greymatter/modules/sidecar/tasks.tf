@@ -5,7 +5,7 @@ resource "aws_ecs_task_definition" "sidecar-task" {
   family                   = "${var.name}-sidecar"
   container_definitions    = local.sidecar_container
   requires_compatibilities = ["EC2"]
-  network_mode             = "bridge"
+  network_mode             = "awsvpc"
   cpu                      = "128"
   memory                   = "128"
   execution_role_arn       = var.execution_role_arn
@@ -29,6 +29,11 @@ locals {
                 "awslogs-stream-prefix": "${var.name}-sidecar"
             }
         },
+        "entryPoint": [
+        "sh",
+        "-c",
+        "set -ueo pipefail; mkdir /app/certificates; echo ${base64encode(file("./certs/sidecar/ca.crt"))} | base64 -d > /app/certificates/ca.crt; echo ${base64encode(file("./certs/sidecar/cert.crt"))} | base64 -d > /app/certificates/server.crt; echo ${base64encode(file("./certs/sidecar/key.crt"))} | base64 -d > /app/certificates/server.key; ./gm-proxy -c config.yaml"
+        ],
         "environment": [
             {
                 "name": "PROXY_REST_DYNAMIC",
@@ -40,7 +45,7 @@ locals {
             },
             {
                 "name": "XDS_HOST",
-                "value": "${var.control_dns}"
+                "value": "control.${var.dns_ns_name}"
             },
             {
                 "name": "XDS_PORT",

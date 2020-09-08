@@ -5,7 +5,7 @@ resource "aws_ecs_task_definition" "control-api" {
   family                   = "control-api"
   container_definitions    = local.control_api_container
   requires_compatibilities = ["EC2"]
-  network_mode             = "bridge"
+  network_mode             = "awsvpc"
   cpu                      = "128"
   memory                   = "128"
   execution_role_arn       = var.execution_role_arn
@@ -16,12 +16,11 @@ resource "aws_ecs_task_definition" "control" {
   family                   = "control"
   container_definitions    = local.control_container
   requires_compatibilities = ["EC2"]
-  network_mode             = "bridge"
+  network_mode             = "awsvpc"
   cpu                      = "128"
   memory                   = "128"
   execution_role_arn       = var.execution_role_arn
   task_role_arn            = var.execution_role_arn
-  depends_on               = [aws_lb.control-api]
 }
 
 # task defs with variables defined here:
@@ -43,10 +42,15 @@ locals {
         },
         "name": "control-api",
         "essential": true,
+        "entryPoint": [
+        "sh",
+        "-c",
+        "set -ueo pipefail; mkdir /control-plane/certificates; echo ${base64encode(file("./certs/control-api/ca.crt"))} | base64 -d > /control-plane/certificates/ca.crt; echo ${base64encode(file("./certs/control-api/cert.crt"))} | base64 -d > /control-plane/certificates/server.crt; echo ${base64encode(file("./certs/control-api/key.crt"))} | base64 -d > /control-plane/certificates/server.key; ./gm-control-api"
+        ],
         "environment": [
             {
                 "name": "GM_CONTROL_API_USE_TLS",
-                "value": "false"
+                "value": "true"
             },
             {
                 "name": "GM_CONTROL_API_LOG_LEVEL",
@@ -69,6 +73,18 @@ locals {
                 "value": "zone-default-zone"
             },
             {
+                "name": "GM_CONTROL_API_SERVER_CERT_PATH",
+                "value": "/control-plane/certificates/server.crt"
+            },
+            {
+                "name": "GM_CONTROL_API_SERVER_KEY_PATH",
+                "value": "/control-plane/certificates/server.key"
+            },
+            {
+                "name": "GM_CONTROL_API_CA_CERT_PATH",
+                "value": "/control-plane/certificates/ca.crt"
+            },
+            {
                 "name": "GM_CONTROL_API_PERSISTER_TYPE",
                 "value": "file"
             }
@@ -79,9 +95,9 @@ locals {
         },
         "portMappings": [
             {
+            "hostPort": 5555,
             "containerPort": 5555,
-            "protocol": "tcp",
-            "hostPort": 5555
+            "protocol": "tcp"
             }
         ]
     }
@@ -101,6 +117,11 @@ locals {
             "awslogs-stream-prefix": "control"
         }
     },
+    "entryPoint": [
+    "sh",
+    "-c",
+    "set -ueo pipefail; mkdir /gm-control/certificates; echo ${base64encode(file("./certs/control/cert.crt"))} | base64 -d > /gm-control/certificates/server.crt; echo ${base64encode(file("./certs/control/key.crt"))} | base64 -d > /gm-control/certificates/server.key; /usr/local/bin/gm-control.sh"
+    ],
     "secrets": [
         {
             "name": "GM_CONTROL_ECS_AWS_ACCESS_KEY_ID",
@@ -130,7 +151,15 @@ locals {
         },
         {
             "name": "GM_CONTROL_API_SSL",
-            "value": "false"
+            "value": "true"
+        },
+        {
+            "name": "GM_CONTROL_API_SSLCERT",
+            "value": "/gm-control/certificates/server.crt"
+        },
+        {
+            "name": "GM_CONTROL_API_SSLKEY",
+            "value": "/gm-control/certificates/server.key"
         },
         {
             "name": "GM_CONTROL_CMD",
@@ -138,19 +167,19 @@ locals {
         },
         {
             "name": "GM_CONTROL_API_HOST",
-            "value": "${aws_lb.control-api.dns_name}:5555"
+            "value": "control-api.${var.dns_ns_name}:5555"
         },
         {
             "name": "GM_CONTROL_ECS_AWS_REGION",
-            "value": "us-east-2"
+            "value": "${var.aws_region}"
         },
         {
             "name": "GM_CONTROL_ECS_CLUSTERS",
-            "value": "gm-cluster"
+            "value": "${var.cluster_name}"
         },
         {
             "name": "GM_CONTROL_XDS_RESOLVE_DNS",
-            "value": "true"
+            "value": "false"
         },
         {
             "name": "GM_CONTROL_XDS_ENABLE_REST",
@@ -163,7 +192,7 @@ locals {
 	},
 	"portMappings": [
             {
-		"hostPort": 50001,
+        "hostPort": 50001,
 		"containerPort": 50001,
 		"protocol": "tcp"
             }
