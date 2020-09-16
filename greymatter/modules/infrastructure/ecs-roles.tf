@@ -97,7 +97,7 @@ data "aws_iam_policy_document" "docker_policy" {
       "secretsmanager:GetSecretValue"
     ]
     resources = [
-      "${var.docker_secret_arn}",
+      "${aws_secretsmanager_secret.docker_gm.arn}",
       "${var.kms_secretsmanager_arn}"
     ]
   }

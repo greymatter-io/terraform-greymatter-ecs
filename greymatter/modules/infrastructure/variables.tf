@@ -37,10 +37,6 @@ variable "secret_access_key_arn" {
   description = "ARN of existing Systems Manager parameter for AWS Secret Access Key (see README)"
 }
 
-variable "docker_secret_arn" {
-  description = "ARN of existing Secrets Manager secret containing docker credentials (see README)"
-}
-
 variable "kms_ssm_arn" {
   description = "ARN of Key Management Service AWS managed key with alias aws/ssm. Find it here: `aws kms describe-key --key-id alias/aws/ssm`."
 }
@@ -51,4 +47,13 @@ variable "kms_secretsmanager_arn" {
 
 variable "optimized_ami" {
   description = "ECS Optimized AMI for region - found here: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html"
+}
+
+variable "docker_gm_credentials" {
+  default = {
+    key1 = "username"
+    key2 = "password"
+  }
+  description = "Docker credentials for greymatter nexus repository"
+  type = map(string)
 }
