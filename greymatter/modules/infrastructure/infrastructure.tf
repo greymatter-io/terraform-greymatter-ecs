@@ -30,9 +30,7 @@ data "template_file" "ecs-cluster" {
   template = file("${path.module}/ecs-cluster.tpl")
 
   vars = {
-    ecs_cluster = "${var.cluster_name}"
-    docker_user = "${lookup(var.docker_gm_credentials, "username", "")}"
-    docker_password = "${lookup(var.docker_gm_credentials, "password", "")}" 
+    ecs_cluster = "${var.cluster_name}" 
   }
 }
 
@@ -133,7 +131,7 @@ resource "aws_cloudwatch_log_group" "greymatter-logs" {
 
 # create docker credentials secret (replaces docker_secret_arn var)
 resource "aws_secretsmanager_secret" "docker_gm" {
-  name = "gm-docker-secret"
+  name_prefix = "gm-docker-secret"
 }
 
 resource "aws_secretsmanager_secret_version" "docker_gm" {

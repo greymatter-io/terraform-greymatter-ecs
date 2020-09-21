@@ -1,8 +1,8 @@
 
 # task definitions
 
-resource "aws_ecs_task_definition" "sidecar-task" {
-  family                   = "${var.name}-sidecar"
+resource "aws_ecs_task_definition" "edge-task" {
+  family                   = "edge"
   container_definitions    = local.sidecar_container
   requires_compatibilities = ["EC2"]
   network_mode             = "awsvpc"
@@ -20,19 +20,19 @@ locals {
 [
         {
         "memoryReservation": 128,
-        "name": "${var.name}-sidecar",
+        "name": "edge",
         "logConfiguration": {
             "logDriver": "awslogs",
             "options": {
                 "awslogs-group": "greymatter",
                 "awslogs-region": "${var.aws_region}",
-                "awslogs-stream-prefix": "${var.name}-sidecar"
+                "awslogs-stream-prefix": "edge"
             }
         },
         "entryPoint": [
         "sh",
         "-c",
-        "set -ueo pipefail; mkdir /app/certificates; echo ${base64encode(file("./certs/sidecar/ca.crt"))} | base64 -d > /app/certificates/ca.crt; echo ${base64encode(file("./certs/sidecar/cert.crt"))} | base64 -d > /app/certificates/server.crt; echo ${base64encode(file("./certs/sidecar/key.crt"))} | base64 -d > /app/certificates/server.key; ./gm-proxy -c config.yaml"
+        "set -ueo pipefail; mkdir /app/certificates; echo ${base64encode(file("./certs/sidecar/ca.crt"))} | base64 -d > /app/certificates/ca.crt; echo ${base64encode(file("./certs/sidecar/cert.crt"))} | base64 -d > /app/certificates/server.crt; echo ${base64encode(file("./certs/sidecar/key.crt"))} | base64 -d > /app/certificates/server.key; echo ${base64encode(file("./certs/config.yaml"))} | base64 -d > /app/config.yaml; ./gm-proxy -c /app/config.yaml"
         ],
         "environment": [
             {
@@ -41,7 +41,7 @@ locals {
             },
             {
                 "name": "XDS_CLUSTER",
-                "value": "${var.name}"
+                "value": "edge"
             },
             {
                 "name": "XDS_HOST",
@@ -70,7 +70,7 @@ locals {
             "protocol": "tcp"
                 }
         ],
-        "dockerLabels": { "gm-cluster": "${var.name}:${var.sidecar_port}" }
+        "dockerLabels": { "gm-cluster": "edge:${var.sidecar_port}" }
       }
 ]
     DEFINITION

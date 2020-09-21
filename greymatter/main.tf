@@ -47,17 +47,16 @@ module "control-api-sidecar" {
 }
 
 module "edge" {
-  source                = "./modules/sidecar"
+  source                = "./modules/edge"
   service_role_arn      = module.infrastructure.ecs-service-role-arn
   execution_role_arn    = module.infrastructure.ecs-task-execution-role-arn
   docker_secret_arn     = module.infrastructure.docker_secret_arn
   vpc_id                = var.vpc_id
   cluster_id            = module.infrastructure.gm_cluster_id
-  subnets               = var.private_subnets
+  subnets               = var.public_subnets
   gm_sg_id              = module.infrastructure.gm_sg_id
   access_key_arn        = var.access_key_arn
   secret_access_key_arn = var.secret_access_key_arn
-  name                  = "edge"
   control_port          = 50001
   aws_region            = var.aws_region
   dns_ns_name           = var.dns_ns_name

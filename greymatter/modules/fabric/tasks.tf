@@ -167,7 +167,7 @@ locals {
         },
         {
             "name": "GM_CONTROL_API_HOST",
-            "value": "control-api.${var.dns_ns_name}:5555"
+            "value": "control-api.fabric.${var.dns_ns_name}:5555"
         },
         {
             "name": "GM_CONTROL_ECS_AWS_REGION",
