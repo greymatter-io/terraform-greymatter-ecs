@@ -61,3 +61,7 @@ module "edge" {
   aws_region            = var.aws_region
   dns_ns_name           = var.dns_ns_name
 }
+
+output "edge_dns" {
+  value = module.edge.edge_dns
+}

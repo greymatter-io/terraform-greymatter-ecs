@@ -1,0 +1,10 @@
+{
+  "zone_key": "zone-default-zone",
+  "proxy_key": "edge-proxy",
+  "domain_keys": ["edge"],
+  "listener_keys": ["edge-listener"],
+  "name": "edge",
+  "listeners": null,
+  "active_proxy_filters": [],
+  "proxy_filters": {}
+}

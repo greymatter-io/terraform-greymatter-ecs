@@ -45,7 +45,7 @@ locals {
         "entryPoint": [
         "sh",
         "-c",
-        "set -ueo pipefail; mkdir /control-plane/certificates; echo ${base64encode(file("./certs/control-api/ca.crt"))} | base64 -d > /control-plane/certificates/ca.crt; echo ${base64encode(file("./certs/control-api/cert.crt"))} | base64 -d > /control-plane/certificates/server.crt; echo ${base64encode(file("./certs/control-api/key.crt"))} | base64 -d > /control-plane/certificates/server.key; ./gm-control-api"
+        "set -ueo pipefail; mkdir /control-plane/certificates; echo ${base64encode(file("./certs/control-api/ca.crt"))} | base64 -d > /control-plane/certificates/ca.crt; echo ${base64encode(file("./certs/control-api/cert.crt"))} | base64 -d > /control-plane/certificates/server.crt; echo ${base64encode(file("./certs/control-api/key.crt"))} | base64 -d > /control-plane/certificates/server.key; echo ${base64encode(file("./mesh/backup.json"))} | base64 -d > /control-plane/gm_control_api_backend.json; ./gm-control-api"
         ],
         "environment": [
             {
@@ -83,6 +83,10 @@ locals {
             {
                 "name": "GM_CONTROL_API_CA_CERT_PATH",
                 "value": "/control-plane/certificates/ca.crt"
+            },
+            {
+                "name": "GM_CONTROL_API_PERSISTER_PATH",
+                "value": "/control-plane/gm_control_api_backend.json"
             },
             {
                 "name": "GM_CONTROL_API_PERSISTER_TYPE",
@@ -179,7 +183,7 @@ locals {
         },
         {
             "name": "GM_CONTROL_XDS_RESOLVE_DNS",
-            "value": "false"
+            "value": "true"
         },
         {
             "name": "GM_CONTROL_XDS_ENABLE_REST",
