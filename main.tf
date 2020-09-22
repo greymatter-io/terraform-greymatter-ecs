@@ -98,3 +98,7 @@ module "greymatter" {
   optimized_ami          = var.optimized_ami
   docker_gm_credentials  = var.docker_gm_credentials
 }
+
+output "edge_dns" {
+  value = module.greymatter.edge_dns
+}
