@@ -47,7 +47,7 @@ Once you can reach control-api, configure the cli, filling in {edge_dns}:
 ```bash
 export GREYMATTER_API_HOST={edgs_dns}:10808
 export GREYMATTER_API_INSECURE=true
-export GREYMATTER_API_PREFIX=/control-api
+export GREYMATTER_API_PREFIX=/services/control-api/latest
 export GREYMATTER_API_SSL=false
 export GREYMATTER_CONSOLE_LEVEL=debug
 ```

@@ -72,7 +72,7 @@
             "route_key": "edge-control-api-init",
             "domain_key": "edge",
             "zone_key": "zone-default-zone",
-            "path": "/control-api/",
+            "path": "/services/control-api/latest/",
             "prefix_rewrite": "/",
             "redirects": null,
             "rules": [
@@ -102,8 +102,8 @@
             "route_key": "edge-control-api-init-2",
             "domain_key": "edge",
             "zone_key": "zone-default-zone",
-            "path": "/control-api",
-            "prefix_rewrite": "/control-api/",
+            "path": "/services/control-api/latest",
+            "prefix_rewrite": "/services/control-api/latest/",
             "redirects": null,
             "rules": [
                 {

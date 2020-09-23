@@ -1,11 +1,5 @@
 #!/bin/sh
 
-export GREYMATTER_API_HOST=edge-1988872944.us-east-2.elb.amazonaws.com:10808
-export GREYMATTER_API_INSECURE=true
-export GREYMATTER_API_PREFIX=/control-api
-export GREYMATTER_API_SSL=false
-export GREYMATTER_CONSOLE_LEVEL=debug
-
 # control-api sidecar
 greymatter create domain < mesh/control-api/domain/domain.api.json
 greymatter create listener < mesh/control-api/listener/listener.api.json

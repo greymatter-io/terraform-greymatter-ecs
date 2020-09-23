@@ -2,8 +2,8 @@
       "route_key": "edge-control-api-route-slash",
       "domain_key": "edge",
       "zone_key": "zone-default-zone",
-      "path": "/services/control-api",
-      "prefix_rewrite": "/services/control-api/",
+      "path": "/services/control-api/latest",
+      "prefix_rewrite": "/services/control-api/latest/",
       "redirects": null,
       "rules": [
         {
