@@ -40,4 +40,16 @@ When the mesh comes up, the edge dns name should be output. Give the target grou
 
 ### Mesh configs
 
-You should be able to reach control-api through the edge dns name on startup. 
+You should be able to reach control-api through the edge dns name on startup. Once the edge target group registered target is healthy, navigate to `http://{edge-dns}:10808/control-api/` to verify this.
+
+Once you can reach control-api, configure the cli, filling in {edge_dns}:
+
+```bash
+export GREYMATTER_API_HOST={edgs_dns}:10808
+export GREYMATTER_API_INSECURE=true
+export GREYMATTER_API_PREFIX=/control-api
+export GREYMATTER_API_SSL=false
+export GREYMATTER_CONSOLE_LEVEL=debug
+```
+
+and run `./mesh/apply.sh`.  This will apply the proper mesh configs for edge -> control-api through control-api-sidecar, and lock it down with certificates. It will also delete the old routes directly from edge to the control-api-service.
