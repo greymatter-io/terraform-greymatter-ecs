@@ -2,7 +2,7 @@
     "domain_key": "domain-control-api",
     "zone_key": "zone-default-zone",
     "name": "*",
-    "port": 10809,
+    "port": 10808,
     "redirects": null,
     "gzip_enabled": false,
     "cors_config": null,

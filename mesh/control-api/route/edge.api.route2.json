@@ -25,6 +25,12 @@
         }
     ],
       "response_data": {},
+      "request_headers_to_add" : [
+        {
+          "key": "x-forwarded-proto",
+          "value": "https"
+        }
+      ],
       "cohort_seed": null,
       "retry_policy": null
     }

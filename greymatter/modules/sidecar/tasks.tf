@@ -60,7 +60,7 @@ locals {
                 "value": "default"
             }
         ],
-        "image": "docker.greymatter.io/development/gm-proxy:latest",
+        "image": "docker.greymatter.io/development/gm-proxy:1.5.0-dev",
         "repositoryCredentials": {
             "credentialsParameter": "${var.docker_secret_arn}"
         },
