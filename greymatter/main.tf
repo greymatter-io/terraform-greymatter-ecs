@@ -40,7 +40,6 @@ module "control-api-sidecar" {
   subnets               = var.private_subnets
   gm_sg_id              = module.infrastructure.gm_sg_id
   name                  = "control-api"
-  control_port          = 50001
   aws_region            = var.aws_region
   dns_ns_name           = var.dns_ns_name
 }
@@ -54,7 +53,6 @@ module "edge" {
   cluster_id            = module.infrastructure.gm_cluster_id
   subnets               = var.public_subnets
   gm_sg_id              = module.infrastructure.gm_sg_id
-  control_port          = 50001
   aws_region            = var.aws_region
   dns_ns_name           = var.dns_ns_name
 }

@@ -1,6 +1,5 @@
 
-# task definitions
-
+# edge ecs task definition
 resource "aws_ecs_task_definition" "edge-task" {
   family                   = "edge"
   container_definitions    = local.sidecar_container
@@ -12,9 +11,7 @@ resource "aws_ecs_task_definition" "edge-task" {
   task_role_arn            = var.execution_role_arn
 }
 
-# task defs with variables defined here:
-
-
+# edge container definitions
 locals {
   sidecar_container = <<DEFINITION
 [
@@ -49,7 +46,7 @@ locals {
             },
             {
                 "name": "XDS_PORT",
-                "value": "${var.control_port}"
+                "value": "50001"
             },
             {
                 "name": "XDS_ZONE",
@@ -74,5 +71,4 @@ locals {
       }
 ]
     DEFINITION
-
 }

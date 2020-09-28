@@ -1,4 +1,15 @@
-# create ssm parameters for access key and secret access key
+# create docker credentials secret for greymatter nexus
+resource "aws_secretsmanager_secret" "docker_gm" {
+  name_prefix = "gm-docker-secret"
+}
+
+resource "aws_secretsmanager_secret_version" "docker_gm" {
+  secret_id     = aws_secretsmanager_secret.docker_gm.id
+  secret_string = jsonencode(var.docker_gm_credentials)
+}
+
+# create ssm paramters with access key and secret access key
+# for Grey Matter control & infrastructure role policies
 resource "aws_ssm_parameter" "aws_access_key" {
   name        = "greymatter-ecs-aws-access-key"
   description = "AWS Access Key ID for Grey Matter Control"
@@ -19,12 +30,4 @@ data "aws_kms_alias" "ssm" {
 
 data "aws_kms_alias" "secretsmanager" {
   name = "alias/aws/secretsmanager"
-}
-
-output "ssm_access_key_arn" {
-  value = aws_ssm_parameter.aws_access_key.arn
-}
-
-output "ssm_secret_access_key_arn" {
-  value = aws_ssm_parameter.aws_secret_access_key.arn
 }

@@ -1,5 +1,4 @@
-# security groups
-
+# sidecar security group
 resource "aws_security_group" "sidecar-sg" {
   name   = "${var.name}-sidecar-sg"
   vpc_id = var.vpc_id
