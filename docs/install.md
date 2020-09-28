@@ -31,7 +31,7 @@ ec2_max_instances      = <max & desired number of ec2 instances for the ecs clus
 ec2_min_instances      = <min number of ec2 instances for the ecs cluster>
 ```
 
-Note that when specifying ec2 instances and instance type, the ecs tasks will fail if allowed resources are not enough, see [the aws documentation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-eni.html#eni-trunking-supported-instance-types) on resources for instance types.
+Note that when specifying ec2 instances and instance type, the ecs tasks will fail if allowed resources are insufficient. See [the aws documentation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-eni.html#eni-trunking-supported-instance-types) on resources for instance types.
 
 If not specified, they have the following defaults:
 
