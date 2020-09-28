@@ -55,5 +55,5 @@ variable "docker_gm_credentials" {
     key2 = "password"
   }
   description = "Docker credentials for greymatter nexus repository"
-  type = map(string)
+  type        = map(string)
 }

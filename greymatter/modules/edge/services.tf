@@ -19,8 +19,8 @@ resource "aws_ecs_service" "edge" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.edge.arn
-    container_name = "edge"
-    container_port = var.sidecar_port
+    container_name   = "edge"
+    container_port   = var.sidecar_port
   }
 
   depends_on = [aws_lb_target_group.edge]
