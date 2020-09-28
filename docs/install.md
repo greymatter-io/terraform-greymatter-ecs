@@ -19,35 +19,37 @@ aws_secret_access_key  = "<aws secret access key>"
 
 and fill in the values inside of `<>`.
 
-> Note: Optionally, you can also set:
+### Optional environment variables
 
-  ```bash
-  cluster_name           = "<name of Grey Matter ECS cluster to be created>"
-  dns_ns_name            = "<desired domain name for Grey Matter Route 53 Hosted Zones>"
-  ec2_instance_type      = "<ec2 instance type for ecs cluster>"
-  ec2_max_instances      = <max & desired number of ec2 instances for the ecs cluster>
-  ec2_min_instances      = <min number of ec2 instances for the ecs cluster>
-  ```
+Optionally, you can also set:
 
-  Note that when specifying ec2 instances and instance type, the ecs tasks will fail if allowed resources are not enough, see [the aws documentation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-eni.html#eni-trunking-supported-instance-types) on resources for instance types.
+```bash
+cluster_name           = "<name of Grey Matter ECS cluster to be created>"
+dns_ns_name            = "<desired domain name for Grey Matter Route 53 Hosted Zones>"
+ec2_instance_type      = "<ec2 instance type for ecs cluster>"
+ec2_max_instances      = <max & desired number of ec2 instances for the ecs cluster>
+ec2_min_instances      = <min number of ec2 instances for the ecs cluster>
+```
 
-  If not specified, they have the following defaults:
+Note that when specifying ec2 instances and instance type, the ecs tasks will fail if allowed resources are not enough, see [the aws documentation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-eni.html#eni-trunking-supported-instance-types) on resources for instance types.
 
-  ```bash
-  cluster_name           = "gm-cluster"
-  dns_ns_name            = "greymatter.dev"
-  ec2_instance_type      = "t3.xlarge"
-  ec2_max_instances      = 3
-  ec2_min_instances      = 0
-  ```
+If not specified, they have the following defaults:
 
-### Certificates
+```bash
+cluster_name           = "gm-cluster"
+dns_ns_name            = "greymatter.dev"
+ec2_instance_type      = "t3.xlarge"
+ec2_max_instances      = 3
+ec2_min_instances      = 0
+```
+
+## Certificates
 
 SSL will be turned on on the Grey Matter services and sidecars on install, using the certificates specified in the [`gm/certs`](gm/certs) directory. The default certs checked in here are the quickstart certificates. To customize these, replace the content of the `ca.crt`, `cert.crt` and `key.crt` files for the services. Note that they must stay in the same directories and must still be named `ca.crt`, `cert.crt` and `key.crt`.
 
 If you are installing the `greymatter` module into an existing VPC, follow the instructions [below](#grey-matter-module) to set this up.
 
-### Full Installation
+## Full Installation
 
 Save your `gm.tfvars` file in the root directory of this repo and run:
 
@@ -55,7 +57,7 @@ Save your `gm.tfvars` file in the root directory of this repo and run:
 terraform apply -var-file=gm.tfvars
 ```
 
-### Grey Matter Module
+## Grey Matter Module
 
 To install the `greymatter` module into an existing VPC, add the following to your tf code:
 
