@@ -48,11 +48,3 @@ variable "docker_secret_arn" {
 variable "gm_sg_id" {
   description = "ID of the security group for ECS Instances"
 }
-
-variable "access_key_arn" {
-  description = "ARN of existing Systems Manager Parameter for AWS Access Key (see README)"
-}
-
-variable "secret_access_key_arn" {
-  description = "ARN of existing Systems Manager parameter for AWS Secret Access Key (see README)"
-}

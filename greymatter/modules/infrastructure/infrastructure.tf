@@ -139,7 +139,6 @@ resource "aws_secretsmanager_secret_version" "docker_gm" {
   secret_string = jsonencode(var.docker_gm_credentials)
 }
 
-
 # outputs
 output "gm_sg_id" {
   value = aws_security_group.gm-sg.id

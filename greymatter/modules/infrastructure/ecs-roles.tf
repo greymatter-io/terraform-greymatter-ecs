@@ -41,9 +41,9 @@ data "aws_iam_policy_document" "ssm_policy" {
       "kms:Decrypt",
     ]
     resources = [
-      "${var.access_key_arn}",
-      "${var.secret_access_key_arn}",
-      "${var.kms_ssm_arn}"
+      "${aws_ssm_parameter.aws_access_key.arn}",
+      "${aws_ssm_parameter.aws_secret_access_key.arn}",
+      "${data.aws_kms_alias.ssm.arn}"
     ]
   }
 }
@@ -98,7 +98,7 @@ data "aws_iam_policy_document" "docker_policy" {
     ]
     resources = [
       "${aws_secretsmanager_secret.docker_gm.arn}",
-      "${var.kms_secretsmanager_arn}"
+      "${data.aws_kms_alias.secretsmanager.arn}"
     ]
   }
 }

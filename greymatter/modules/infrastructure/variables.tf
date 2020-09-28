@@ -29,22 +29,6 @@ variable "min_instances" {
   default = 0
 }
 
-variable "access_key_arn" {
-  description = "ARN of existing Systems Manager Parameter for AWS Access Key (see README)"
-}
-
-variable "secret_access_key_arn" {
-  description = "ARN of existing Systems Manager parameter for AWS Secret Access Key (see README)"
-}
-
-variable "kms_ssm_arn" {
-  description = "ARN of Key Management Service AWS managed key with alias aws/ssm. Find it here: `aws kms describe-key --key-id alias/aws/ssm`."
-}
-
-variable "kms_secretsmanager_arn" {
-  description = "ARN of Key Management Service AWS managed key with alias aws/secretsmanager. Find it here: `aws kms describe-key --key-id alias/aws/secretsmanager`."
-}
-
 variable "optimized_ami" {
   description = "ECS Optimized AMI for region - found here: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html"
 }
@@ -56,4 +40,12 @@ variable "docker_gm_credentials" {
   }
   description = "Docker credentials for greymatter nexus repository"
   type        = map(string)
+}
+
+variable "aws_access_key_id" {
+  description = "AWS Secret Access Key"
+}
+
+variable "aws_secret_access_key" {
+  description = "AWS Secret Access Key"
 }

@@ -88,14 +88,15 @@ module "greymatter" {
   vpc_id                 = aws_vpc.vpc.id
   public_subnets         = [aws_subnet.public.0.id, aws_subnet.public.1.id]
   private_subnets        = [aws_subnet.private.0.id, aws_subnet.private.1.id]
-  access_key_arn         = var.access_key_arn
-  secret_access_key_arn  = var.secret_access_key_arn
   aws_region             = var.aws_region
   dns_ns_name            = var.dns_ns_name
-  kms_ssm_arn            = var.kms_ssm_arn
-  kms_secretsmanager_arn = var.kms_secretsmanager_arn
   optimized_ami          = var.optimized_ami
   docker_gm_credentials  = var.docker_gm_credentials
+  aws_access_key_id      = var.aws_access_key_id
+  aws_secret_access_key  = var.aws_secret_access_key
+  ec2_instance_type      = var.ec2_instance_type
+  ec2_max_instances      = var.ec2_max_instances
+  ec2_min_instances      = var.ec2_min_instances
 }
 
 output "edge_dns" {
