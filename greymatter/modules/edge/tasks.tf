@@ -70,8 +70,7 @@ locals {
             "protocol": "tcp",
             "hostPort": ${var.sidecar_port}
                 }
-        ],
-        "dockerLabels": { "gm-cluster": "edge:${var.sidecar_port}" }
+        ]
       }
 ]
     DEFINITION

@@ -11,8 +11,8 @@ Grey Matter Terraform Code to Deploy Grey Matter using AWS ECS
 3. Run `aws kms describe-key --key-id alias/aws/secretsmanager`, copy the Arn and set it as variable `kms_secretsmanager_arn`.
 
 4. Get the ecs optimized ami for your region [here](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html), and set its id as variable `optimized_ami`.
-   
-5. If you're running the `greymatter` module on its own, you will need to create a directory `gm` wherever you are running `terraform apply` from, that has subdirectories `certs` and `mesh`. Copy [this file](./gm) for defaults. If you want to use certs that are not the quickstart, replace them in the corresponding service directories.
+
+5. If you're running the `greymatter` module on its own, you will need to create a directory `gm` wherever you are running `terraform apply` from,  subdirectories `certs` and `mesh`. Copy [this file](./gm) for defaults. If you want to use certs that are not the quickstart, replace them in the corresponding service directories.
 
 Look through the remaining [variables](greymatter/variables.tf) and make sure to enter the correct values.
 
