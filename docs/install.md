@@ -8,7 +8,7 @@ There are several options for installing. This repo contains a full installation
 
 Create a file `gm.tfvars` that looks like the following:
 
-```bash
+```hcl
 aws_region             = "<aws region to install>"
 key_pair_name          = "<existing key pair name for ssh>"
 optimized_ami          = "<ecs optimized ami id for your region - found [here](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux)>"
@@ -23,7 +23,7 @@ and fill in the values inside of `<>`.
 
 Optionally, you can also set:
 
-```bash
+```hcl
 cluster_name           = "<name of Grey Matter ECS cluster to be created>"
 dns_ns_name            = "<desired domain name for Grey Matter Route 53 Hosted Zones>"
 ec2_instance_type      = "<ec2 instance type for ecs cluster>"
@@ -35,7 +35,7 @@ Note that when specifying ec2 instances and instance type, the ecs tasks will fa
 
 If not specified, they have the following defaults:
 
-```bash
+```hcl
 cluster_name           = "gm-cluster"
 dns_ns_name            = "greymatter.dev"
 ec2_instance_type      = "t3.xlarge"
