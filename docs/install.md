@@ -47,7 +47,7 @@ ec2_min_instances      = 0
 
 TLS will be turned on for the Grey Matter services and sidecars upon install. We use the certificates specified in the [`gm/certs`](gm/certs) directory. The default certs checked in here are self-signed certificates not suitable for production. To customize these, replace the content of the `ca.crt`, `cert.crt` and `key.crt` files for the services. Note that they must stay in the same directories and must still be named `ca.crt`, `cert.crt` and `key.crt`.
 
-If you are installing the `greymatter` module into an existing VPC, follow the instructions [below](#grey-matter-module) to set this up.
+If you are installing the `greymatter` module into an existing VPC, follow the instructions [below](#grey-matter-module).
 
 ## Full Installation
 
