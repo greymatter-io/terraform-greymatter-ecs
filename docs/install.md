@@ -57,6 +57,8 @@ Save your `gm.tfvars` file in the root directory of this repo and run:
 terraform apply -var-file=gm.tfvars
 ```
 
+Next, [configure the mesh](#configure-the-mesh).
+
 ## Grey Matter Module
 
 To install the `greymatter` module into an existing VPC, add the following to your tf code:
@@ -118,6 +120,8 @@ To install, run:
 ```bash
 terraform apply -var-file=gm.tfvars
 ```
+
+then, [configure the mesh](#configure-the-mesh).
 
 ### Configure the Mesh
 
