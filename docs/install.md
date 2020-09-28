@@ -66,15 +66,15 @@ To install the `greymatter` module into an existing VPC, add the following to yo
 ```tf
 module "greymatter" {
   source                 = "git::ssh://git@github.com/greymatter-io/terraform-greymatter-ecs//greymatter?ref=master"
-  key_pair_name          = var.key_pair_name
+  key_pair_name          = "<existing key pair name for ssh>"
   vpc_id                 = "<id of existing vpc to install in>"
   public_subnets         = <list of existing public subnets of vpc>
   private_subnets        = <list of existing private subnets of vpc>
-  aws_region             = var.aws_region
-  optimized_ami          = var.optimized_ami
-  docker_gm_credentials  = var.docker_gm_credentials
-  aws_access_key_id      = var.aws_access_key_id
-  aws_secret_access_key  = var.aws_secret_access_key
+  aws_region             = "<aws region to install>"
+  optimized_ami          = "<ecs optimized ami id for your region - found [here](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux)>"
+  docker_gm_credentials  = { "username" : "<greymatter nexus email>", "password" : "<greymatter nexus password>" }
+  aws_access_key_id      = "<aws_access_key_id>"
+  aws_secret_access_key  = "<aws_secret_access_key>"
 }
 
 output "gm_edge_dns" {
@@ -82,16 +82,15 @@ output "gm_edge_dns" {
 }
 ```
 
-> Note: if you specified any of the optional variables, include them in the module in the form `<var_name> = var.<var_name>`.
+> Note: if you want to specify any [optional variables](#optional-environment-variables), include them in the module in the form `<var_name> = <value>`.
 
-Before installing, you **must** copy the [`gm`](gm) directory into the location you are running `terraform apply` from. You can replace the certificates with your own as per [these instructions](#certificates).
+**Before installing, you must** copy the [`gm`](gm) directory into the location you are running `terraform apply` from. You can replace the certificates with your own as per [these instructions](#certificates).
 
 For the following command, the directory structure should look like:
 
 ```bash
 /
 ├── your-terraform.tf
-├── gm.tfvars
 ├── gm
 │   ├── certs
 │       ├── control
@@ -118,7 +117,7 @@ For the following command, the directory structure should look like:
 To install, run:
 
 ```bash
-terraform apply -var-file=gm.tfvars
+terraform apply
 ```
 
 then, [configure the mesh](#configure-the-mesh).
