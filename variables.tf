@@ -33,7 +33,7 @@ variable "kms_secretsmanager_arn" {
 }
 
 variable "optimized_ami" {
-  description = "ECS Optimized AMI for region - found here: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html"
+  description = "ECS Optimized AMI for region - found here: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux"
 }
 
 variable "docker_gm_credentials" {

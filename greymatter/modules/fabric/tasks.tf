@@ -45,7 +45,7 @@ locals {
         "entryPoint": [
         "sh",
         "-c",
-        "set -ueo pipefail; mkdir /control-plane/certificates; echo ${base64encode(file("./certs/control-api/ca.crt"))} | base64 -d > /control-plane/certificates/ca.crt; echo ${base64encode(file("./certs/control-api/cert.crt"))} | base64 -d > /control-plane/certificates/server.crt; echo ${base64encode(file("./certs/control-api/key.crt"))} | base64 -d > /control-plane/certificates/server.key; echo ${base64encode(file("./mesh/backup.json"))} | base64 -d > /control-plane/gm_control_api_backend.json; ./gm-control-api"
+        "set -ueo pipefail; mkdir /control-plane/certificates; echo ${base64encode(file("./gm/certs/control-api/ca.crt"))} | base64 -d > /control-plane/certificates/ca.crt; echo ${base64encode(file("./gm/certs/control-api/cert.crt"))} | base64 -d > /control-plane/certificates/server.crt; echo ${base64encode(file("./gm/certs/control-api/key.crt"))} | base64 -d > /control-plane/certificates/server.key; echo ${base64encode(file("${path.module}/mesh/backup.json"))} | base64 -d > /control-plane/gm_control_api_backend.json; ./gm-control-api"
         ],
         "environment": [
             {
@@ -124,7 +124,7 @@ locals {
     "entryPoint": [
     "sh",
     "-c",
-    "set -ueo pipefail; mkdir /gm-control/certificates; echo ${base64encode(file("./certs/control/cert.crt"))} | base64 -d > /gm-control/certificates/server.crt; echo ${base64encode(file("./certs/control/key.crt"))} | base64 -d > /gm-control/certificates/server.key; /usr/local/bin/gm-control.sh"
+    "set -ueo pipefail; mkdir /gm-control/certificates; echo ${base64encode(file("./gm/certs/control/cert.crt"))} | base64 -d > /gm-control/certificates/server.crt; echo ${base64encode(file("./gm/certs/control/key.crt"))} | base64 -d > /gm-control/certificates/server.key; /usr/local/bin/gm-control.sh"
     ],
     "secrets": [
         {

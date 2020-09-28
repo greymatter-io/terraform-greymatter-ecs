@@ -10,6 +10,10 @@ Grey Matter Terraform Code to Deploy Grey Matter using AWS ECS
 
 3. Run `aws kms describe-key --key-id alias/aws/secretsmanager`, copy the Arn and set it as variable `kms_secretsmanager_arn`.
 
+4. Get the ecs optimized ami for your region [here](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html), and set its id as variable `optimized_ami`.
+   
+5. If you're running the `greymatter` module on its own, you will need to create a directory `gm` wherever you are running `terraform apply` from, that has subdirectories `certs` and `mesh`. Copy [this file](./gm) for defaults. If you want to use certs that are not the quickstart, replace them in the corresponding service directories.
+
 Look through the remaining [variables](greymatter/variables.tf) and make sure to enter the correct values.
 
 ## Install
@@ -23,7 +27,7 @@ aws_region             = "{region}"
 key_pair_name          = "{name of existing keypair for ssh}"
 kms_ssm_arn            = "{output of step 3 in pre-install}"
 kms_secretsmanager_arn = "{output of step 4 in pre-install}"
-optimized_ami          = "{ecs optimized ami - found [here](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html) }"
+optimized_ami          = "{ecs optimized ami - found [here](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux) }"
 docker_gm_credentials  = {"username": "{greymatter-nexus-email}", "password": "{greymatter-nexus-password}"}
 ```
 
@@ -49,4 +53,4 @@ export GREYMATTER_API_SSL=false
 export GREYMATTER_CONSOLE_LEVEL=debug
 ```
 
-and run `./mesh/apply.sh`.  This will apply the proper mesh configs for edge -> control-api-sidecar -> control-api through with ssl. It will also delete the old routes directly from edge to control-api-service. The CLI should still be properly configured.
+and run `./gm/mesh/apply.sh`.  This will apply the proper mesh configs for edge -> control-api-sidecar -> control-api through with ssl. It will also delete the old routes directly from edge to control-api-service. The CLI should still be properly configured.
