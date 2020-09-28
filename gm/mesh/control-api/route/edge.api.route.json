@@ -1,0 +1,36 @@
+{
+    "route_key": "edge-control-api-route",
+    "domain_key": "edge",
+    "zone_key": "zone-default-zone",
+    "path": "/services/control-api/latest/",
+    "prefix_rewrite": "/",
+    "redirects": null,
+    "rules": [
+        {
+            "rule_key": "edge-to-api",
+            "constraints": {
+                "light": [
+                  {
+                    "constraint_key": "",
+                    "cluster_key": "edge-to-control-api-cluster",
+                    "metadata": null,
+                    "properties": null,
+                    "response_data": {},
+                    "weight": 1
+                  }
+                ],
+                "dark": null,
+                "tap": null
+            }
+        }
+    ],
+    "response_data": {},
+    "cohort_seed": null,
+    "request_headers_to_add" : [
+      {
+        "key": "x-forwarded-proto",
+        "value": "https"
+      }
+    ],
+    "retry_policy": null
+}

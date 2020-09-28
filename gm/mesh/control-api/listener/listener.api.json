@@ -1,0 +1,11 @@
+{
+    "listener_key": "listener-control-api",
+    "zone_key": "zone-default-zone",
+    "name": "control-api",
+    "ip": "0.0.0.0",
+    "port": 10808,
+    "protocol": "http_auto",
+    "domain_keys": ["domain-control-api"],
+    "tracing_config": null,
+    "http_filters": {}
+}

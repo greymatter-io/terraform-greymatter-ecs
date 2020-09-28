@@ -1,7 +1,7 @@
 # service discovery
 
 resource "aws_service_discovery_private_dns_namespace" "greymatter" {
-  name        = var.dns_ns_name
+  name        = "fabric.${var.dns_ns_name}"
   description = "Service discovery namespace for Grey Matter Fabric"
   vpc         = var.vpc_id
 }

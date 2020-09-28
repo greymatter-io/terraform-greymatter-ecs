@@ -129,6 +129,17 @@ resource "aws_cloudwatch_log_group" "greymatter-logs" {
   name = "greymatter"
 }
 
+# create docker credentials secret (replaces docker_secret_arn var)
+resource "aws_secretsmanager_secret" "docker_gm" {
+  name_prefix = "gm-docker-secret"
+}
+
+resource "aws_secretsmanager_secret_version" "docker_gm" {
+  secret_id     = aws_secretsmanager_secret.docker_gm.id
+  secret_string = jsonencode(var.docker_gm_credentials)
+}
+
+
 # outputs
 output "gm_sg_id" {
   value = aws_security_group.gm-sg.id
@@ -136,4 +147,8 @@ output "gm_sg_id" {
 
 output "gm_cluster_id" {
   value = aws_ecs_cluster.gm-cluster.id
+}
+
+output "docker_secret_arn" {
+  value = aws_secretsmanager_secret.docker_gm.arn
 }

@@ -90,10 +90,14 @@ module "greymatter" {
   private_subnets        = [aws_subnet.private.0.id, aws_subnet.private.1.id]
   access_key_arn         = var.access_key_arn
   secret_access_key_arn  = var.secret_access_key_arn
-  docker_secret_arn      = var.docker_secret_arn
   aws_region             = var.aws_region
   dns_ns_name            = var.dns_ns_name
   kms_ssm_arn            = var.kms_ssm_arn
   kms_secretsmanager_arn = var.kms_secretsmanager_arn
   optimized_ami          = var.optimized_ami
+  docker_gm_credentials  = var.docker_gm_credentials
+}
+
+output "edge_dns" {
+  value = module.greymatter.edge_dns
 }

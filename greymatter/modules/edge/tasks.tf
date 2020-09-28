@@ -1,8 +1,8 @@
 
 # task definitions
 
-resource "aws_ecs_task_definition" "sidecar-task" {
-  family                   = "${var.name}-sidecar"
+resource "aws_ecs_task_definition" "edge-task" {
+  family                   = "edge"
   container_definitions    = local.sidecar_container
   requires_compatibilities = ["EC2"]
   network_mode             = "awsvpc"
@@ -20,13 +20,13 @@ locals {
 [
         {
         "memoryReservation": 128,
-        "name": "${var.name}-sidecar",
+        "name": "edge",
         "logConfiguration": {
             "logDriver": "awslogs",
             "options": {
                 "awslogs-group": "greymatter",
                 "awslogs-region": "${var.aws_region}",
-                "awslogs-stream-prefix": "${var.name}-sidecar"
+                "awslogs-stream-prefix": "edge"
             }
         },
         "entryPoint": [
@@ -41,7 +41,7 @@ locals {
             },
             {
                 "name": "XDS_CLUSTER",
-                "value": "${var.name}"
+                "value": "edge"
             },
             {
                 "name": "XDS_HOST",
@@ -67,10 +67,10 @@ locals {
         "portMappings": [
                 {
             "containerPort": ${var.sidecar_port},
-            "protocol": "tcp"
+            "protocol": "tcp",
+            "hostPort": ${var.sidecar_port}
                 }
-        ],
-        "dockerLabels": { "gm-cluster": "${var.name}:${var.sidecar_port}" }
+        ]
       }
 ]
     DEFINITION
