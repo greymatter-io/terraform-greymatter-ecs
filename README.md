@@ -33,7 +33,7 @@ To install the mesh:
 terraform apply -var-file=varfile.tfvars
 ```
 
-When applied, the edge dns name should be output. Give the target group ~10 min to register the edge service target before moving on to the next step.
+When applied, the edge dns name should be output. Give the target group a few minutes to register the edge service target before moving on to the next step.
 
 ### Mesh configs
 
