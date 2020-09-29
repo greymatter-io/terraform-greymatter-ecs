@@ -1,35 +1,9 @@
-variable "cluster_name" {
-  default     = "gm-cluster"
-  description = "Name of the Grey Matter ECS Cluster"
-}
-
-variable "key_pair_name" {
-  description = "Existing AWS Key Pair for EC2 Instances"
-}
-
-variable "access_key_arn" {
-  description = "ARN of existing Systems Manager Parameter for AWS Access Key (see README)"
-}
-
-variable "secret_access_key_arn" {
-  description = "ARN of existing Systems Manager parameter for AWS Secret Access Key (see README)"
-}
-
 variable "aws_region" {
   description = "AWS Region"
 }
 
-variable "dns_ns_name" {
-  description = "Desired domain name for new Route 53 Hosted Zone"
-  default     = "greymatter.dev"
-}
-
-variable "kms_ssm_arn" {
-  description = "ARN of Key Management Service AWS managed key with alias aws/ssm. Find it here: `aws kms describe-key --key-id alias/aws/ssm`."
-}
-
-variable "kms_secretsmanager_arn" {
-  description = "ARN of Key Management Service AWS managed key with alias aws/secretsmanager. Find it here: `aws kms describe-key --key-id alias/aws/secretsmanager`."
+variable "key_pair_name" {
+  description = "Existing AWS Key Pair for EC2 Instances"
 }
 
 variable "optimized_ami" {
@@ -37,10 +11,39 @@ variable "optimized_ami" {
 }
 
 variable "docker_gm_credentials" {
-  default = {
-    key1 = "username"
-    key2 = "password"
-  }
   description = "Docker credentials for greymatter nexus repository"
   type        = map(string)
+}
+
+variable "aws_access_key_id" {
+  description = "AWS Secret Access Key"
+}
+
+variable "aws_secret_access_key" {
+  description = "AWS Secret Access Key"
+}
+
+# optional vars
+
+variable "cluster_name" {
+  default     = "gm-cluster"
+  description = "Name of the Grey Matter ECS Cluster"
+}
+
+variable "dns_ns_name" {
+  description = "Desired domain name for new Route 53 Hosted Zone"
+  default     = "greymatter.dev"
+}
+
+variable "ec2_instance_type" {
+  default     = "t3.xlarge"
+  description = "Instance type for EC2 instances."
+}
+
+variable "ec2_max_instances" {
+  default = 3
+}
+
+variable "ec2_min_instances" {
+  default = 0
 }

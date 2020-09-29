@@ -1,4 +1,4 @@
-# ECS Service Role
+# ECS Service Role - will be used by all ecs services
 resource "aws_iam_role" "ecs-service-role" {
   name               = "gm-ecs-service-role"
   path               = "/"
@@ -16,7 +16,6 @@ data "aws_iam_policy_document" "ecs-service-assume-policy" {
   }
 }
 
-# attach managed
 resource "aws_iam_role_policy_attachment" "ecs-service-role-managed-attachment" {
   role       = aws_iam_role.ecs-service-role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole"
@@ -28,7 +27,6 @@ resource "aws_iam_policy" "ecs-policy-ssm" {
   policy      = data.aws_iam_policy_document.ssm_policy.json
 }
 
-# attach ssm
 resource "aws_iam_role_policy_attachment" "ecs-service-role-ssm-attachment" {
   role       = aws_iam_role.ecs-service-role.name
   policy_arn = aws_iam_policy.ecs-policy-ssm.arn
@@ -41,14 +39,14 @@ data "aws_iam_policy_document" "ssm_policy" {
       "kms:Decrypt",
     ]
     resources = [
-      "${var.access_key_arn}",
-      "${var.secret_access_key_arn}",
-      "${var.kms_ssm_arn}"
+      "${aws_ssm_parameter.aws_access_key.arn}",
+      "${aws_ssm_parameter.aws_secret_access_key.arn}",
+      "${data.aws_kms_alias.ssm.arn}"
     ]
   }
 }
 
-# ECS Task Execution Role
+# ECS Task Execution Role - will be used by all ecs tasks
 resource "aws_iam_role" "ecs-task-execution-role" {
   name               = "gm-ecs-task-execution-role"
   path               = "/"
@@ -66,19 +64,16 @@ data "aws_iam_policy_document" "ecs-task-execution-role-assume-policy" {
   }
 }
 
-# attach managed
 resource "aws_iam_role_policy_attachment" "ecs-task-execution-role-managed-attachment" {
   role       = aws_iam_role.ecs-task-execution-role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
-# attach ssm policy
 resource "aws_iam_role_policy_attachment" "ecs-task-execution-role-ssm-policy-attachment" {
   role       = aws_iam_role.ecs-task-execution-role.name
   policy_arn = aws_iam_policy.ecs-policy-ssm.arn
 }
 
-# attach secretsmanager policy
 resource "aws_iam_role_policy_attachment" "ecs-task-execution-role-secrets-policy-attachment" {
   role       = aws_iam_role.ecs-task-execution-role.name
   policy_arn = aws_iam_policy.ecs-policy-secretsmanager.arn
@@ -98,22 +93,40 @@ data "aws_iam_policy_document" "docker_policy" {
     ]
     resources = [
       "${aws_secretsmanager_secret.docker_gm.arn}",
-      "${var.kms_secretsmanager_arn}"
+      "${data.aws_kms_alias.secretsmanager.arn}"
     ]
   }
 }
 
-# AutoScaling Service Role
+# AutoScaling Service Role - used for infrastructure autoscaling group
 resource "aws_iam_service_linked_role" "service-role-for-autoscaling" {
   aws_service_name = "autoscaling.amazonaws.com"
   custom_suffix    = "gm-ecs"
 }
 
-# outputs
-output "ecs-service-role-arn" {
-  value = aws_iam_role.ecs-service-role.arn
+# Ecs Agent IAM role - used for infrastructure launch config
+data "aws_iam_policy_document" "ecs_agent" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com", "ecs.amazonaws.com"]
+    }
+  }
 }
 
-output "ecs-task-execution-role-arn" {
-  value = aws_iam_role.ecs-task-execution-role.arn
+resource "aws_iam_role" "ecs_agent" {
+  name               = "ecs-agent"
+  assume_role_policy = data.aws_iam_policy_document.ecs_agent.json
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_agent" {
+  role       = aws_iam_role.ecs_agent.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
+}
+
+resource "aws_iam_instance_profile" "ecs_agent" {
+  name = "ecs-agent"
+  role = aws_iam_role.ecs_agent.name
 }

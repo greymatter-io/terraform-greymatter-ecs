@@ -1,7 +1,6 @@
 
 
-# service definition
-
+# sidecar ecs service
 resource "aws_ecs_service" "sidecar" {
   name            = "${var.name}-sidecar"
   cluster         = var.cluster_id

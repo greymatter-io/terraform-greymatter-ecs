@@ -1,5 +1,4 @@
-# security groups
-
+# edge security group
 resource "aws_security_group" "edge-sg" {
   name   = "edge-sg"
   vpc_id = var.vpc_id

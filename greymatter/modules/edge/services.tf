@@ -1,11 +1,4 @@
-
-
-# service definition
-
-resource "aws_route53_zone" "gm" {
-  name = var.dns_ns_name
-}
-
+# edge ecs service, linked to edge lb
 resource "aws_ecs_service" "edge" {
   name            = "edge"
   cluster         = var.cluster_id
@@ -26,6 +19,12 @@ resource "aws_ecs_service" "edge" {
   depends_on = [aws_lb_target_group.edge]
 }
 
+# public route53 zone creating ingress into mesh
+resource "aws_route53_zone" "gm" {
+  name = var.dns_ns_name
+}
+
+# route53 record for edge for easier ingress
 resource "aws_route53_record" "edge" {
   zone_id = aws_route53_zone.gm.id
   name    = "edge.${var.dns_ns_name}"

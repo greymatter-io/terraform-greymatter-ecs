@@ -1,2 +1,9 @@
 #!/bin/bash
-echo ECS_CLUSTER=${ecs_cluster} >> /etc/ecs/ecs.config;echo ECS_BACKEND_HOST= >> /etc/ecs/ecs.config;echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config;echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config;echo ECS_AVAILABLE_LOGGING_DRIVERS='["awslogs"]' >> /etc/ecs/ecs.config;echo ECS_AWSVPC_BLOCK_IMDS=false >> /etc/ecs/ecs.config;echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
+export ECS_CONFIG=/etc/ecs/ecs.config
+echo ECS_CLUSTER=${ecs_cluster} >> $ECS_CONFIG
+echo ECS_BACKEND_HOST= >> $ECS_CONFIG
+echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> $ECS_CONFIG
+echo ECS_ENABLE_TASK_IAM_ROLE=true >> $ECS_CONFIG
+echo ECS_AVAILABLE_LOGGING_DRIVERS='["awslogs"]' >> $ECS_CONFIG
+echo ECS_AWSVPC_BLOCK_IMDS=false >> $ECS_CONFIG
+echo ECS_ENABLE_CONTAINER_METADATA=true >> $ECS_CONFIG

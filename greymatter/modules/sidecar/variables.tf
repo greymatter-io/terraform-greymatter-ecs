@@ -1,3 +1,8 @@
+
+variable "aws_region" {
+  description = "AWS Region"
+}
+
 variable "vpc_id" {
   description = "ID for the VPC of the Grey Matter ECS Cluster"
 }
@@ -13,24 +18,6 @@ variable "subnets" {
 
 variable "name" {
   description = "Unique name for the sidecar - this is what will be used for discovery"
-}
-
-variable "sidecar_port" {
-  default     = 10808
-  description = "The port to use for ingress traffic to the sidecar."
-}
-
-variable "aws_region" {
-  description = "AWS Region"
-}
-
-variable "dns_ns_name" {
-  description = "Domain name for the Route 53 Hosted Zone to find and connect to Grey Matter Control"
-}
-
-variable "control_port" {
-  description = "The port on which Grey Matter Control is running."
-  default     = 50001
 }
 
 variable "execution_role_arn" {
@@ -49,10 +36,14 @@ variable "gm_sg_id" {
   description = "ID of the security group for ECS Instances"
 }
 
-variable "access_key_arn" {
-  description = "ARN of existing Systems Manager Parameter for AWS Access Key (see README)"
+# optional vars
+
+variable "dns_ns_name" {
+  description = "Domain name of the route53 zone to reach Grey Matter fabric (will be prefixed with 'fabric.')"
+  default     = "greymatter.dev"
 }
 
-variable "secret_access_key_arn" {
-  description = "ARN of existing Systems Manager parameter for AWS Secret Access Key (see README)"
+variable "sidecar_port" {
+  default     = 10808
+  description = "The port to use for ingress traffic to the sidecar."
 }

@@ -4,12 +4,13 @@ module "infrastructure" {
   key_pair_name          = var.key_pair_name
   subnets                = concat(var.public_subnets, var.private_subnets)
   vpc_id                 = var.vpc_id
-  kms_ssm_arn            = var.kms_ssm_arn
-  kms_secretsmanager_arn = var.kms_secretsmanager_arn
-  access_key_arn         = var.access_key_arn
-  secret_access_key_arn  = var.secret_access_key_arn
   optimized_ami          = var.optimized_ami
   docker_gm_credentials  = var.docker_gm_credentials
+  aws_access_key_id      = var.aws_access_key_id
+  aws_secret_access_key  = var.aws_secret_access_key
+  instance_type          = var.ec2_instance_type
+  max_instances          = var.ec2_max_instances
+  min_instances          = var.ec2_min_instances
 }
 
 
@@ -23,8 +24,8 @@ module "fabric" {
   cluster_id            = module.infrastructure.gm_cluster_id
   subnets               = var.private_subnets
   gm_sg_id              = module.infrastructure.gm_sg_id
-  access_key_arn        = var.access_key_arn
-  secret_access_key_arn = var.secret_access_key_arn
+  access_key_arn        = module.infrastructure.ssm_access_key_arn
+  secret_access_key_arn = module.infrastructure.ssm_secret_access_key_arn
   aws_region            = var.aws_region
   dns_ns_name           = var.dns_ns_name
 }
@@ -38,10 +39,7 @@ module "control-api-sidecar" {
   cluster_id            = module.infrastructure.gm_cluster_id
   subnets               = var.private_subnets
   gm_sg_id              = module.infrastructure.gm_sg_id
-  access_key_arn        = var.access_key_arn
-  secret_access_key_arn = var.secret_access_key_arn
   name                  = "control-api"
-  control_port          = 50001
   aws_region            = var.aws_region
   dns_ns_name           = var.dns_ns_name
 }
@@ -55,9 +53,6 @@ module "edge" {
   cluster_id            = module.infrastructure.gm_cluster_id
   subnets               = var.public_subnets
   gm_sg_id              = module.infrastructure.gm_sg_id
-  access_key_arn        = var.access_key_arn
-  secret_access_key_arn = var.secret_access_key_arn
-  control_port          = 50001
   aws_region            = var.aws_region
   dns_ns_name           = var.dns_ns_name
 }
