@@ -29,12 +29,24 @@ resource "aws_lb_target_group" "edge" {
 resource "aws_lb_listener" "edge" {
   load_balancer_arn = aws_lb.edge.arn
   port              = var.sidecar_port
-  protocol          = "HTTP"
-  # TODO eventually add ssl
-  #ssl_policy        = "ELBSecurityPolicy-2016-08"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn = aws_iam_server_certificate.ingress_cert.arn
 
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.edge.arn
   }
 }
+
+resource "aws_iam_server_certificate" "ingress_cert" {
+  name_prefix      = "gm-ecs-ingress-cert"
+  certificate_chain = file("./gm/certs/edge/ca.pem")
+  certificate_body = file("./gm/certs/edge/cert.pem")
+  private_key      = file("./gm/certs/edge/key.pem")
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
