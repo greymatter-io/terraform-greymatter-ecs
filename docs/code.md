@@ -30,6 +30,6 @@ The edge load balancer uses the certificates from `gm/certs/edge` directory for 
 
 The sidecar module is a reusable module that creates a sidecar for the service specified with variable `name`. Its ECS task definition specifies `dockerLabels`, with key `gm-cluster` and value `${var.name}:${var.sidecar_port}` so that it's instances will be discovered by gm-control.
 
-### SSL
+### TLS
 
-SSL is set for ingress into the edge load balancer in `greymatter/modules/edge/load_balancer.tf`.  For service to service ssl, docker volumes are mounted directly into each ecs task container definition from the `gm/certs` directory.  To see how this is done check the `entryPoint` for any of the gm ecs task container defs.
+TLS is set for ingress into the edge load balancer in `greymatter/modules/edge/load_balancer.tf`.  For service to service tls, docker volumes are mounted directly into each ecs task container definition from the `gm/certs` directory.  To see how this is done check the `entryPoint` for any of the gm ecs task container defs.
