@@ -6,6 +6,8 @@ There are several options for installing. This repo contains a full installation
 
 ## Environment
 
+> Note: If you are using the [greymatter standalone module](#grey-matter-module), you will specify these variables in the module.
+
 Create a file `gm.tfvars` that looks like the following:
 
 ```hcl
