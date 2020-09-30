@@ -32,4 +32,4 @@ The sidecar module is a reusable module that creates a sidecar for the service s
 
 ### TLS
 
-TLS is set for ingress into the edge load balancer in `greymatter/modules/edge/load_balancer.tf`.  For service to service tls, docker volumes are mounted directly into each ecs task container definition from the `gm/certs` directory.  To see how this is done check the `entryPoint` for any of the gm ecs task container defs.
+TLS is set for ingress into the edge load balancer in `greymatter/modules/edge/load_balancer.tf`.  For service to service TLS, docker volumes are mounted directly into each ecs task container definition from the `gm/certs` directory.  To see how this is done check the `entryPoint` for any of the gm ecs task container defs.
