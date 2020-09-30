@@ -31,7 +31,7 @@ resource "aws_lb_listener" "edge" {
   port              = 443
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn = aws_iam_server_certificate.ingress_cert.arn
+  certificate_arn   = aws_iam_server_certificate.ingress_cert.arn
 
   default_action {
     type             = "forward"
@@ -40,10 +40,10 @@ resource "aws_lb_listener" "edge" {
 }
 
 resource "aws_iam_server_certificate" "ingress_cert" {
-  name_prefix      = "gm-ecs-ingress-cert"
+  name_prefix       = "gm-ecs-ingress-cert"
   certificate_chain = file("./gm/certs/edge/ca.pem")
-  certificate_body = file("./gm/certs/edge/cert.pem")
-  private_key      = file("./gm/certs/edge/key.pem")
+  certificate_body  = file("./gm/certs/edge/cert.pem")
+  private_key       = file("./gm/certs/edge/key.pem")
 
   lifecycle {
     create_before_destroy = true

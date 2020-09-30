@@ -82,22 +82,22 @@ resource "aws_route_table_association" "private_route_table_association" {
 }
 
 module "greymatter" {
-  source                 = "git::ssh://git@github.com/greymatter-io/terraform-greymatter-ecs//greymatter?ref=master"
-  cluster_name           = var.cluster_name
-  key_pair_name          = var.key_pair_name
-  vpc_id                 = aws_vpc.vpc.id
-  public_subnets         = [aws_subnet.public.0.id, aws_subnet.public.1.id]
-  private_subnets        = [aws_subnet.private.0.id, aws_subnet.private.1.id]
-  aws_region             = var.aws_region
-  dns_ns_name            = var.dns_ns_name
-  optimized_ami          = var.optimized_ami
-  docker_gm_credentials  = var.docker_gm_credentials
-  aws_access_key_id      = var.aws_access_key_id
-  aws_secret_access_key  = var.aws_secret_access_key
-  ec2_instance_type      = var.ec2_instance_type
-  ec2_max_instances      = var.ec2_max_instances
-  ec2_min_instances      = var.ec2_min_instances
-  sidecar_port           = var.sidecar_port
+  source                = "git::ssh://git@github.com/greymatter-io/terraform-greymatter-ecs//greymatter?ref=master"
+  cluster_name          = var.cluster_name
+  key_pair_name         = var.key_pair_name
+  vpc_id                = aws_vpc.vpc.id
+  public_subnets        = [aws_subnet.public.0.id, aws_subnet.public.1.id]
+  private_subnets       = [aws_subnet.private.0.id, aws_subnet.private.1.id]
+  aws_region            = var.aws_region
+  dns_ns_name           = var.dns_ns_name
+  optimized_ami         = var.optimized_ami
+  docker_gm_credentials = var.docker_gm_credentials
+  aws_access_key_id     = var.aws_access_key_id
+  aws_secret_access_key = var.aws_secret_access_key
+  ec2_instance_type     = var.ec2_instance_type
+  ec2_max_instances     = var.ec2_max_instances
+  ec2_min_instances     = var.ec2_min_instances
+  sidecar_port          = var.sidecar_port
 }
 
 output "edge_dns" {

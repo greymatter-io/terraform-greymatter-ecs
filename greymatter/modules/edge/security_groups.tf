@@ -3,7 +3,7 @@ resource "aws_security_group" "gm-ingress-sg" {
   name   = "gm-ingress-sg"
   vpc_id = var.vpc_id
   ingress {
-   description = "mesh ingress"
+    description = "mesh ingress"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
