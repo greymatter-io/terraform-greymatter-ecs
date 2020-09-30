@@ -1,5 +1,3 @@
-
-
 # sidecar ecs service
 resource "aws_ecs_service" "sidecar" {
   name            = "${var.name}-sidecar"
@@ -9,6 +7,6 @@ resource "aws_ecs_service" "sidecar" {
 
   network_configuration {
     subnets         = var.subnets
-    security_groups = [aws_security_group.sidecar-sg.id]
+    security_groups = [var.sidecar_sg_id]
   }
 }

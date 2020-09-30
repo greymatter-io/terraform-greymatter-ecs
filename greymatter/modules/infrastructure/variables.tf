@@ -47,3 +47,8 @@ variable "max_instances" {
 variable "min_instances" {
   default = 0
 }
+
+variable "sidecar_port" {
+  default     = 10808
+  description = "The port to use for ingress traffic to the sidecar."
+}

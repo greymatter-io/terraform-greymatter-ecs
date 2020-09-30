@@ -33,3 +33,9 @@ output "ecs-service-role-arn" {
 output "ecs-task-execution-role-arn" {
   value = aws_iam_role.ecs-task-execution-role.arn
 }
+
+# output info for sidecar security group to be used
+# for all sidecars
+output "sidecar_sg_id" {
+  value = aws_security_group.sidecar-sg.id
+}

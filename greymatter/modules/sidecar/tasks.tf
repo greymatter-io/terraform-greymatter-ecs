@@ -1,4 +1,3 @@
-
 # sidecar task definition
 resource "aws_ecs_task_definition" "sidecar-task" {
   family                   = "${var.name}-sidecar"

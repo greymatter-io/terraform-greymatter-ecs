@@ -2,7 +2,7 @@ resource "aws_lb" "edge" {
   name               = "edge"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.edge-sg.id]
+  security_groups    = [aws_security_group.gm-ingress-sg.id]
   subnets            = var.subnets
 }
 
@@ -28,7 +28,7 @@ resource "aws_lb_target_group" "edge" {
 
 resource "aws_lb_listener" "edge" {
   load_balancer_arn = aws_lb.edge.arn
-  port              = var.sidecar_port
+  port              = 443
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
   certificate_arn = aws_iam_server_certificate.ingress_cert.arn

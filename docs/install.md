@@ -134,15 +134,17 @@ then, [configure the mesh](#configure-the-mesh).
 
 Once you have applied the terraform code, you should see the edge dns name output.
 
-You should be able to reach control-api through the edge dns name on startup. Once the edge target group registered target is healthy, navigate to `http://{edge-dns}:10808/services/control-api/latest/` to verify this.
+You should be able to reach control-api through the edge dns name on startup. Once the edge target group registered target is healthy, navigate to `https://{edge-dns}/services/control-api/latest/` to verify this.
 
 Once you can reach control-api, configure the cli, filling in {edge_dns}:
 
 ```bash
-export GREYMATTER_API_HOST={edgs_dns}:10808
+export GREYMATTER_API_HOST={edgs_dns}
 export GREYMATTER_API_INSECURE=true
 export GREYMATTER_API_PREFIX=/services/control-api/latest
-export GREYMATTER_API_SSL=false
+export GREYMATTER_API_SSL=true
+export GREYMATTER_API_SSLCERT=gm/certs/edge/quickstart.crt
+export GREYMATTER_API_SSLKEY=gm/certs/edge/quickstart.key
 export GREYMATTER_CONSOLE_LEVEL=debug
 ```
 

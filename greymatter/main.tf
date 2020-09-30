@@ -11,6 +11,7 @@ module "infrastructure" {
   instance_type          = var.ec2_instance_type
   max_instances          = var.ec2_max_instances
   min_instances          = var.ec2_min_instances
+  sidecar_port          = var.sidecar_port
 }
 
 
@@ -42,6 +43,8 @@ module "control-api-sidecar" {
   name                  = "control-api"
   aws_region            = var.aws_region
   dns_ns_name           = var.dns_ns_name
+  sidecar_port          = var.sidecar_port
+  sidecar_sg_id         = module.infrastructure.sidecar_sg_id
 }
 
 module "edge" {
@@ -55,6 +58,8 @@ module "edge" {
   gm_sg_id              = module.infrastructure.gm_sg_id
   aws_region            = var.aws_region
   dns_ns_name           = var.dns_ns_name
+  sidecar_port          = var.sidecar_port
+  sidecar_sg_id         = module.infrastructure.sidecar_sg_id
 }
 
 output "edge_dns" {
