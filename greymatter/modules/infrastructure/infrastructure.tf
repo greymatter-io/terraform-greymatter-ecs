@@ -65,8 +65,8 @@ resource "aws_autoscaling_group" "ecs-autoscaling-group" {
   health_check_type    = "EC2"
   tags = [
     {
-      key   = "Name"
-      value = var.cluster_name,
+      key                 = "Name"
+      value               = var.cluster_name,
       propagate_at_launch = true
     }
   ]
@@ -77,4 +77,23 @@ resource "aws_autoscaling_group" "ecs-autoscaling-group" {
 # cloudwatch group for ecs task logs
 resource "aws_cloudwatch_log_group" "greymatter-logs" {
   name = "greymatter"
+}
+
+# reusable sidecar security group
+resource "aws_security_group" "sidecar-sg" {
+  name   = "gm-sidecar-sg"
+  vpc_id = var.vpc_id
+  ingress {
+    from_port   = var.sidecar_port
+    to_port     = var.sidecar_port
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }

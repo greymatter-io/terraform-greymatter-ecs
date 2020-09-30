@@ -24,6 +24,12 @@ Grey Matter Control Api is bootstrapped with mesh configs found in [this file](.
 
 The edge module creates an ECS service for the edge proxy as well as a load balancer for ingress. The edge is a standalone sidecar and will serve as the ingress proxy for all traffic from the outside world into the mesh.
 
+The edge load balancer uses the certificates from `gm/certs/edge` directory for ingress.  It uses the certificates located in the `gm/certs/sidecar` directory for its egress to other services within the mesh.
+
 ### Sidecar
 
 The sidecar module is a reusable module that creates a sidecar for the service specified with variable `name`. Its ECS task definition specifies `dockerLabels`, with key `gm-cluster` and value `${var.name}:${var.sidecar_port}` so that it's instances will be discovered by gm-control.
+
+### TLS
+
+TLS is set for ingress into the edge load balancer in `greymatter/modules/edge/load_balancer.tf`.  For service to service TLS, docker volumes are mounted directly into each ecs task container definition from the `gm/certs` directory.  To see how this is done check the `entryPoint` for any of the gm ecs task container defs.

@@ -7,7 +7,7 @@ resource "aws_ecs_service" "edge" {
 
   network_configuration {
     subnets         = var.subnets
-    security_groups = [aws_security_group.edge-sg.id]
+    security_groups = [var.sidecar_sg_id]
   }
 
   load_balancer {

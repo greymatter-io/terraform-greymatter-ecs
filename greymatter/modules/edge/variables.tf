@@ -31,6 +31,10 @@ variable "gm_sg_id" {
   description = "ID of the security group for ECS Instances"
 }
 
+variable "sidecar_sg_id" {
+  description = "ID of the security group to use for the sidecar task"
+}
+
 # optional variables
 
 variable "dns_ns_name" {

@@ -6,6 +6,8 @@ There are several options for installing. This repo contains a full installation
 
 ## Environment
 
+> Note: If you are using the [greymatter standalone module](#grey-matter-module), you will specify these variables in the module.
+
 Create a file `gm.tfvars` that looks like the following:
 
 ```hcl
@@ -46,6 +48,14 @@ ec2_min_instances      = 0
 ## Certificates
 
 TLS will be turned on for the Grey Matter services and sidecars upon install. We use the certificates specified in the [`gm/certs`](gm/certs) directory. The default certs checked in here are self-signed certificates not suitable for production. To customize these, replace the content of the `ca.crt`, `cert.crt` and `key.crt` files for the services. Note that they must stay in the same directories and must still be named `ca.crt`, `cert.crt` and `key.crt`.
+
+The edge ingress certs need to be in `pem` format, and are located in the `gm/certs/edge` directory. If you need to convert to pem format:
+
+```bash
+openssl rsa -in <path/to/your/key.crt> -text > gm/certs/edge/key.pem
+openssl x509 -inform PEM -in <path/to/your/cert.crt> > gm/certs/edge/cert.pem
+openssl x509 -inform PEM -in <path/to/your/ca.crt> > gm/certs/edge/ca.pem
+```
 
 If you are installing the `greymatter` module into an existing VPC, follow the instructions [below](#grey-matter-module).
 
@@ -126,15 +136,17 @@ then, [configure the mesh](#configure-the-mesh).
 
 Once you have applied the terraform code, you should see the edge dns name output.
 
-You should be able to reach control-api through the edge dns name on startup. Once the edge target group registered target is healthy, navigate to `http://{edge-dns}:10808/services/control-api/latest/` to verify this.
+You should be able to reach control-api through the edge dns name on startup. Once the edge target group registered target is healthy, navigate to `https://{edge-dns}/services/control-api/latest/` to verify this.
 
 Once you can reach control-api, configure the cli, filling in {edge_dns}:
 
 ```bash
-export GREYMATTER_API_HOST={edgs_dns}:10808
+export GREYMATTER_API_HOST={edgs_dns}
 export GREYMATTER_API_INSECURE=true
 export GREYMATTER_API_PREFIX=/services/control-api/latest
-export GREYMATTER_API_SSL=false
+export GREYMATTER_API_SSL=true
+export GREYMATTER_API_SSLCERT=gm/certs/edge/quickstart.crt
+export GREYMATTER_API_SSLKEY=gm/certs/edge/quickstart.key
 export GREYMATTER_CONSOLE_LEVEL=debug
 ```
 
