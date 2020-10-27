@@ -82,7 +82,8 @@ resource "aws_route_table_association" "private_route_table_association" {
 }
 
 module "greymatter" {
-  source                = "git::ssh://git@github.com/greymatter-io/terraform-greymatter-ecs//greymatter?ref=master"
+  #source                = "git::ssh://git@github.com/greymatter-io/terraform-greymatter-ecs//greymatter?ref=master"
+  source = "./greymatter"
   cluster_name          = var.cluster_name
   key_pair_name         = var.key_pair_name
   vpc_id                = aws_vpc.vpc.id

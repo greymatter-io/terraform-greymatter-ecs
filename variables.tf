@@ -55,9 +55,9 @@ variable "sidecar_port" {
 
 variable "versions" {
   default = {
-    gm-proxy = "1.5.0"
-    gm-control = "1.5.0"
-    gm-control-api = "1.5.0"
+    gm-proxy = "1.5.0-dev"
+    gm-control = "1.5.0-dev"
+    gm-control-api = "v1.5.0-dev"
     gm-dashboard = "4.0.0"
   }
   type = map(string)

@@ -36,11 +36,11 @@ locals {
         "environment": [
             {
                 "name": "BASE_URL",
-                "value": "/services/dashboard/3.4.2/"
+                "value": "/"
             },
             {
                 "name": "CONFIG_SERVER",
-                "value": "/services/control-api/latest/v1.0"
+                "value": "/services/control-api/latest/"
             },
             {
                 "name": "FABRIC_SERVER",
