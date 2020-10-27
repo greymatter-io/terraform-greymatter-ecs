@@ -1,11 +1,7 @@
 # outputs - needed for other modules
 
-# output info on gm security group and the gm ecs cluster created
+# output info on the gm ecs cluster created
 # found in infrastructure.tf
-output "gm_sg_id" {
-  value = aws_security_group.gm-sg.id
-}
-
 output "gm_cluster_id" {
   value = aws_ecs_cluster.gm-cluster.id
 }

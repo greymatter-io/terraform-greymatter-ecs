@@ -57,7 +57,7 @@ locals {
                 "value": "default"
             }
         ],
-        "image": "docker.greymatter.io/development/gm-proxy:1.5.0-dev",
+        "image": "docker.greymatter.io/development/gm-proxy:${lookup(var.versions, "gm-proxy", "1.5.0")}",
         "repositoryCredentials": {
             "credentialsParameter": "${var.docker_secret_arn}"
         },

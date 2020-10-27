@@ -93,7 +93,7 @@ locals {
                 "value": "file"
             }
         ],
-        "image": "docker.greymatter.io/development/gm-control-api:v1.5.0-dev",
+        "image": "docker.greymatter.io/development/gm-control-api:${lookup(var.versions, "gm-control-api", "1.5.0")}",
         "repositoryCredentials": {
             "credentialsParameter": "${var.docker_secret_arn}"
         },
@@ -190,7 +190,7 @@ locals {
             "value": "true"
         }
 	],
-	"image": "docker.greymatter.io/development/gm-control:1.5.0-dev",
+	"image": "docker.greymatter.io/development/gm-control:${lookup(var.versions, "gm-control", "1.5.0")}",
 	"repositoryCredentials": {
 	    "credentialsParameter": "${var.docker_secret_arn}"
 	},

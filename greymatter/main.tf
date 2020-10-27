@@ -24,11 +24,11 @@ module "fabric" {
   vpc_id                = var.vpc_id
   cluster_id            = module.infrastructure.gm_cluster_id
   subnets               = var.private_subnets
-  gm_sg_id              = module.infrastructure.gm_sg_id
   access_key_arn        = module.infrastructure.ssm_access_key_arn
   secret_access_key_arn = module.infrastructure.ssm_secret_access_key_arn
   aws_region            = var.aws_region
   dns_ns_name           = var.dns_ns_name
+  versions              = var.versions
 }
 
 module "control-api-sidecar" {
@@ -39,12 +39,12 @@ module "control-api-sidecar" {
   vpc_id             = var.vpc_id
   cluster_id         = module.infrastructure.gm_cluster_id
   subnets            = var.private_subnets
-  gm_sg_id           = module.infrastructure.gm_sg_id
   name               = "control-api"
   aws_region         = var.aws_region
   dns_ns_name        = var.dns_ns_name
   sidecar_port       = var.sidecar_port
   sidecar_sg_id      = module.infrastructure.sidecar_sg_id
+  versions           = var.versions
 }
 
 module "edge" {
@@ -55,11 +55,11 @@ module "edge" {
   vpc_id             = var.vpc_id
   cluster_id         = module.infrastructure.gm_cluster_id
   subnets            = var.public_subnets
-  gm_sg_id           = module.infrastructure.gm_sg_id
   aws_region         = var.aws_region
   dns_ns_name        = var.dns_ns_name
   sidecar_port       = var.sidecar_port
   sidecar_sg_id      = module.infrastructure.sidecar_sg_id
+  versions           = var.versions
 }
 
 output "edge_dns" {

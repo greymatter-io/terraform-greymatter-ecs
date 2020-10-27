@@ -33,10 +33,6 @@ variable "subnets" {
   description = "List of private subnet ids in VPC. Fabric tasks must be launched in private subnets (awsvpc network type)."
 }
 
-variable "gm_sg_id" {
-  description = "ID of the security group for ECS Instances"
-}
-
 variable "access_key_arn" {
   description = "ARN of existing Systems Manager Parameter for AWS Access Key (see README)"
 }
@@ -47,4 +43,13 @@ variable "secret_access_key_arn" {
 
 variable "dns_ns_name" {
   description = "Desired domain name for new Route 53 Hosted Zone"
+}
+
+variable "versions" {
+  default = {
+    gm-proxy = "1.5.0"
+    gm-control = "1.5.0"
+    gm-control-api = "1.5.0"
+  }
+  type = map(string)
 }
