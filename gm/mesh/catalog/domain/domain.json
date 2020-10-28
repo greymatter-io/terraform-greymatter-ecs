@@ -1,0 +1,21 @@
+{
+    "domain_key": "domain-catalog",
+    "zone_key": "zone-default-zone",
+    "name": "*",
+    "port": 10808,
+    "redirects": null,
+    "gzip_enabled": false,
+    "cors_config": null,
+    "aliases": null,
+    "ssl_config": {
+    "require_client_certs": true,
+    "trust_file": "/app/certificates/ca.crt",
+    "cert_key_pairs": [
+        {
+        "certificate_path": "/app/certificates/server.crt",
+        "key_path": "/app/certificates/server.key"
+        }
+    ]
+    },
+    "force_https": true
+}

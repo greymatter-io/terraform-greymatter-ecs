@@ -1,11 +1,11 @@
-{
-    "route_key": "edge-dashboard-route",
-    "domain_key": "edge",
-    "zone_key": "zone-default-zone",
-    "path": "",
-    "prefix_rewrite": "/",
-    "redirects": null,
-    "rules": [
+    {
+      "route_key": "edge-dashboard-route-slash",
+      "domain_key": "edge",
+      "zone_key": "zone-default-zone",
+      "path": "/",
+      "prefix_rewrite": "",
+      "redirects": null,
+      "rules": [
         {
             "rule_key": "edge-to-dashboard",
             "constraints": {
@@ -24,13 +24,13 @@
             }
         }
     ],
-    "response_data": {},
-    "cohort_seed": null,
-    "request_headers_to_add" : [
-      {
-        "key": "x-forwarded-proto",
-        "value": "https"
-      }
-    ],
-    "retry_policy": null
-}
+      "response_data": {},
+      "request_headers_to_add" : [
+        {
+          "key": "x-forwarded-proto",
+          "value": "https"
+        }
+      ],
+      "cohort_seed": null,
+      "retry_policy": null
+    }

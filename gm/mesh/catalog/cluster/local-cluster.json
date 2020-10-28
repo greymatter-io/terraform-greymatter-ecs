@@ -1,0 +1,15 @@
+{
+  "cluster_key": "cluster-catalog",
+  "zone_key": "zone-default-zone",
+  "name": "catalog-service",
+  "instances": [
+    {
+        "host": "localhost",
+        "port": 9080
+    }
+  ],
+  "require_tls": false,
+  "circuit_breakers": null,
+  "outlier_detection": null,
+  "health_checks": []
+}

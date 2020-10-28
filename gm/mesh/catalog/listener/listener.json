@@ -1,0 +1,11 @@
+{
+    "listener_key": "listener-catalog",
+    "zone_key": "zone-default-zone",
+    "name": "catalog",
+    "ip": "0.0.0.0",
+    "port": 10808,
+    "protocol": "http_auto",
+    "domain_keys": ["domain-catalog"],
+    "tracing_config": null,
+    "http_filters": {}
+}

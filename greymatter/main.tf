@@ -29,22 +29,7 @@ module "fabric" {
   aws_region            = var.aws_region
   dns_ns_name           = var.dns_ns_name
   versions              = var.versions
-}
-
-module "control-api-sidecar" {
-  source             = "./modules/sidecar"
-  service_role_arn   = module.infrastructure.ecs-service-role-arn
-  execution_role_arn = module.infrastructure.ecs-task-execution-role-arn
-  docker_secret_arn  = module.infrastructure.docker_secret_arn
-  vpc_id             = var.vpc_id
-  cluster_id         = module.infrastructure.gm_cluster_id
-  subnets            = var.private_subnets
-  name               = "control-api"
-  aws_region         = var.aws_region
-  dns_ns_name        = var.dns_ns_name
-  sidecar_port       = var.sidecar_port
-  sidecar_sg_id      = module.infrastructure.sidecar_sg_id
-  versions           = var.versions
+  sidecar_port          = var.sidecar_port
 }
 
 module "edge" {
@@ -73,7 +58,7 @@ module "sense" {
   aws_region            = var.aws_region
   dns_ns_name           = var.dns_ns_name
   versions              = var.versions
-  sidecar_sg_id      = module.infrastructure.sidecar_sg_id
+  sidecar_sg_id         = module.infrastructure.sidecar_sg_id
 }
 
 output "edge_dns" {
