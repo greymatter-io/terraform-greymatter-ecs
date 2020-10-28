@@ -46,6 +46,7 @@ variable "sidecar_port" {
 variable "versions" {
   default = {
     gm-dashboard = "4.0.0"
+    gm-catalog = "1.0.7"
   }
   type = map(string)
 }
