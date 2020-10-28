@@ -27,6 +27,10 @@ variable "docker_secret_arn" {
   description = "ARN of existing Secrets Manager secret containing docker credentials (see README)"
 }
 
+variable "sidecar_sg_id" {
+  description = "ID of the security group to use for the sidecar task"
+}
+
 # optional variables
 
 variable "dns_ns_name" {

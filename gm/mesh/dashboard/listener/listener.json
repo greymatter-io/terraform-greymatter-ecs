@@ -1,0 +1,11 @@
+{
+    "listener_key": "listener-dashboard",
+    "zone_key": "zone-default-zone",
+    "name": "dashboard",
+    "ip": "0.0.0.0",
+    "port": 10808,
+    "protocol": "http_auto",
+    "domain_keys": ["domain-dashboard"],
+    "tracing_config": null,
+    "http_filters": {}
+}

@@ -7,6 +7,6 @@ resource "aws_ecs_service" "dashboard" {
   desired_count   = 1
   network_configuration {
     subnets         = var.subnets
-    security_groups = [aws_security_group.dashboard.id]
+    security_groups = [var.sidecar_sg_id]
   }
 }

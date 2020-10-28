@@ -1,0 +1,36 @@
+    {
+      "route_key": "edge-dashboard-route-slash",
+      "domain_key": "edge",
+      "zone_key": "zone-default-zone",
+      "path": "/",
+      "prefix_rewrite": "",
+      "redirects": null,
+      "rules": [
+        {
+            "rule_key": "edge-to-dashboard",
+            "constraints": {
+                "light": [
+                  {
+                    "constraint_key": "",
+                    "cluster_key": "edge-to-dashboard-cluster",
+                    "metadata": null,
+                    "properties": null,
+                    "response_data": {},
+                    "weight": 1
+                  }
+                ],
+                "dark": null,
+                "tap": null
+            }
+        }
+    ],
+      "response_data": {},
+      "request_headers_to_add" : [
+        {
+          "key": "x-forwarded-proto",
+          "value": "https"
+        }
+      ],
+      "cohort_seed": null,
+      "retry_policy": null
+    }

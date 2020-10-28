@@ -1,0 +1,30 @@
+{
+    "route_key": "route-dashboard",
+    "domain_key": "domain-dashboard",
+    "zone_key": "zone-default-zone",
+    "path": "/",
+    "prefix_rewrite": null,
+    "redirects": null,
+    "rules": [
+        {
+            "rule_key": "local",
+            "constraints": {
+                "light": [
+                    {
+                      "constraint_key": "",
+                      "cluster_key": "cluster-dashboard",
+                      "metadata": null,
+                      "properties": null,
+                      "response_data": {},
+                      "weight": 1
+                    }
+                  ],
+                  "dark": null,
+                  "tap": null
+            }
+        }
+    ],
+    "response_data": {},
+    "cohort_seed": null,
+    "retry_policy": null
+}
