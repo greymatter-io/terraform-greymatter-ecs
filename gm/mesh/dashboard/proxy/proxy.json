@@ -1,0 +1,12 @@
+{
+    "proxy_key": "proxy-dashboard",
+    "zone_key": "zone-default-zone",
+    "name": "dashboard",
+    "domain_keys": [
+    "domain-dashboard"
+    ],
+    "listener_keys": [
+    "listener-dashboard"
+    ],
+    "listeners": null
+}

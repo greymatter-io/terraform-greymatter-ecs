@@ -17,3 +17,30 @@ greymatter create route < gm/mesh/control-api/route/edge.api.route2.json
 greymatter delete route edge-control-api-init
 greymatter delete route edge-control-api-init-2
 
+
+# dashboard sidecar
+greymatter create domain < gm/mesh/dashboard/domain/domain.json
+greymatter create listener < gm/mesh/dashboard/listener/listener.json
+greymatter create proxy < gm/mesh/dashboard/proxy/proxy.json
+
+# links dashboard sidecar to existing dashboard-service cluster
+greymatter create route < gm/mesh/dashboard/route/local-route.json
+
+# new edge cluster to dashboard
+greymatter create cluster < gm/mesh/dashboard/cluster/local-cluster.json
+greymatter create cluster < gm/mesh/dashboard/cluster/edge-cluster.json
+greymatter create route < gm/mesh/dashboard/route/edge-route.json
+
+# catalog sidecar
+greymatter create domain < gm/mesh/catalog/domain/domain.json
+greymatter create listener < gm/mesh/catalog/listener/listener.json
+greymatter create proxy < gm/mesh/catalog/proxy/proxy.json
+
+# links catalog sidecar to existing catalog-service cluster
+greymatter create route < gm/mesh/catalog/route/local-route.json
+
+# new edge cluster to catalog
+greymatter create cluster < gm/mesh/catalog/cluster/local-cluster.json
+greymatter create cluster < gm/mesh/catalog/cluster/edge-cluster.json
+greymatter create route < gm/mesh/catalog/route/edge-route.json
+greymatter create route < gm/mesh/catalog/route/edge-route-2.json

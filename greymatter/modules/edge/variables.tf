@@ -27,10 +27,6 @@ variable "docker_secret_arn" {
   description = "ARN of existing Secrets Manager secret containing docker credentials (see README)"
 }
 
-variable "gm_sg_id" {
-  description = "ID of the security group for ECS Instances"
-}
-
 variable "sidecar_sg_id" {
   description = "ID of the security group to use for the sidecar task"
 }
@@ -45,4 +41,11 @@ variable "dns_ns_name" {
 variable "sidecar_port" {
   default     = 10808
   description = "The port to use for ingress traffic to the sidecar."
+}
+
+variable "versions" {
+  default = {
+    gm-proxy = "1.5.0"
+  }
+  type = map(string)
 }

@@ -24,27 +24,12 @@ module "fabric" {
   vpc_id                = var.vpc_id
   cluster_id            = module.infrastructure.gm_cluster_id
   subnets               = var.private_subnets
-  gm_sg_id              = module.infrastructure.gm_sg_id
   access_key_arn        = module.infrastructure.ssm_access_key_arn
   secret_access_key_arn = module.infrastructure.ssm_secret_access_key_arn
   aws_region            = var.aws_region
   dns_ns_name           = var.dns_ns_name
-}
-
-module "control-api-sidecar" {
-  source             = "./modules/sidecar"
-  service_role_arn   = module.infrastructure.ecs-service-role-arn
-  execution_role_arn = module.infrastructure.ecs-task-execution-role-arn
-  docker_secret_arn  = module.infrastructure.docker_secret_arn
-  vpc_id             = var.vpc_id
-  cluster_id         = module.infrastructure.gm_cluster_id
-  subnets            = var.private_subnets
-  gm_sg_id           = module.infrastructure.gm_sg_id
-  name               = "control-api"
-  aws_region         = var.aws_region
-  dns_ns_name        = var.dns_ns_name
-  sidecar_port       = var.sidecar_port
-  sidecar_sg_id      = module.infrastructure.sidecar_sg_id
+  versions              = var.versions
+  sidecar_port          = var.sidecar_port
 }
 
 module "edge" {
@@ -55,11 +40,25 @@ module "edge" {
   vpc_id             = var.vpc_id
   cluster_id         = module.infrastructure.gm_cluster_id
   subnets            = var.public_subnets
-  gm_sg_id           = module.infrastructure.gm_sg_id
   aws_region         = var.aws_region
   dns_ns_name        = var.dns_ns_name
   sidecar_port       = var.sidecar_port
   sidecar_sg_id      = module.infrastructure.sidecar_sg_id
+  versions           = var.versions
+}
+
+module "sense" {
+  source                = "./modules/sense"
+  service_role_arn      = module.infrastructure.ecs-service-role-arn
+  execution_role_arn    = module.infrastructure.ecs-task-execution-role-arn
+  docker_secret_arn     = module.infrastructure.docker_secret_arn
+  vpc_id                = var.vpc_id
+  cluster_id            = module.infrastructure.gm_cluster_id
+  subnets               = var.private_subnets
+  aws_region            = var.aws_region
+  dns_ns_name           = var.dns_ns_name
+  versions              = var.versions
+  sidecar_sg_id         = module.infrastructure.sidecar_sg_id
 }
 
 output "edge_dns" {

@@ -1,0 +1,12 @@
+{
+    "proxy_key": "proxy-catalog",
+    "zone_key": "zone-default-zone",
+    "name": "catalog",
+    "domain_keys": [
+    "domain-catalog"
+    ],
+    "listener_keys": [
+    "listener-catalog"
+    ],
+    "listeners": null
+}

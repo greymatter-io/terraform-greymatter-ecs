@@ -1,0 +1,36 @@
+    {
+      "route_key": "edge-catalog-route-slash",
+      "domain_key": "edge",
+      "zone_key": "zone-default-zone",
+      "path": "/services/catalog/latest/",
+      "prefix_rewrite": "/",
+      "redirects": null,
+      "rules": [
+        {
+            "rule_key": "edge-to-catalog",
+            "constraints": {
+                "light": [
+                  {
+                    "constraint_key": "",
+                    "cluster_key": "edge-to-catalog-cluster",
+                    "metadata": null,
+                    "properties": null,
+                    "response_data": {},
+                    "weight": 1
+                  }
+                ],
+                "dark": null,
+                "tap": null
+            }
+        }
+    ],
+      "response_data": {},
+      "request_headers_to_add" : [
+        {
+          "key": "x-forwarded-proto",
+          "value": "https"
+        }
+      ],
+      "cohort_seed": null,
+      "retry_policy": null
+    }

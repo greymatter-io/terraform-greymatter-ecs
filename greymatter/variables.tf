@@ -67,3 +67,14 @@ variable "sidecar_port" {
   default     = 10808
   description = "The port to use for ingress traffic to the sidecar."
 }
+
+variable "versions" {
+  default = {
+    gm-proxy = "1.5.0"
+    gm-control = "1.5.1-dev"
+    gm-control-api = "1.5.0"
+    gm-dashboard = "4.0.0"
+    gm-catalog = "1.0.7"
+  }
+  type = map(string)
+}

@@ -98,6 +98,7 @@ module "greymatter" {
   ec2_max_instances     = var.ec2_max_instances
   ec2_min_instances     = var.ec2_min_instances
   sidecar_port          = var.sidecar_port
+  versions              = var.versions
 }
 
 output "edge_dns" {
