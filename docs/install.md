@@ -31,6 +31,7 @@ dns_ns_name            = "<desired domain name for Grey Matter Route 53 Hosted Z
 ec2_instance_type      = "<ec2 instance type for ecs cluster>"
 ec2_max_instances      = <max & desired number of ec2 instances for the ecs cluster>
 ec2_min_instances      = <min number of ec2 instances for the ecs cluster>
+versions               = {<service>: <version>}
 ```
 
 Note that when specifying ec2 instances and instance type, the ecs tasks will fail if allowed resources are insufficient. See [the aws documentation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-eni.html#eni-trunking-supported-instance-types) on resources for instance types.
@@ -43,6 +44,13 @@ dns_ns_name            = "greymatter.dev"
 ec2_instance_type      = "t3.xlarge"
 ec2_max_instances      = 3
 ec2_min_instances      = 0
+versions               = {
+    gm-proxy = "1.5.0"
+    gm-control = "1.5.1-dev"
+    gm-control-api = "1.5.0"
+    gm-dashboard = "4.0.0"
+    gm-catalog = "1.0.7"
+  }
 ```
 
 ## Certificates
